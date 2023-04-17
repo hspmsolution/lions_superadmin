@@ -13,6 +13,7 @@ import AddActivity from "./superadmin/pages/AddActivty";
 import Gallery from "./superadmin/pages/Gallery";
 import UpdatePrivacy from "./superadmin/pages/UpdatePrivacy";
 import Slider from "./superadmin/pages/Slider";
+import Contact from "./superadmin/pages/Contact";
 export default function Router() {
   const isAdmin = useSelector((state) => state.auth.admin);
   const role = useSelector((state) => state.auth.role);
@@ -62,6 +63,10 @@ export default function Router() {
           {
             path:'slider',
             element:<Slider/>
+          },
+          {
+            path:'contact',
+            element:<Contact/>
           }
          ],
       },

@@ -25,7 +25,9 @@ export default function DashboardAppPage() {
 <><Helmet>
         <title> Dashboard </title>
       </Helmet>
-      <Typography variant="h4" sx={{ mb: 5 }}>
+      <Typography  variant="h6" gutterBottom sx={{ width: "25%",
+    borderBottom: "2px solid #B4880B",
+    color: "#003895",alignItems:'center',margin:'1em'}}>
         Dashboard
       </Typography>
       
@@ -48,7 +50,7 @@ export default function DashboardAppPage() {
       <Icon className={classes.Icon}>
             {" "}
             <LocalActivity
-              sx={{ width: "2em", height: "2em", color: "#05B0E9" }}
+              sx={{ width: "2em", height: "2em", color: "#2F4C83" }}
             />
         </Icon>
     </Card>
@@ -66,7 +68,7 @@ export default function DashboardAppPage() {
       <Icon className={classes.Icon}>
             {" "}
             <LocalActivity
-              sx={{ width: "2em", height: "2em", color: "#05B0E9" }}
+              sx={{ width: "2em", height: "2em", color: "#2F4C83" }}
             />
         </Icon>
     </Card>
@@ -84,7 +86,7 @@ export default function DashboardAppPage() {
       <Icon className={classes.Icon}>
             {" "}
             <LocalActivity
-              sx={{ width: "2em", height: "2em", color: "#05B0E9" }}
+              sx={{ width: "2em", height: "2em", color: "#2F4C83" }}
             />
         </Icon>
     </Card>
@@ -108,7 +110,7 @@ export default function DashboardAppPage() {
       <Icon className={classes.Icon}>
             {" "}
             <LocalActivity
-              sx={{ width: "2em", height: "2em", color: "#05B0E9" }}
+              sx={{ width: "2em", height: "2em", color: "#2F4C83" }}
             />
         </Icon>
     </Card>
@@ -126,7 +128,7 @@ export default function DashboardAppPage() {
       <Icon className={classes.Icon}>
             {" "}
             <LocalActivity
-              sx={{ width: "2em", height: "2em", color: "#05B0E9" }}
+              sx={{ width: "2em", height: "2em", color: "#2F4C83" }}
             />
         </Icon>
     </Card>
@@ -144,7 +146,7 @@ export default function DashboardAppPage() {
       <Icon className={classes.Icon}>
             {" "}
             <LocalActivity
-              sx={{ width: "2em", height: "2em", color: "#05B0E9" }}
+              sx={{ width: "2em", height: "2em", color: "#2F4C83" }}
             />
         </Icon>
     </Card>

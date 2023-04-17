@@ -68,7 +68,7 @@ export default function Nav({ openNav, onCloseNav }) {
         <Logo />
       </Box>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
+    {/*  <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
             <Avatar
@@ -85,17 +85,17 @@ export default function Nav({ openNav, onCloseNav }) {
                 {memberData?.firstName + " " + memberData?.lastName}
               </Typography>
 
-              {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              { <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {memberData?.title}
               </Typography>
 
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {memberData?.clubName}
-              </Typography> */}
+              </Typography> }
             </Box>
           </StyledAccount>
         </Link>
-      </Box>
+      </Box> */}
 
       <NavSection />
 
