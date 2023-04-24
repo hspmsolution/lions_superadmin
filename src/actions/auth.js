@@ -1,6 +1,6 @@
 import { AUTH, CLIENT_MSG } from "../constants/actionTypes";
 import * as api from "../api";
-import decodeJWT from "../utils/jwtDecode";
+
 
 export const signIn = (formData, navigate) => async (dispatch) => {
   try {
@@ -10,22 +10,7 @@ export const signIn = (formData, navigate) => async (dispatch) => {
       type: CLIENT_MSG,
       message: { info: data.successMessage, status },
     });
-    const decoded = decodeJWT(data.token);
-    if (decoded.detailsRequired) {
-      setTimeout(() => {
-        dispatch({
-          type: CLIENT_MSG,
-          message: {
-            info: "Reset Your Password",
-            status: 200,
-          },
-        });
-      }, 0);
-
-      navigate("/password");
-    } else {
-      navigate("/dashboard/app");
-    }
+    navigate("/dashboard/app");
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,
