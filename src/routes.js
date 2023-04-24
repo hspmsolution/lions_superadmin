@@ -1,11 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Navigate,useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "./superadmin/pages/login";
 import Page404 from "./superadmin/pages/Page404";
 import DashboardAppPage from "./superadmin/pages/DashboardAppPage";
-import DashboardLayout from './superadmin/layouts/dashboard';
+import DashboardLayout from "./superadmin/layouts/dashboard";
 import AddClub from "./superadmin/pages/AddClub";
 import Member from "./superadmin/pages/Member";
 import UpdateTC from "./superadmin/pages/UpdateTC";
@@ -18,11 +18,11 @@ export default function Router() {
   const isAdmin = useSelector((state) => state.auth.admin);
   const role = useSelector((state) => state.auth.role);
   const [routes, setRoutes] = useState([]);
-  
+
   useEffect(() => {
     setRoutes([
       { path: "/", element: <Login /> },
-    
+
       {
         path: "/404",
         element: <Page404 />,
@@ -31,47 +31,50 @@ export default function Router() {
         path: "*",
         element: <Navigate to="/404" replace />,
       },
-      {
-        path: "/dashboard",
-        element: <DashboardLayout />,
-         children: [
-          {
-            path: "app",
-        element: <DashboardAppPage />,
-          },{
-            path:"clubs",
-            element:<AddClub/>,
-          },{
-            path:"members",
-            element:<Member/>,
-
-          },
-          {path:"updateTC",
-          element:<UpdateTC/>},
-          ,
-          {path:"privacy",
-          element:<UpdatePrivacy/>},
-          {
-            path:'activityType',
-            element:<AddActivity/>,
-          },
-          {
-            path:'gallery',
-            element:<Gallery/>
-          },
-          ,
-          {
-            path:'slider',
-            element:<Slider/>
-          },
-          {
-            path:'contact',
-            element:<Contact/>
-          }
-         ],
-      },
+      ...(isAdmin
+        ? [
+            {
+              path: "/dashboard",
+              element: <DashboardLayout />,
+              children: [
+                {
+                  path: "app",
+                  element: <DashboardAppPage />,
+                },
+                {
+                  path: "clubs",
+                  element: <AddClub />,
+                },
+                {
+                  path: "members",
+                  element: <Member />,
+                },
+                { path: "updateTC", element: <UpdateTC /> },
+                ,
+                { path: "privacy", element: <UpdatePrivacy /> },
+                {
+                  path: "activityType",
+                  element: <AddActivity />,
+                },
+                {
+                  path: "gallery",
+                  element: <Gallery />,
+                },
+                ,
+                {
+                  path: "slider",
+                  element: <Slider />,
+                },
+                {
+                  path: "contact",
+                  element: <Contact />,
+                },
+              ],
+            },
+          ]
+        : []),
     ]);
-  }, []);
+  }, [isAdmin]);
 
   return useRoutes(routes);
 }

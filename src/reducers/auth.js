@@ -42,7 +42,7 @@ const authReducer = (
   switch (action.type) {
     case AUTH: {
       const memberData = decodeJWT(action.payload.token);
-      localStorage.setItem("profile", action.payload.token);
+      localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         authData: memberData,
@@ -52,16 +52,16 @@ const authReducer = (
     }
 
     case LOGOUT:
-      localStorage.removeItem("profile");
+      localStorage.removeItem("token");
       return { ...state, authData: null, admin: false, role: null };
 
     case ADMIN: {
       if (state.admin) return state;
-      const token = localStorage.getItem("profile");
+      const token = localStorage.getItem("token");
       if (!token) return state;
       const decoded = decodeJWT(token);
       if (decoded.exp * 1000 < new Date().getTime()) {
-        localStorage.removeItem("profile");
+        localStorage.removeItem("token");
         return { ...state, authData: null, admin: false, role: null };
       }
       if (token)
