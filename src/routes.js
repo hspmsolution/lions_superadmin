@@ -32,50 +32,50 @@ export default function Router() {
         path: "*",
         element: <Navigate to="/404" replace />,
       },
-      {
-        path: "/dashboard",
-        element: <DashboardLayout />,
-         children: [
-          {
-            path: "app",
-        element: <DashboardAppPage />,
-          },{
-            path:"clubs",
-            element:<AddClub/>,
-          },{
-            path:"members",
-            element:<Member/>,
+      // {
+      //   path: "/dashboard",
+      //   element: <DashboardLayout />,
+      //    children: [
+      //     {
+      //       path: "app",
+      //   element: <DashboardAppPage />,
+      //     },{
+      //       path:"clubs",
+      //       element:<AddClub/>,
+      //     },{
+      //       path:"members",
+      //       element:<Member/>,
 
-          },
-          {path:"updateTC",
-          element:<UpdateTC/>},
-          ,
-          {path:"privacy",
-          element:<UpdatePrivacy/>},
-          ,
-          {
-            path:'Download',
-            element:<DownloadResource/>
-          },
-          {
-            path:'activityType',
-            element:<AddActivity/>,
-          },
-          {
-            path:'gallery',
-            element:<Gallery/>
-          },
-          ,
-          {
-            path:'slider',
-            element:<Slider/>
-          },
-          {
-            path:'contact',
-            element:<Contact/>
-          }
-         ],
-      },
+      //     },
+      //     {path:"updateTC",
+      //     element:<UpdateTC/>},
+      //     ,
+      //     {path:"privacy",
+      //     element:<UpdatePrivacy/>},
+      //     ,
+      //     {
+      //       path:'Download',
+      //       element:<DownloadResource/>
+      //     },
+      //     {
+      //       path:'activityType',
+      //       element:<AddActivity/>,
+      //     },
+      //     {
+      //       path:'gallery',
+      //       element:<Gallery/>
+      //     },
+      //     ,
+      //     {
+      //       path:'slider',
+      //       element:<Slider/>
+      //     },
+      //     {
+      //       path:'contact',
+      //       element:<Contact/>
+      //     }
+      //    ],
+      // },
       ...(isAdmin
         ? [
             {
