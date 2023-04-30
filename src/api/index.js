@@ -5,16 +5,16 @@ const rootUrlRegex = /http:\/\/localhost:3000\/*/gm;
 
 export let API_URL;
 if (rootUrlRegex.test(ROOT_URL)) {
-  API_URL = "http://localhost:5000/api" ;
+  API_URL = "http://localhost:5000/admin" ;
 } else {
-  API_URL = "https://lionsinternationalbackend-production.up.railway.app/api";
+  API_URL = "https://lionsinternationalbackend-production.up.railway.app/admin";
 }
 
 const API = axios.create({ baseURL:API_URL });
 
 API.interceptors.request.use((req) => {
-  if (localStorage.getItem("profile")) {
-    req.headers.Authorization = `Bearer ${localStorage.getItem("profile")}`;
+  if (localStorage.getItem("token")) {
+    req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
   }
   return req;
 });
