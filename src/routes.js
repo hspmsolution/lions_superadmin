@@ -14,6 +14,7 @@ import Gallery from "./superadmin/pages/Gallery";
 import UpdatePrivacy from "./superadmin/pages/UpdatePrivacy";
 import Slider from "./superadmin/pages/Slider";
 import Contact from "./superadmin/pages/Contact";
+import DownloadResource from "./superadmin/pages/DownloadResource";
 export default function Router() {
   const isAdmin = useSelector((state) => state.auth.admin);
   const role = useSelector((state) => state.auth.role);
@@ -31,6 +32,50 @@ export default function Router() {
         path: "*",
         element: <Navigate to="/404" replace />,
       },
+      // {
+      //   path: "/dashboard",
+      //   element: <DashboardLayout />,
+      //    children: [
+      //     {
+      //       path: "app",
+      //   element: <DashboardAppPage />,
+      //     },{
+      //       path:"clubs",
+      //       element:<AddClub/>,
+      //     },{
+      //       path:"members",
+      //       element:<Member/>,
+
+      //     },
+      //     {path:"updateTC",
+      //     element:<UpdateTC/>},
+      //     ,
+      //     {path:"privacy",
+      //     element:<UpdatePrivacy/>},
+      //     ,
+      //     {
+      //       path:'Download',
+      //       element:<DownloadResource/>
+      //     },
+      //     {
+      //       path:'activityType',
+      //       element:<AddActivity/>,
+      //     },
+      //     {
+      //       path:'gallery',
+      //       element:<Gallery/>
+      //     },
+      //     ,
+      //     {
+      //       path:'slider',
+      //       element:<Slider/>
+      //     },
+      //     {
+      //       path:'contact',
+      //       element:<Contact/>
+      //     }
+      //    ],
+      // },
       ...(isAdmin
         ? [
             {

@@ -139,14 +139,40 @@ export default function Gallery() {
             placeholder="Enter description here..."
           />
         </Box>
-        <Button
+       <Box sx={{display:'flex',justifyContent:'space-around',flexDirection:'row'}}> <Button
           type="submit"
           variant="contained"
-          sx={{ width:'120px',color: "#FFF", backgroundColor: "#1D3D7C", padding: "10px",
-        display:'flex',justifyContent:'center',margin:'1em auto',fontSize:'1.12em' }}
+          sx={{
+            width: "120px",
+            color: "#FFF",
+            backgroundColor: "#1D3D7C",
+            padding: "10px",
+            display: "flex",
+            justifyContent: "center",
+            margin: "auto",
+            fontSize: "1.12em",
+            marginTop: "1em",
+          }}
         >
           Save
         </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            width: "120px",
+            color: "#FFF",
+            backgroundColor: "#1D3D7C",
+            padding: "10px",
+            display: "flex",
+            justifyContent: "center",
+            margin: "auto",
+            fontSize: "1.12em",
+            marginTop: "1em",
+          }}
+        >
+          Delete
+        </Button></Box>
       </Box>
       </form>
     );

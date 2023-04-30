@@ -36,3 +36,4 @@ export const updateMember=(formData)=>API.post("member/updateprofile",formData);
 export const memberProfile=()=>API.get("member/profile");
 export const getReportedNews=()=>API.get("news/reportedNews");
 export const newsReporting=(formData)=>API.post("news/newsReporting",formData);
+export const addGallery=(formData)=>API.post("assets/addGallery",formData);
