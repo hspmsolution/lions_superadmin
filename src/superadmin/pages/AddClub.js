@@ -1,7 +1,11 @@
 import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
+
 import {Button,Grid,TextField,Typography,Box} from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import AllClubs from "./AllClubs";
+import {addClubs} from "../../actions/clubs";
+import { useState } from 'react';
 const useStyles = makeStyles({
   heading: {
     width: "25%",
@@ -35,63 +39,72 @@ const useStyles = makeStyles({
     },
   },
 });
-const submitdetails=(e)=>{
-    console.log(e)
-}
+
 export default  function AddClub() {
     const classes=useStyles();
+    const dispatch = useDispatch();
+  const [club, setClub] = useState({ clubName: '', clubId: '' });
+
+  const handleInputChange = (e) => {
+    setClub({ ...club, [e.target.name]: e.target.value });
+  };
+
+  const submitDetails = (e) => {
+    e.preventDefault();
+    dispatch(addClubs(club)); 
+    setClub({ clubName: '', clubId: '' }); 
+  };
   return (
    <>
-    <form onSubmit={submitdetails}>
-      
+   <form onSubmit={submitDetails}>
         <Box bgcolor="white" p={3} borderRadius={4}>
-        <Typography variant="h6" gutterBottom className={classes.heading}>
-           Add Club
+          <Typography variant="h6" gutterBottom className={classes.heading}>
+            Add Club
           </Typography>
-       <Box sx={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>
-       <Box sx={{display:'flex',flexDirection:'column',marginTop:'1em',width:'40%'}}>
-        <Typography className={classes.title}>Club Name</Typography>
-        <TextField
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '1em', width: '40%' }}>
+              <Typography className={classes.title}>Club Name</Typography>
+              <TextField
                 required
                 id="ClubName"
-                name="clubname"
+                name="clubName"
                 type="text"
                 label="Enter Club Name"
                 fullWidth
                 autoComplete="given-name"
                 variant="outlined"
                 className={classes.label}
-            />
+                value={club.clubName}
+                onChange={handleInputChange}
+              />
             </Box>
-            <Box sx={{display:'flex',flexDirection:'column',marginTop:'1em',width:'40%'}}>
-            <Typography className={classes.title}>Club ID</Typography>
-            <TextField
-                    required
-                    id="clubId"
-                    name="clubId"
-                    type="number"
-                    label="Enter Club Id"
-                    fullWidth
-                    autoComplete="given-name"
-                    variant="outlined"
-                    className={classes.label}
-                  />
+            <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '1em', width: '40%' }}>
+              <Typography className={classes.title}>Club ID</Typography>
+              <TextField
+                required
+                id="clubId"
+                name="clubId"
+                type="number"
+                label="Enter Club Id"
+                fullWidth
+                autoComplete="given-name"
+                variant="outlined"
+                className={classes.label}
+                value={club.clubId}
+                onChange={handleInputChange}
+              />
             </Box>
-
-       </Box>
-
-     
-   
-          <Grid container justifyContent="center" >
+          </Box>
+          <Grid container justifyContent="center">
             <Button type="submit" variant="contained" className={classes.btn}>
               Add Club
             </Button>
           </Grid>
         </Box>
       </form>
-      <AllClubs/>
-      </>
-   
+      <AllClubs />
+    </>
+
   )
 }
 

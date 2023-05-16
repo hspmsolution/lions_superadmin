@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Card,
   CardMedia,
@@ -10,40 +10,69 @@ import {
   Button,
   Icon,
 } from "@mui/material";
-import { CloudUpload } from "@mui/icons-material";
-import { useDropzone } from "react-dropzone";
+import {CLIENT_MSG} from '../../constants/actionTypes';
+import {useDispatch} from "react-redux";
+import {addGallery} from "../../actions/assets";
 
+const galleryDetail={
+  title:"",
+  description:"",
+  image:{preview:"",data:""},
+}
 export default function Gallery() {
-  const [image, setImage] = useState(null);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const fileUploadRef=useRef();
+  const[gallery,setGallery]=useState(galleryDetail);
+  const dispatch=useDispatch();
 
-  const handleDrop = (acceptedFiles) => {
-    const file = acceptedFiles[0];
-    if (!(file instanceof Blob)) {
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result);
-    };
-    reader.readAsDataURL(file);
+  // useEffect(()=>{
+
+  // })
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setGallery((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (title.trim() === "" || description.trim() === "" || image === null) {
+    const formData=new FormData();
+    formData.append("title",gallery.title);
+    formData.append("description",gallery.description);
+    formData.append("image",gallery.image.data);
+    dispatch(addGallery(formData));
+    setGallery(galleryDetail);
+    console.log(formData);
+  };
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    // Check file size
+    if (file.size > 500000) {
+      dispatch({
+        type: CLIENT_MSG,
+        message: {
+          info: "Please choose a file smaller than 500kb",
+          status: 400,
+        },
+      });
+      event.target.value = "";
       return;
     }
-    setTitle("");
-    setDescription("");
-    setImage(null);
+    if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
+      dispatch({
+        type: CLIENT_MSG,
+        message: { info: "file type not supported", status: 400 },
+      });
+      event.target.value = "";
+      return;
+    }
+    
+    const img = {
+      preview: URL.createObjectURL(event.target.files[0]),
+      data: event.target.files[0],
+    };
+    setGallery({ ...gallery, image: img });
   };
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: handleDrop,
-    accept: "image/*",
-    multiple: false,
-  });
 
   return (
     <form onSubmit={handleSubmit}>
@@ -63,54 +92,29 @@ export default function Gallery() {
           color: "#fff",
         }}
       >
-        <Box {...getRootProps()} sx={{ marginBottom: "2em" }}>
-          <input {...getInputProps()} />
-          <Box
-            sx={{
-              // border: "2px dashed #C4CDD5",
-              // borderRadius: "20px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "300px",
-              width: "100%",
-              marginBottom: "1em",
-              backgroundImage: `url(${image})`,
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            {!image && (
-              <>
-                <Icon
-                  sx={{
-                    color: "black",
-                    width: "100%",
-                    height: "5em",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <CloudUpload sx={{ width: "3em", height: "3em" }} />
-                </Icon>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    color: "#000",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  Upload Image here
-                </Typography>
-              </>
+          <Box>
+            <TextField
+              ref={fileUploadRef}
+              type="file"
+              id="image-upload"
+              name="image"
+              label="Upload Photo less than 500kb"
+              fullWidth
+              required
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                accept: "image/jpeg,image/png",
+              }}
+              onChange={handleFileRead}
+              onClick={() => fileUploadRef.current.click()}
+            />
+            {gallery.image.preview && (
+              <img src={gallery.image.preview} width="100" height="100" />
             )}
           </Box>
-        </Box>
         <Box>
           <Typography
             variant="h6"
@@ -126,12 +130,17 @@ export default function Gallery() {
             Image Title
           </Typography>
           <TextField
-            required
-            fullWidth
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            placeholder="Enter Title here..."
-          />
+              required
+              id="title"
+              name="title"
+              type="text"
+              value={gallery.title}
+              label="Enter Image Title"
+              fullWidth
+              variant="standard"
+              onChange={handleChange}
+            
+            />
         </Box>
         <Box>
           <Typography
@@ -148,12 +157,17 @@ export default function Gallery() {
             Image Description
           </Typography>
           <TextField
-            required
-            fullWidth
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            placeholder="Enter description here..."
-          />
+              required
+              id="description"
+              name="description"
+              type="text"
+              value={gallery.description}
+              label="Enter Image Title"
+              fullWidth
+              variant="standard"
+              onChange={handleChange}
+        
+            />
         </Box>
         <Box sx={{display:'flex',justifyContent:'space-around',flexDirection:'row'}}> <Button
           type="submit"
