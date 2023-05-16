@@ -37,3 +37,6 @@ export const memberProfile=()=>API.get("member/profile");
 export const getReportedNews=()=>API.get("news/reportedNews");
 export const newsReporting=(formData)=>API.post("news/newsReporting",formData);
 export const addGallery=(formData)=>API.post("assets/addGallery",formData);
+export const addClubs=(formData)=>API.post("clubs/addClubs",formData);
+export const getClubs=()=>API.get("clubs/getClubs");
+export const deleteClub = (clubId) => API.delete(`clubs/deleteClubs?clubId=${clubId}`);

@@ -1,34 +1,36 @@
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import { Button,Grid,TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { useDispatch, useSelector } from "react-redux";
+import { getClubs } from "../../actions/clubs";
 
 const columns = [
   { id: "id", label: "SrNo.", minWidth: 60 },
   { id: "clubId", label: "ClubId", minWidth: 100 },
-  { id: "ClubName", label: "ClubName", minWidth: 100 },
-  { id: "AdminStars", label: "AdminStars", minWidth: 100 },
-  { id: "LastUpdate", label: "LastUpdate", minWidth: 100 },
+  { id: "clubName", label: "ClubName", minWidth: 100 },
+  { id: "adminStars", label: "AdminStars", minWidth: 100 },
+  { id: "lastUpdate", label: "LastUpdate", minWidth: 100 },
   { label: "Delete", minWidth: 100 },
   { label: "View", minWidth: 100 },
 ];
 
-function createData(id, clubId, ClubName, AdminStars, LastUpdate) {
-  return { id, clubId, ClubName, AdminStars, LastUpdate };
+function createData(id, clubId, clubName, adminstars, lastupdated) {
+  return { id, clubId, clubName, adminstars, lastupdated };
 }
-
-const rows = [createData(1, 23,'Pune',34,'2022/11/2')];
 
 export default function AllClubs() {
   const [page, setPage] = React.useState(0);
+  const Clubs = useSelector((state) => state.clubs.registeredClubs);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -41,20 +43,39 @@ export default function AllClubs() {
     setPage(0);
   };
 
+  useEffect(() => {
+    dispatch(getClubs());
+  }, []);
+
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden",borderRadius:'1em' ,marginTop:'2em'}}>
-        <Typography variant="h6" gutterBottom sx={{ width: "25%",
-    borderBottom: "2px solid #B4880B",
-    color: "#003895",alignItems:'center',margin:'1em'}}>
-           All Clubs
-          </Typography>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        borderRadius: "1em",
+        marginTop: "2em",
+      }}
+    >
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{
+          width: "25%",
+          borderBottom: "2px solid #B4880B",
+          color: "#003895",
+          alignItems: "center",
+          margin: "1em",
+        }}
+      >
+        All Clubs
+      </Typography>
       <Grid
         container
         justifyContent="space-between"
         spacing={3}
         style={{ marginTop: "16px" }}
       >
-        <Grid item xs={6} style={{ textAlign: "left" ,marginLeft:'1em'}}>
+        <Grid item xs={6} style={{ textAlign: "left", marginLeft: "1em" }}>
           <TextField
             id="search"
             label="Search Club"
@@ -64,7 +85,7 @@ export default function AllClubs() {
           />
         </Grid>
       </Grid>
-      <TableContainer sx={{ maxHeight: 440 ,marginTop:'1em'}}>
+      <TableContainer sx={{ maxHeight: 440, marginTop: "1em" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -80,34 +101,41 @@ export default function AllClubs() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow>
-                    <TableCell >{row.id}</TableCell>
-                    <TableCell>{row.clubId}</TableCell>
-                    <TableCell>{row.ClubName}</TableCell>
-                    <TableCell>{row.AdminStars}</TableCell>
-                    <TableCell>{row.LastUpdate}</TableCell>
-                    <TableCell>
-                      <Button variant="outlined">Delete</Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button sx={{ color: "red" }} variant="outlined">
-                        View
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+            {Clubs?.slice(
+              page * rowsPerPage,
+              page * rowsPerPage + rowsPerPage
+            ).map((row, index) => {
+              return (
+                <TableRow>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{row.clubId}</TableCell>
+                  <TableCell>{row.clubName}</TableCell>
+                  <TableCell>{row.adminstars}</TableCell>
+                  <TableCell>{row.lastupdated?.slice(0, 10)}</TableCell>
+
+                  <TableCell>
+                    <Button
+                      variant="outlined"
+                     
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button sx={{ color: "red" }} variant="outlined">
+                      View
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={Clubs?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
