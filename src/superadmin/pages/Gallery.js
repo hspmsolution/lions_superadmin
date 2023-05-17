@@ -92,29 +92,54 @@ export default function Gallery() {
           color: "#fff",
         }}
       >
-          <Box>
-            <TextField
-              ref={fileUploadRef}
-              type="file"
-              id="image-upload"
-              name="image"
-              label="Upload Photo less than 500kb"
-              fullWidth
-              required
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                accept: "image/jpeg,image/png",
-              }}
-              onChange={handleFileRead}
-              onClick={() => fileUploadRef.current.click()}
-            />
-            {gallery.image.preview && (
-              <img src={gallery.image.preview} width="100" height="100" />
+        <Box {...getRootProps()} sx={{ marginBottom: "2em" }}>
+          <input {...getInputProps()} />
+          <Box
+            sx={{
+              // border: "2px dashed #C4CDD5",
+              // borderRadius: "20px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "300px",
+              width: "100%",
+              marginBottom: "1em",
+              backgroundImage: `url(${image})`,
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            {!image && (
+              <>
+                <Icon
+                  sx={{
+                    color: "black",
+                    width: "100%",
+                    height: "5em",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CloudUpload sx={{ width: "3em", height: "3em" }} />
+                </Icon>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#000",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  Upload Image here
+                </Typography>
+              </>
             )}
           </Box>
+        </Box>
         <Box>
           <Typography
             variant="h6"
@@ -130,17 +155,12 @@ export default function Gallery() {
             Image Title
           </Typography>
           <TextField
-              required
-              id="title"
-              name="title"
-              type="text"
-              value={gallery.title}
-              label="Enter Image Title"
-              fullWidth
-              variant="standard"
-              onChange={handleChange}
-            
-            />
+            required
+            fullWidth
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            placeholder="Enter Title here..."
+          />
         </Box>
         <Box>
           <Typography
@@ -157,17 +177,12 @@ export default function Gallery() {
             Image Description
           </Typography>
           <TextField
-              required
-              id="description"
-              name="description"
-              type="text"
-              value={gallery.description}
-              label="Enter Image Title"
-              fullWidth
-              variant="standard"
-              onChange={handleChange}
-        
-            />
+            required
+            fullWidth
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            placeholder="Enter description here..."
+          />
         </Box>
         <Box sx={{display:'flex',justifyContent:'space-around',flexDirection:'row'}}> <Button
           type="submit"

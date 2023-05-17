@@ -19,24 +19,17 @@ API.interceptors.request.use((req) => {
   return req;
 });
 export const signIn = (formData) => API.post("auth/login", formData);
-export const resetPass=(formData)=>API.post("auth/resetpass",formData);
-export const addActivity = (formData) =>
-  API.post("activity/addactivity", formData);
+
 export const getActivity = () => API.get("activity/type");
 export const getSubtype = (type) => API.get(`activity/subtype?type=${type}`);
 export const getCategory = (subtype) =>
   API.get(`activity/category?subtype=${subtype}`);
 export const getPlaceHolder = (Category) =>
   API.get(`activity/placeholder?category=${Category}`);
-export const getReportedActivity=()=>API.get("activity/reportedactivity");
-export const getAdminReports=(month)=>API.get(`adminreporting/reports?month=${month}`);
-export const getPoints=()=>API.get("adminreporting/points");
-export const addReport=(data)=>API.post("adminreporting/addreport",data);
-export const updateMember=(formData)=>API.post("member/updateprofile",formData);
-export const memberProfile=()=>API.get("member/profile");
-export const getReportedNews=()=>API.get("news/reportedNews");
-export const newsReporting=(formData)=>API.post("news/newsReporting",formData);
+export const getStats=()=>API.get('activity/stats');
+export const getRegion=()=>API.get("regiondata");
 export const addGallery=(formData)=>API.post("assets/addGallery",formData);
 export const addClubs=(formData)=>API.post("clubs/addClubs",formData);
 export const getClubs=()=>API.get("clubs/getClubs");
 export const deleteClub = (clubId) => API.delete(`clubs/deleteClubs?clubId=${clubId}`);
+

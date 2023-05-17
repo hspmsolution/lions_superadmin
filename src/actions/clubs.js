@@ -49,3 +49,14 @@ export const deleteClub = (clubId) => async (dispatch) => {
     console.log(error);
   }
 };
+import * as api from "../api";
+import { REGION_DATA } from "../constants/actionTypes";
+
+export const getRegion = () => async (dispatch) => {
+  try {
+    const { data } = await api.getRegion();
+    dispatch({ type: REGION_DATA, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};

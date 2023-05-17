@@ -4,7 +4,6 @@ import {
   CLIENT_MSG,
   ADMIN,
   MEMBER_PROFILE,
-  UPDATE_MEMBER_PROFILE,
 } from "../constants/actionTypes";
 import decodeJWT from "../utils/jwtDecode";
 
@@ -80,14 +79,7 @@ const authReducer = (
     case MEMBER_PROFILE:
       return { ...state, memberProfile: action.payload };
 
-     case UPDATE_MEMBER_PROFILE:
-      return {
-        ...state,
-        memberProfile: {
-          ...state.memberProfile,
-          [action.payload.name]: action.payload.value,
-        },
-      };
+     
     default:
       return state;
   }
