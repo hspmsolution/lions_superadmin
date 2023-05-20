@@ -5,8 +5,19 @@ import {
   ACTIVITY_TYPE,
   ACTIVITY_PLACEHOLDER,
   REPORTED_ACTIVITY,
+  STATS
 } from "../constants/actionTypes";
 import * as api from "../api";
+
+
+export const getStats = () => async (dispatch) => {
+  try {
+    const { data } = await api.getStats();
+    dispatch({ type: STATS, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getActivity = () => async (dispatch) => {
   try {
@@ -65,30 +76,5 @@ export const getPlaceHolder = (category) => async (dispatch) => {
   }
 };
 
-export const getReportedActivity = () => async (dispatch) => {
-  try {
-    const { data } = await api.getReportedActivity();
-    dispatch({ type: REPORTED_ACTIVITY, payload: data });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
-export const addActivity = (formData) => async (dispatch) => {
-  try {
-    const { data, status } = await api.addActivity(formData);
-    dispatch({
-      type: CLIENT_MSG,
-      message: { info: data.successMessage, status },
-    });
-  } catch (error) {
-    dispatch({
-      type: CLIENT_MSG,
-      message: {
-        info: error.response.data?.message,
-        status: error.response.status,
-      },
-    });
-    console.log(error);
-  }
-};
+
