@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useDispatch,useSelector } from 'react-redux';
 import { Helmet } from "react-helmet-async";
 import { useTheme } from '@mui/material/styles';
 import {Box,Icon,Card,CardContent,CardMedia,IconButton,Typography} from '@mui/material';
@@ -6,6 +7,9 @@ import {LocalActivity} from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
 import UpComingEvent from './UpComingActivity';
 import UpComingActivity from './UpComingActivity';
+import { getStats } from '../../actions/activity';
+import RegionalView from './RegionalView';
+
 const useStyles=makeStyles({
   CardContainer:{
     display: 'flex' ,
@@ -19,8 +23,13 @@ const useStyles=makeStyles({
 });
 export default function DashboardAppPage() {
   const classes=useStyles();
+  const dispatch=useDispatch();
+  const stats=useSelector((state)=>state.activity.stats);
   const theme = useTheme();
-
+  
+  React.useEffect(()=>{
+    dispatch(getStats())
+  },[])
   return (
 <><Helmet>
         <title> Dashboard </title>
@@ -43,7 +52,7 @@ export default function DashboardAppPage() {
           Total Activity
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
-           12
+       {stats?.totalActivities}
           </Typography>
         </CardContent>
       </Box>
@@ -61,7 +70,7 @@ export default function DashboardAppPage() {
           Total Clubs
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
-          23
+          {stats?.totalClubs}
           </Typography>
         </CardContent>
       </Box>
@@ -79,7 +88,7 @@ export default function DashboardAppPage() {
           Amount Spent
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
-            56000
+            {stats?.totalExpenses}
           </Typography>
         </CardContent>
       </Box>
@@ -103,7 +112,7 @@ export default function DashboardAppPage() {
           Beneficiary Survey
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
-            34
+          {stats?.beneficiaryServed}
           </Typography>
         </CardContent>
       </Box>
@@ -121,7 +130,7 @@ export default function DashboardAppPage() {
           Lion Hrs
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
-        2390
+     {stats?.totalLionHours}
           </Typography>
         </CardContent>
       </Box>
@@ -139,7 +148,7 @@ export default function DashboardAppPage() {
           All Members
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
-            5678
+        {stats.totalMembers}
           </Typography>
         </CardContent>
       </Box>
@@ -152,6 +161,7 @@ export default function DashboardAppPage() {
     </Card>
       </Box>
     <UpComingActivity/>
+    <RegionalView/>
       </>
     
   );

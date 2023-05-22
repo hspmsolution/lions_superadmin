@@ -10,39 +10,35 @@ import {
   Button,
   Icon,
 } from "@mui/material";
-import {CLIENT_MSG} from '../../constants/actionTypes';
-import {useDispatch} from "react-redux";
-import {addGallery} from "../../actions/assets";
+import { CLIENT_MSG } from "../../constants/actionTypes";
+import { useDispatch } from "react-redux";
+import { addGallery } from "../../actions/assets";
 
-const galleryDetail={
-  title:"",
-  description:"",
-  image:{preview:"",data:""},
-}
+var galleryDetail = {
+  title: "",
+  description: "",
+  image: { preview: "", data: "" },
+};
 export default function Gallery() {
-  const fileUploadRef=useRef();
-  const[gallery,setGallery]=useState(galleryDetail);
-  const dispatch=useDispatch();
+  const fileUploadRef = useRef();
+  const [gallery, setGallery] = useState(galleryDetail);
+  const dispatch = useDispatch();
 
-  // useEffect(()=>{
-
-  // })
   const handleChange = (e) => {
-    const { id, value } = e.target;
-    setGallery((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+    const { name, value } = e.target;
+    setGallery((prevData) => {
+      const newData = { ...prevData, [name]: value };
+      return newData;
+    });
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formData=new FormData();
-    formData.append("title",gallery.title);
-    formData.append("description",gallery.description);
-    formData.append("image",gallery.image.data);
+    const formData = new FormData();
+    formData.append("title", gallery.title);
+    formData.append("description", gallery.description);
+    formData.append("image", gallery.image.data);
     dispatch(addGallery(formData));
-    setGallery(galleryDetail);
-    console.log(formData);
+    setGallery({title:"",description:"",image:gallery.image});
   };
   const handleFileRead = async (event) => {
     const file = event.target.files[0];
@@ -58,7 +54,11 @@ export default function Gallery() {
       event.target.value = "";
       return;
     }
-    if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
+    if (
+      file.type !== "image/jpeg" &&
+      file.type !== "image/png" &&
+      file.type !== "image/jpg"
+    ) {
       dispatch({
         type: CLIENT_MSG,
         message: { info: "file type not supported", status: 400 },
@@ -66,7 +66,7 @@ export default function Gallery() {
       event.target.value = "";
       return;
     }
-    
+
     const img = {
       preview: URL.createObjectURL(event.target.files[0]),
       data: event.target.files[0],
@@ -92,29 +92,29 @@ export default function Gallery() {
           color: "#fff",
         }}
       >
-          <Box>
-            <TextField
-              ref={fileUploadRef}
-              type="file"
-              id="image-upload"
-              name="image"
-              label="Upload Photo less than 500kb"
-              fullWidth
-              required
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                accept: "image/jpeg,image/png",
-              }}
-              onChange={handleFileRead}
-              onClick={() => fileUploadRef.current.click()}
-            />
-            {gallery.image.preview && (
-              <img src={gallery.image.preview} width="100" height="100" />
-            )}
-          </Box>
+        <Box>
+          <TextField
+            ref={fileUploadRef}
+            type="file"
+            id="image-upload"
+            name="image"
+            label="Upload Photo less than 500kb"
+            fullWidth
+            required
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              accept: "image/jpeg,image/png",
+            }}
+            onChange={handleFileRead}
+            onClick={() => fileUploadRef.current.click()}
+          />
+          {gallery.image.preview && (
+            <img src={gallery.image.preview} width="100" height="100" />
+          )}
+        </Box>
         <Box>
           <Typography
             variant="h6"
@@ -130,17 +130,16 @@ export default function Gallery() {
             Image Title
           </Typography>
           <TextField
-              required
-              id="title"
-              name="title"
-              type="text"
-              value={gallery.title}
-              label="Enter Image Title"
-              fullWidth
-              variant="standard"
-              onChange={handleChange}
-            
-            />
+            required
+            id="title"
+            name="title"
+            type="text"
+            value={gallery.title}
+            label="Enter Image Title"
+            fullWidth
+            variant="standard"
+            onChange={handleChange}
+          />
         </Box>
         <Box>
           <Typography
@@ -157,52 +156,60 @@ export default function Gallery() {
             Image Description
           </Typography>
           <TextField
-              required
-              id="description"
-              name="description"
-              type="text"
-              value={gallery.description}
-              label="Enter Image Title"
-              fullWidth
-              variant="standard"
-              onChange={handleChange}
-        
-            />
+            required
+            id="description"
+            name="description"
+            type="text"
+            value={gallery.description}
+            label="Enter Image Title"
+            fullWidth
+            variant="standard"
+            onChange={handleChange}
+          />
         </Box>
-        <Box sx={{display:'flex',justifyContent:'space-around',flexDirection:'row'}}> <Button
-          type="submit"
-          variant="contained"
+        <Box
           sx={{
-            width: "120px",
-            color: "#FFF",
-            backgroundColor: "#1D3D7C",
-            padding: "10px",
             display: "flex",
-            justifyContent: "center",
-            margin: "auto",
-            fontSize: "1.12em",
-            marginTop: "1em",
+            justifyContent: "space-around",
+            flexDirection: "row",
           }}
         >
-          Save
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{
-            width: "120px",
-            color: "#FFF",
-            backgroundColor: "#1D3D7C",
-            padding: "10px",
-            display: "flex",
-            justifyContent: "center",
-            margin: "auto",
-            fontSize: "1.12em",
-            marginTop: "1em",
-          }}
-        >
-          Delete
-        </Button></Box>
+          {" "}
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              width: "120px",
+              color: "#FFF",
+              backgroundColor: "#1D3D7C",
+              padding: "10px",
+              display: "flex",
+              justifyContent: "center",
+              margin: "auto",
+              fontSize: "1.12em",
+              marginTop: "1em",
+            }}
+          >
+            Save
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              width: "120px",
+              color: "#FFF",
+              backgroundColor: "#1D3D7C",
+              padding: "10px",
+              display: "flex",
+              justifyContent: "center",
+              margin: "auto",
+              fontSize: "1.12em",
+              marginTop: "1em",
+            }}
+          >
+            Delete
+          </Button>
+        </Box>
       </Box>
     </form>
   );
