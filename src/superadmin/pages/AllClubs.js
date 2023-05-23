@@ -37,7 +37,7 @@ export default function AllClubs() {
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
+  console.log(Clubs);
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);

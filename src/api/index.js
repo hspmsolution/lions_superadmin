@@ -32,4 +32,5 @@ export const addGallery=(formData)=>API.post("assets/addGallery",formData);
 export const addClubs=(formData)=>API.post("clubs/addClubs",formData);
 export const getClubs=()=>API.get("clubs/getClubs");
 export const deleteClub = (clubId) => API.delete(`clubs/deleteClubs?clubId=${clubId}`);
-
+export const getMembers=()=>API.get("members/getMembers");
+export const getContacts=()=>API.get("contact/getContacts");
