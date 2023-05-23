@@ -22,3 +22,5 @@ export const All_CLUBS="ALL_CLUBS";
 export const DELETE_CLUB_SUCCESS="DELETE_CLUB_SUCCESS";
 export const STATS="STATS";
 export const REGION_DATA="REGION_DATA";
+export const All_MEMBERS="All_MEMBERS";
+export const All_CONTACTS="All_CONTACTS";

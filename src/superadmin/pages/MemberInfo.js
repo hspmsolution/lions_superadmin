@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { Button,Grid,TextField, Typography } from "@mui/material";
@@ -8,22 +8,23 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getMembers} from "../../actions/members";
 const columns = [
-  { id: "MemberID", label: "MemberID.", minWidth: 60 },
-  { id: "ClubName", label: "ClubName", minWidth: 100 },
+  { id: "index", label: "SrNo.", minWidth: 60 },
+  { id: "id", label: "MemberID.", minWidth: 60 },
+  { id: "clubName", label: "ClubName", minWidth: 100 },
   { id: "clubId", label: "ClubId", minWidth: 100 },
-  { id: "Designation", label: "Designation", minWidth: 100 },
-  { id: "Name", label: "Name", minWidth: 100 },
-
-  { id: "Address",label:"Address" ,minWidth: 100 },
-  { id: "City",label:"City", minWidth: 100 },
-  { id: "Email", label: "Email", minWidth: 100 },
-  { id: "Phone", label: "Phone", minWidth: 100 },
-  { id: "SName", label: "Spouse Name", minWidth: 100 },
-  { id: "DOB", label: "DOB", minWidth: 100 },
-  { id: "Gender", label: "Gender", minWidth: 100 },
-  { id: "Occupation", label: "Occupation", minWidth: 100 },
+  { id: "title", label: "Designation", minWidth: 100 },
+  { id: "fullName", label: "Name", minWidth: 100 },
+  { id: "address",label:"Address" ,minWidth: 100 },
+  { id: "city",label:"City", minWidth: 100 },
+  { id: "email", label: "Email", minWidth: 100 },
+  { id: "phone", label: "Phone", minWidth: 100 },
+  { id: "spouseName", label: "Spouse Name", minWidth: 100 },
+  { id: "dob", label: "DOB", minWidth: 100 },
+  { id: "gender", label: "Gender", minWidth: 100 },
+  { id: "occupation", label: "Occupation", minWidth: 100 },
   {  label: "Edit", minWidth: 100 },
   {  label: "Delete", minWidth: 100 },
   
@@ -31,28 +32,31 @@ const columns = [
 
 ];
 
-function createData(MemberID,  ClubName,clubId, Designation,Name, Address,City,Email,Phone,SName,DOB,Gender,Occupation,Edit,Delete) {
-  return {MemberID, ClubName, clubId, Designation,Name, Address,City,Email,Phone,SName,DOB,Gender,Occupation,Edit,Delete};
+function createData(id, clubName, clubId, title,fullName, address,city,email,phone,spouseName,dob,gender,occupation,Edit,Delete) {
+  return {id, clubName, clubId, title,fullName, address,city,email,phone,spouseName,dob,gender,occupation,Edit,Delete};
 }
 
-const rows = [createData(1, 23,'Pune',34,'2022/11/2')];
 
 export default function MemberInfo() {
   const [page, setPage] = React.useState(0);
+  const Members = useSelector((state) => state.members.memberData);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
+  console.log(Members);
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  useEffect(() => {
+    dispatch(getMembers());
+  }, []);
   return (
     <Paper sx={{ width: "100%", overflow: "hidden",borderRadius:'1em' ,marginTop:'2em'}}>
         <Typography variant="h6" gutterBottom sx={{ width: "25%",
@@ -92,24 +96,24 @@ export default function MemberInfo() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+            {Members?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row,index) => {
                 return (
                   <TableRow>
-                    <TableCell >{row.MemberID}</TableCell>
-                    <TableCell>{row.ClubName}</TableCell>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell >{row.id}</TableCell>
+                    <TableCell>{row.clubName}</TableCell>
                     <TableCell>{row.clubId}</TableCell>
-                    <TableCell>{row.Designation}</TableCell>
-                    <TableCell>{row.Name}</TableCell>
-                    <TableCell >{row.Address}</TableCell>
-                    <TableCell>{row.City}</TableCell>
-                    <TableCell>{row.Email}</TableCell>
-                    <TableCell>{row.Phone}</TableCell>
-                    <TableCell>{row.SName}</TableCell>
-                    <TableCell >{row.DOB}</TableCell>
-                    <TableCell>{row.Gender}</TableCell>
-                    <TableCell>{row.Occupation}</TableCell>
+                    <TableCell>{row.title}</TableCell>
+                    <TableCell>{row.fullName}</TableCell>
+                    <TableCell >{row.address}</TableCell>
+                    <TableCell>{row.city}</TableCell>
+                    <TableCell>{row.email}</TableCell>
+                    <TableCell>{row.phone}</TableCell>
+                    <TableCell>{row.spouseName}</TableCell>
+                    <TableCell >{row.dob?.slice(0, 10)}</TableCell>
+                    <TableCell>{row.gender}</TableCell>
+                    <TableCell>{row.occupation}</TableCell>
                     <TableCell>
                       <Button variant="outlined">
                         Edit
@@ -128,7 +132,7 @@ export default function MemberInfo() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={Members?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
