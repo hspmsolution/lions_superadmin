@@ -24,3 +24,5 @@ export const STATS="STATS";
 export const REGION_DATA="REGION_DATA";
 export const All_MEMBERS="All_MEMBERS";
 export const All_CONTACTS="All_CONTACTS";
+export const UPCOMING_ACTIVITY="UPCOMING_ACTIVITY";
+export const ALL_ACTIVITY="ALL_ACTIVITY";

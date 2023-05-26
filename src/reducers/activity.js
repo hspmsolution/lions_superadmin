@@ -4,6 +4,8 @@ import {
   ACTIVITY_TYPE,
   ACTIVITY_PLACEHOLDER,
   REPORTED_ACTIVITY,
+  UPCOMING_ACTIVITY,
+  ALL_ACTIVITY,
   STATS
 } from "../constants/actionTypes";
 
@@ -13,6 +15,7 @@ const activityReducer = (
     subType: [],
     category: [],
     reportedActivity: [],
+    allActivity:[],
     placeHolder: "",
     stats: [],
   },
@@ -35,6 +38,11 @@ const activityReducer = (
 
     case REPORTED_ACTIVITY:
       return { ...state, reportedActivity: action.payload };
+    
+    case  UPCOMING_ACTIVITY:
+        return { ...state, upcomingActivity: action.payload };
+    case ALL_ACTIVITY:
+        return { ...state, allActivity: action.payload };
     default:
       return state;
   }
