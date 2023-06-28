@@ -38,18 +38,18 @@ export default function AccountPopover() {
     {
       label: 'Profile',
       icon: 'eva:person-fill',
-      nav: () => navigate('/users'),
+      nav: () => navigate('/superadmin/users'),
       label: "Profile",
       icon: "eva:person-fill",
       nav: () => {
-        navigate("/dashboard/edit-profile");
+        navigate("/superadmin/dashboard/edit-profile");
         handleClose();
       },
     },
     {
       label: "Change Password",
       icon: "eva:settings-2-fill",
-      nav: () => navigate("/password"),
+      nav: () => navigate("/superadmin/password"),
     },
     {
       label: "Back to Website",

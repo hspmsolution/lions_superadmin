@@ -22,7 +22,7 @@ export default function Router() {
 
   useEffect(() => {
     setRoutes([
-      { path: "/", element: <Login /> },
+      { path: "/superadmin", element: <Login /> },
 
       {
         path: "/404",
@@ -79,7 +79,7 @@ export default function Router() {
       ...(isAdmin
         ? [
             {
-              path: "/dashboard",
+              path: "/superadmin/dashboard",
               element: <DashboardLayout />,
               children: [
                 {

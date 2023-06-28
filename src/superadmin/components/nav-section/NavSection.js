@@ -29,19 +29,19 @@ export default function NavSection({ ...other }) {
   const config = [
     {
       title: "dashboard",
-      path: "/dashboard/app",
+      path: "/superadmin/dashboard/app",
       icon: icon("ic_dashboard"),
       isClick: false,
     },
     {
       title: "Clubs",
-      path: "/dashboard/clubs",
+      path: "/superadmin/dashboard/clubs",
       icon: icon("ic_clubs"),
       isClick: false,
     },
     {
       title: "Members",
-      path: "/dashboard/members",
+      path: "/superadmin/dashboard/members",
       icon: icon("ic_member"),
       isClick: false,
     },
@@ -53,22 +53,22 @@ export default function NavSection({ ...other }) {
       subItems: [
         {
           title: "Update T&C",
-          path: "/dashboard/updateTC",
+          path: "/superadmin/dashboard/updateTC",
           icon: icon("ic_arrow"),
         },
         {
           title: "Update Privacy Policy",
-          path: "/dashboard/privacy",
+          path: "/superadmin/dashboard/privacy",
           icon: icon("ic_arrow"),
         },
         {
           title: "Add Activity Type",
-          path: "/dashboard/activityType",
+          path: "/superadmin/dashboard/activityType",
           icon: icon("ic_arrow"),
         },
         {
           title: "Download Resource",
-          path: "/dashboard/Download",
+          path: "/superadmin/dashboard/Download",
           icon: icon("ic_arrow"),
         },
       ],
@@ -76,20 +76,20 @@ export default function NavSection({ ...other }) {
 
     {
       title: "Gallery",
-      path: "/dashboard/gallery",
+      path: "/superadmin/dashboard/gallery",
       icon: icon("ic_gallery"),
       isClick: false,
     },
     {
       title: "Slider",
-      path: "/dashboard/slider",
+      path: "/superadmin/dashboard/slider",
       icon: icon("ic_slider"),
       isClick: false,
     },
 
     {
       title: "Contact Enquiries",
-      path: "/dashboard/contact",
+      path: "/superadmin/dashboard/contact",
       icon: icon("ic_contact"),
       isClick: false,
     }

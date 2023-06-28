@@ -1,13 +1,20 @@
 import axios from "axios";
-
 const ROOT_URL = window.location.href;
-const rootUrlRegex = /http:\/\/localhost:3000\/*/gm;
-
 export let API_URL;
-if (rootUrlRegex.test(ROOT_URL)) {
-  API_URL = "http://localhost:5000/admin" ;
+
+if (ROOT_URL.includes(".up.railway.app")) {
+  API_URL = "https://lionsinternationalbackend-production.up.railway.app/api/admin";
+
+} else if (ROOT_URL.includes("lionsdistrict317f.org")) {
+  API_URL = "https://lionsdistrict317f.org/api/admin";
+
+} else if (ROOT_URL.includes("lions317b.org")) {
+  API_URL = "https://lions317b.org/api/admin";
+
 } else {
-  API_URL = "https://lionsinternationalbackend-production.up.railway.app/admin";
+  // Default to local development URL
+  API_URL = "http://localhost:5000/api/admin";
+  
 }
 
 const API = axios.create({ baseURL:API_URL });

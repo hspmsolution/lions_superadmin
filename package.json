@@ -4,6 +4,7 @@
   "version": "1.6.0",
   "private": true,
   "main": "index.js",
+  "homepage": "/superadmin",
   "scripts": {
     "start": "node index.js",
     "dev": "react-scripts start",
