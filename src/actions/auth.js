@@ -10,7 +10,7 @@ export const signIn = (formData, navigate) => async (dispatch) => {
       type: CLIENT_MSG,
       message: { info: data.successMessage, status },
     });
-    navigate("/dashboard/app");
+    navigate("/superadmin/dashboard/app");
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,

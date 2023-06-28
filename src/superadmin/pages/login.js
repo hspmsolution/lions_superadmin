@@ -64,7 +64,7 @@ const Login = () => {
 
   useEffect(() => {
     dispatch({ type: ADMIN });
-    if (isAdmin) navigate("/dashboard/app");
+    if (isAdmin) navigate("/superadmin/dashboard/app");
   }, []);
 
   useEffect(() => {
