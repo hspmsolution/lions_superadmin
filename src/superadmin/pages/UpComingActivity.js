@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import {Button} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
-
+import {getUpcomingActivity} from '../../actions/activity';
+import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
   TableBody,
@@ -34,11 +35,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       border: 0,
     },
   }));
-const rows=[{
 
-}]
 export default function UpComingActivity(){
-
+  const Activities = useSelector((state) => state.activity.upcomingActivity);
+  const dispatch=useDispatch();
+  useEffect(() => {
+    dispatch(getUpcomingActivity());
+  }, []);
   return (
     <Box bgcolor="white" p={3} borderRadius={4} marginTop={2}>
       <Typography variant="h6" gutterBottom sx={{ width: "25%",
@@ -52,6 +55,7 @@ export default function UpComingActivity(){
             <TableRow>
               <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell>Activity Title</StyledTableCell>
+              <StyledTableCell>Description</StyledTableCell>
               <StyledTableCell>Chif Guest</StyledTableCell>
               <StyledTableCell>Venue</StyledTableCell>
               <StyledTableCell>Date</StyledTableCell>
@@ -60,28 +64,16 @@ export default function UpComingActivity(){
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row, index) => (
+            {Activities?.map((row, index) => (
               <StyledTableRow key={row.id}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{row.newsTitle}</StyledTableCell>
+                <StyledTableCell>{row.activityTitle}</StyledTableCell>
                 <StyledTableCell>{row.description}</StyledTableCell>
-                <StyledTableCell>
-                  <a
-                    href={row.newsPaperLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      color: "inherit",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {row.newsPaperLink}
-                  </a>
-                </StyledTableCell>
-
-                <StyledTableCell>{row.date}</StyledTableCell>
+                <StyledTableCell>{row.chiefGuest}</StyledTableCell>
+                <StyledTableCell>{row.place}</StyledTableCell>
+                <StyledTableCell>{row.date.slice(0,10)}</StyledTableCell>
                 <StyledTableCell>
                  <Button sx={{color:"red"}} variant="outlined">View</Button>
                 </StyledTableCell>

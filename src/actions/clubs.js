@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { CLIENT_MSG ,All_CLUBS,DELETE_CLUB_SUCCESS ,REGION_DATA} from '../constants/actionTypes';
+import { CLIENT_MSG ,All_CLUBS,REGION_DATA} from '../constants/actionTypes';
 
 export const addClubs = (formData) => async (dispatch) => {
   try {
@@ -23,7 +23,7 @@ export const addClubs = (formData) => async (dispatch) => {
 export const getClubs = () => async (dispatch) => {
   try {
     const { data } = await api.getClubs();
-    console.log(data);
+
     dispatch({ type: All_CLUBS, payload: data });
   } catch (error) {
     console.log(error);

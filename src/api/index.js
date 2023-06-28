@@ -36,7 +36,12 @@ export const getPlaceHolder = (Category) =>
 export const getStats=()=>API.get('activity/stats');
 export const getRegion=()=>API.get("regiondata");
 export const addGallery=(formData)=>API.post("assets/addGallery",formData);
+export const addSlider=(formData)=>API.post("assets/addSlider",formData)
 export const addClubs=(formData)=>API.post("clubs/addClubs",formData);
 export const getClubs=()=>API.get("clubs/getClubs");
 export const deleteClub = (clubId) => API.delete(`clubs/deleteClubs?clubId=${clubId}`);
-
+export const getMembers=()=>API.get("members/getMembers");
+export const getContacts=()=>API.get("contact/getContacts");
+export const getUpcomingActivity=()=>API.get("activity/getUpcomingActivity");
+export const addActivity=(formData)=>API.post("activity/addActivity",formData);
+export const getActivities=()=>API.get("activity/activities");
