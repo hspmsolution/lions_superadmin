@@ -36,19 +36,19 @@ export default function NavSection({ ...other }) {
     {
       title: "Clubs",
       path: "/superadmin/dashboard/clubs",
-      icon: icon("ic_clubs"),
+      // icon: icon("ic_clubs"),
       isClick: false,
     },
     {
       title: "Members",
       path: "/superadmin/dashboard/members",
-      icon: icon("ic_member"),
+      // icon: icon("ic_member"),
       isClick: false,
     },
     {
       title: "General",
       path: null,
-      icon: icon("ic_general"),
+      // icon: icon("ic_general"),
       isClick: false,
       subItems: [
         {
@@ -77,23 +77,22 @@ export default function NavSection({ ...other }) {
     {
       title: "Gallery",
       path: "/superadmin/dashboard/gallery",
-      icon: icon("ic_gallery"),
+      // icon: icon("ic_gallery"),
       isClick: false,
     },
     {
       title: "Slider",
       path: "/superadmin/dashboard/slider",
-      icon: icon("ic_slider"),
+      // icon: icon("ic_slider"),
       isClick: false,
     },
 
     {
       title: "Contact Enquiries",
       path: "/superadmin/dashboard/contact",
-      icon: icon("ic_contact"),
+      // icon: icon("ic_contact"),
       isClick: false,
-    }
-    
+    },
   ];
 
   const [navConfig, setNavConfig] = useState(config);
@@ -108,7 +107,9 @@ export default function NavSection({ ...other }) {
 
   return (
     <Box {...other}>
-      <List disablePadding sx={{ p: 1 }}>
+      <List
+        disablePadding
+        sx={{ p: 1 }}>
         {navConfig.map((item) => (
           <>
             <NavItem
@@ -117,11 +118,17 @@ export default function NavSection({ ...other }) {
               onClick={() => {
                 handleClick(item.title);
               }}
+              
             />
             {item.subItems && item.isClick && (
-              <List disablePadding sx={{ pl: 3 }}>
+              <List
+                disablePadding
+                sx={{ pl: 3 }}>
                 {item.subItems.map((subItem) => (
-                  <NavItem key={subItem.title} item={subItem} />
+                  <NavItem
+                    key={subItem.title}
+                    item={subItem}
+                  />
                 ))}
               </List>
             )}
@@ -154,11 +161,13 @@ function NavItem({ item, onClick }) {
             fontWeight: "fontWeightBold",
           },
         }
-      }
-    >
+      }>
       <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>
 
-      <ListItemText disableTypography primary={title} />
+      <ListItemText
+        disableTypography
+        primary={title}
+      />
       {subItems && (isClick ? <CloseIcon /> : <AddIcon />)}
       {info && info}
     </StyledNavItem>

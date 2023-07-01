@@ -152,7 +152,7 @@ function AddClubDialog(props) {
               <Grid
                 container
                 spacing={2}
-                paddingBottom={"1rem"}
+                padding={"1rem"}
               >
                 <Grid
                   item
