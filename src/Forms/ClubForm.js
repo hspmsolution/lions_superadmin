@@ -10,7 +10,7 @@ import {
   StepLabel,
 } from "@mui/material";
 
-const ClubForm = () => {
+const ClubForm = (props) => {
   return (
     <>
       <form>
@@ -20,20 +20,24 @@ const ClubForm = () => {
             flexDirection: "row",
             justifyContent: "space-around",
             width: "100%",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <Typography sx={{ color: "#003895", fontSize: "1em" }}>
               Enter Region Name
             </Typography>
-            <TextField required id="region" select fullWidth name="region" />
+            <TextField
+              required
+              id="region"
+              select
+              fullWidth
+              name="region"
+            />
           </Box>
           <Box
             sx={{
@@ -41,12 +45,17 @@ const ClubForm = () => {
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <Typography sx={{ color: "#003895", fontSize: "1em" }}>
               Enter Zone Name
             </Typography>
-            <TextField required id="zone" select fullWidth name="zone" />
+            <TextField
+              required
+              id="zone"
+              select
+              fullWidth
+              name="zone"
+            />
           </Box>
         </Box>
         <Box
@@ -55,16 +64,14 @@ const ClubForm = () => {
             flexDirection: "row",
             justifyContent: "space-around",
             width: "100%",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <Typography sx={{ color: "#003895", fontSize: "1em" }}>
               Enter Club Name
             </Typography>
@@ -82,8 +89,7 @@ const ClubForm = () => {
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <Typography sx={{ color: "#003895", fontSize: "1em" }}>
               Enter Member ID
             </Typography>
@@ -94,6 +100,33 @@ const ClubForm = () => {
               name="memberId"
               fullWidth
               variant="outlined"
+              disabled={props.label === "editDetails" ? true : false}
+            />
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: "100%",
+          }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "1em",
+              width: "40%",
+            }}>
+            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
+              Enter Designation
+            </Typography>
+            <TextField
+              required
+              id="clubname"
+              select
+              fullWidth
+              name="clubname"
             />
           </Box>
         </Box>
