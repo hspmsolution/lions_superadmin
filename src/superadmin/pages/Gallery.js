@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { API_URL } from "../../api";
 import {
   Card,
   CardMedia,
@@ -9,6 +11,7 @@ import {
   Box,
   Button,
   Icon,
+  IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
@@ -62,6 +65,8 @@ const rows = [
 ];
 
 export default function Gallery() {
+  // const images = useSelector((state) => state.client.galleryImages);
+
   const fileUploadRef = useRef();
   const [gallery, setGallery] = useState(galleryDetail);
   const dispatch = useDispatch();
@@ -298,6 +303,12 @@ export default function Gallery() {
                     minWidth={"150px"}
                     maxWidth={"150px"}
                     height={"100px"}>
+                    {/* {images?.map((item, index) => (
+                      <img
+                        alt={`img${index}`}
+                        src={`${API_URL}${item?.image}`}
+                      />
+                    ))} */}
                     {row.imgURL}
                   </StyledTableCell>
                   <StyledTableCell align="center">
@@ -305,7 +316,9 @@ export default function Gallery() {
                   </StyledTableCell>
                   <StyledTableCell align="center">{row.imgDec}</StyledTableCell>
                   <StyledTableCell align="center">
-                    <DeleteIcon sx={{ cursor: "pointer" }} />
+                    <IconButton>
+                      <DeleteIcon />
+                    </IconButton>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

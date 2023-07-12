@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../../../api";
 // @mui
 import { alpha } from "@mui/material/styles";
+import Badge from "@mui/material/Badge";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import {
   Box,
   Divider,
@@ -87,14 +90,28 @@ export default function AccountPopover() {
                 },
               }),
             }}>
-            <Avatar
-              src={
-                memberData?.picture
-                  ? API_URL + memberData.picture
-                  : memberData?.firstName.charAt(0)
-              }
-              alt={memberData?.firstName.charAt(0)}
-            />
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <ExpandMoreIcon
+                  sx={{
+                    backgroundColor: "#05B0E9",
+                    color: "white",
+                    borderRadius: "50%",
+                    fontSize: "1rem",
+                  }}
+                />
+              }>
+              <Avatar
+                src={
+                  memberData?.picture
+                    ? API_URL + memberData.picture
+                    : memberData?.firstName.charAt(0)
+                }
+                alt={memberData?.firstName.charAt(0)}
+              />
+            </Badge>
           </IconButton>
         </Box>
       </Tooltip>

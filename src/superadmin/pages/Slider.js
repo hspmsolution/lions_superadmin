@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   Icon,
+  IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
@@ -305,7 +306,9 @@ export default function Slider() {
                   </StyledTableCell>
                   <StyledTableCell align="center">{row.imgDec}</StyledTableCell>
                   <StyledTableCell align="center">
-                    <DeleteIcon sx={{ cursor: "pointer" }} />
+                    <IconButton>
+                      <DeleteIcon  />
+                    </IconButton>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
