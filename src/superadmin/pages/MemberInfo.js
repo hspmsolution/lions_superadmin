@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import { Button,Grid,TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -9,7 +9,17 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-import { getMembers} from "../../actions/members";
+import { getMembers } from "../../actions/members";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { makeStyles } from "@mui/styles";
+import ClubForm from "../../Forms/ClubForm";
+import ProfileForm from "../../Forms/ProfileForm";
+import FinalDetails from "../../Forms/FinalDetails";
+import { Stepper, Step, StepLabel } from "@mui/material";
+
 const columns = [
   { id: "index", label: "SrNo.", minWidth: 60 },
   { id: "id", label: "MemberID.", minWidth: 60 },
@@ -17,25 +27,112 @@ const columns = [
   { id: "clubId", label: "ClubId", minWidth: 100 },
   { id: "title", label: "Designation", minWidth: 100 },
   { id: "fullName", label: "Name", minWidth: 100 },
-  { id: "address",label:"Address" ,minWidth: 100 },
-  { id: "city",label:"City", minWidth: 100 },
+  { id: "address", label: "Address", minWidth: 100 },
+  { id: "city", label: "City", minWidth: 100 },
   { id: "email", label: "Email", minWidth: 100 },
   { id: "phone", label: "Phone", minWidth: 100 },
   { id: "spouseName", label: "Spouse Name", minWidth: 100 },
   { id: "dob", label: "DOB", minWidth: 100 },
   { id: "gender", label: "Gender", minWidth: 100 },
   { id: "occupation", label: "Occupation", minWidth: 100 },
-  {  label: "Edit", minWidth: 100 },
-  {  label: "Delete", minWidth: 100 },
-  
-
-
+  { label: "Edit", minWidth: 100 },
+  { label: "Delete", minWidth: 100 },
 ];
 
-function createData(id, clubName, clubId, title,fullName, address,city,email,phone,spouseName,dob,gender,occupation,Edit,Delete) {
-  return {id, clubName, clubId, title,fullName, address,city,email,phone,spouseName,dob,gender,occupation,Edit,Delete};
+function createData(
+  id,
+  clubName,
+  clubId,
+  title,
+  fullName,
+  address,
+  city,
+  email,
+  phone,
+  spouseName,
+  dob,
+  gender,
+  occupation,
+  Edit,
+  Delete
+) {
+  return {
+    id,
+    clubName,
+    clubId,
+    title,
+    fullName,
+    address,
+    city,
+    email,
+    phone,
+    spouseName,
+    dob,
+    gender,
+    occupation,
+    Edit,
+    Delete,
+  };
 }
 
+// Dialog
+const useStyles = makeStyles({
+  root: {
+    marginTop: "20px",
+    marginBottom: "20px",
+  },
+  stepBtn: {
+    background: "#F2F2F2",
+    border: "none",
+    borderRadius: "5px",
+    padding: "20px",
+    justifyContent: "space-evenly",
+    boxShadow: "0px 0px 5px #BFBFBF",
+    "& .MuiStepConnector-root": {
+      display: "none",
+    },
+    "& .MuiStepIcon-root": {
+      fontSize: "1.5rem",
+    },
+    "& .MuiStepLabel-label": {
+      fontSize: "1.2rem",
+      fontWeight: "500",
+      color: "white",
+    },
+  },
+  activeStep: {
+    color: "white",
+    background: "#0077C0",
+    "& .MuiStepIcon-root": {
+      color: "#0077C0",
+    },
+    padding: "10px 30px 10px 30px",
+    borderRadius: "4px",
+  },
+  inactiveStep: {
+    color: "#F2F2F2",
+    background: "#49A5FF",
+    "& .MuiStepIcon-root": {
+      color: "#49A5FF",
+    },
+    padding: "10px 30px 10px 30px",
+    borderRadius: "4px",
+  },
+  totalPoints: {
+    marginRight: "8px",
+    display: "flex",
+    alignItems: "baseline",
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+
+const steps = ["Club Information", "Personal Information", "Final Details"];
 
 export default function MemberInfo() {
   const [page, setPage] = React.useState(0);
@@ -57,87 +154,226 @@ export default function MemberInfo() {
   useEffect(() => {
     dispatch(getMembers());
   }, []);
+
+  // Dialog
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const classes = useStyles();
+
+  const [activeStep, setActiveStep] = useState(0);
+
+  // Go to next step
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  // Go to previous step
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  // Get form component for current step
+  const getStepForm = () => {
+    switch (activeStep) {
+      case 0:
+        return <ClubForm label={'editDetails'}/>;
+      case 1:
+        return <ProfileForm />;
+      case 2:
+        return <FinalDetails />;
+      default:
+        return null;
+    }
+  };
+
+  // Submit form
+  const handleSubmit = () => {
+    console.log("submitted");
+  };
+
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden",borderRadius:'1em' ,marginTop:'2em'}}>
-        <Typography variant="h6" gutterBottom sx={{ width: "25%",
-    borderBottom: "2px solid #B4880B",
-    color: "#003895",alignItems:'center',margin:'1em'}}>
-           Member Details
-          </Typography>
-      <Grid
-        container
-        justifyContent="space-between"
-        spacing={3}
-        style={{ marginTop: "16px" }}
-      >
-        <Grid item xs={6} style={{ textAlign: "left" ,marginLeft:'1em'}}>
-          <TextField
-            id="search"
-            label="Search"
-            variant="outlined"
-            size="small"
-            onChange={handleSearchInputChange}
-          />
+    <>
+      <Paper
+        sx={{
+          width: "100%",
+          overflow: "hidden",
+          borderRadius: "1em",
+          marginTop: "2em",
+        }}>
+        <Typography
+          variant="h6"
+          gutterBottom
+          sx={{
+            width: "25%",
+            borderBottom: "2px solid #B4880B",
+            color: "#003895",
+            alignItems: "center",
+            margin: "1em",
+          }}>
+          Member Details
+        </Typography>
+        <Grid
+          container
+          justifyContent="space-between"
+          spacing={3}
+          style={{ marginTop: "16px" }}>
+          <Grid
+            item
+            xs={6}
+            style={{ textAlign: "left", marginLeft: "1em" }}>
+            <TextField
+              id="search"
+              label="Search"
+              variant="outlined"
+              size="small"
+              onChange={handleSearchInputChange}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-      <TableContainer sx={{ maxHeight: 440 ,marginTop:'1em'}}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Members?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row,index) => {
+        <TableContainer sx={{ maxHeight: 440, marginTop: "1em" }}>
+          <Table
+            stickyHeader
+            aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}>
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Members?.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              ).map((row, index) => {
                 return (
                   <TableRow>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell >{row.id}</TableCell>
+                    <TableCell>{row.id}</TableCell>
                     <TableCell>{row.clubName}</TableCell>
                     <TableCell>{row.clubId}</TableCell>
                     <TableCell>{row.title}</TableCell>
                     <TableCell>{row.fullName}</TableCell>
-                    <TableCell >{row.address}</TableCell>
+                    <TableCell>{row.address}</TableCell>
                     <TableCell>{row.city}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell>{row.phone}</TableCell>
                     <TableCell>{row.spouseName}</TableCell>
-                    <TableCell >{row.dob?.slice(0, 10)}</TableCell>
+                    <TableCell>{row.dob?.slice(0, 10)}</TableCell>
                     <TableCell>{row.gender}</TableCell>
                     <TableCell>{row.occupation}</TableCell>
                     <TableCell>
-                      <Button variant="outlined">
+                      <Button
+                        variant="outlined"
+                        onClick={handleClickOpen}>
                         Edit
                       </Button>
                     </TableCell>
                     <TableCell>
                       <Button variant="outlined">Delete</Button>
                     </TableCell>
-                    
                   </TableRow>
                 );
               })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={Members?.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={Members?.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+      {/* Dialog */}
+      <Dialog
+        maxWidth={"none"}
+        open={open}
+        onClose={handleClose}>
+        <DialogTitle>Edit Member Details</DialogTitle>
+        <DialogContent
+          sx={{
+            flexGrow: 1,
+            width:'100%',
+            width: "1000px",
+            // height: "500px",
+          }}>
+          <div className={classes.root}>
+            <Stepper
+              className={classes.stepBtn}
+              activeStep={activeStep}>
+              {steps.map((step, index) => (
+                <Step
+                  key={step}
+                  className={
+                    activeStep === index
+                      ? classes.activeStep
+                      : classes.inactiveStep
+                  }>
+                  <StepLabel>{step}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+
+            {/* Step content */}
+            <Paper
+              elevation={3}
+              style={{ padding: "20px" }}>
+              {getStepForm()}
+
+              {/* Buttons */}
+              <div
+                style={{
+                  marginTop: "20px",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  style={{ marginRight: "10px" }}>
+                  Back
+                </Button>
+
+                {activeStep === steps.length - 1 ? (
+                  <Button
+                    onClick={handleSubmit}
+                    variant="contained"
+                    color="primary">
+                    Update
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleNext}
+                    variant="contained"
+                    color="primary">
+                    Next
+                  </Button>
+                )}
+              </div>
+            </Paper>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

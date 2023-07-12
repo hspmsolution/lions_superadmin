@@ -51,7 +51,9 @@ const Login = () => {
       memberId: Yup.number()
         .integer("Must be an integer")
         .required("Member Id is required"),
-      password: Yup.string().max(255).required("Password is required"),
+      password: Yup.string()
+        .max(255)
+        .required("Password must be of alphanumeric Hspm@123 min. 8"),
     }),
     onSubmit: (data) => {
       setTimeout(() => {
@@ -83,8 +85,7 @@ const Login = () => {
         color: "#39459b",
         backgroundColor: "rgba(255, 255, 255, 0.3)",
         boxShadow: "inset 0 0 0 1000px rgba(255, 255, 255, 0.1)",
-      }}
-    >
+      }}>
       <Helmet>
         <title> Login </title>
       </Helmet>
@@ -101,27 +102,29 @@ const Login = () => {
           margin: "auto",
           padding: "77px 99px 87px",
           color: "#fff",
-        }}
-      >
+        }}>
         <Container maxWidth="sm">
           <Link to="/">
             <Button
               component="a"
               sx={{ color: "white" }}
-              startIcon={<ArrowBackIcon fontSize="small" />}
-            >
+              startIcon={<ArrowBackIcon fontSize="small" />}>
               Home
             </Button>
           </Link>
-          <form onSubmit={formik.handleSubmit} className={classes.label}>
+          <form
+            onSubmit={formik.handleSubmit}
+            className={classes.label}>
             <Box
               sx={{
                 pb: 1,
                 pt: 3,
                 color: "white",
-              }}
-            >
-              <Typography align="center" color="white" variant="h6">
+              }}>
+              <Typography
+                align="center"
+                color="white"
+                variant="h6">
                 Login with Member Id
               </Typography>
             </Box>
@@ -158,8 +161,7 @@ const Login = () => {
                 fullWidth
                 size="large"
                 type="submit"
-                variant="contained"
-              >
+                variant="contained">
                 Login In Now
               </Button>
             </Box>

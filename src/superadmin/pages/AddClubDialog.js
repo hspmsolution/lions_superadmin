@@ -44,8 +44,7 @@ function AddClubDialog(props) {
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
+        {...other}>
         {value === index && (
           <Box sx={{ p: 3 }}>
             <Typography>{children}</Typography>
@@ -106,18 +105,18 @@ function AddClubDialog(props) {
   // Select
 
   const monthYear = [
-    { id: 1 - 2020, value: "Jan 2020" },
-    { id: 1 - 2020, value: "Feb 2020" },
-    { id: 1 - 2020, value: "Mar 2020" },
-    { id: 1 - 2020, value: "Apr 2020" },
-    { id: 1 - 2020, value: "May 2020" },
-    { id: 1 - 2020, value: "Jun 2020" },
-    { id: 1 - 2020, value: "Jul 2020" },
-    { id: 1 - 2020, value: "Aug 2020" },
-    { id: 1 - 2020, value: "Sep 2020" },
-    { id: 1 - 2020, value: "Oct 2020" },
-    { id: 1 - 2020, value: "Nov 2020" },
-    { id: 1 - 2020, value: "Dec 2020" },
+    { id: 1 - 2023, value: "July 2023" },
+    { id: 1 - 2023, value: "August 2023" },
+    { id: 1 - 2023, value: "September 2023" },
+    { id: 1 - 2023, value: "October 2023" },
+    { id: 1 - 2023, value: "November 2023" },
+    { id: 1 - 2020, value: "December 2023" },
+    { id: 1 - 2020, value: "January 2024" },
+    { id: 1 - 2020, value: "February 2024" },
+    { id: 1 - 2020, value: "March 2024" },
+    { id: 1 - 2020, value: "April 2024" },
+    { id: 1 - 2020, value: "May 2024" },
+    { id: 1 - 2020, value: "June 2024" },
   ];
 
   const [selectValue, setSelectValue] = React.useState("");
@@ -132,12 +131,10 @@ function AddClubDialog(props) {
         open={props.open}
         onClose={props.close}
         aria-labelledby="responsive-dialog-title"
-        maxWidth={"none"}
-      >
+        maxWidth={"none"}>
         <DialogTitle
           id="responsive-dialog-title"
-          align="center"
-        >
+          align="center">
           Heading
         </DialogTitle>
         <DialogContent>
@@ -147,29 +144,24 @@ function AddClubDialog(props) {
                 flexGrow: 1,
                 maxWidth: "1000px",
                 height: "500px",
-              }}
-            >
+              }}>
               <Grid
                 container
                 spacing={2}
-                padding={"1rem"}
-              >
+                padding={"1rem"}>
                 <Grid
                   item
                   lg={4}
                   xs={12}
-                  spacing={2}
-                >
+                  spacing={2}>
                   <Grid item>
                     <Paper
                       elevation={3}
-                      sx={{ padding: "0.5rem", mb: "1rem" }}
-                    >
+                      sx={{ padding: "0.5rem", mb: "1rem" }}>
                       <Typography
                         variant="3"
                         align={"center"}
-                        display={"block"}
-                      >
+                        display={"block"}>
                         Name
                       </Typography>
 
@@ -183,12 +175,10 @@ function AddClubDialog(props) {
                                   "&:last-child td, &:last-child th": {
                                     border: 0,
                                   },
-                                }}
-                              >
+                                }}>
                                 <TableCell
                                   component="th"
-                                  scope="row"
-                                >
+                                  scope="row">
                                   {row.name}
                                 </TableCell>
                                 <TableCell
@@ -197,8 +187,7 @@ function AddClubDialog(props) {
                                     display: "flex",
                                     flexDirection: "row",
                                     alignItems: "end",
-                                  }}
-                                >
+                                  }}>
                                   {row.stars}
                                   {index === rows01.length - 1 ? (
                                     ""
@@ -216,13 +205,11 @@ function AddClubDialog(props) {
                   <Grid item>
                     <Paper
                       elevation={3}
-                      sx={{ padding: "0.5rem" }}
-                    >
+                      sx={{ padding: "0.5rem" }}>
                       <Typography
                         variant="3"
                         align={"center"}
-                        display={"block"}
-                      >
+                        display={"block"}>
                         Info
                       </Typography>
 
@@ -236,18 +223,18 @@ function AddClubDialog(props) {
                                   "&:last-child td, &:last-child th": {
                                     border: 0,
                                   },
-                                }}
-                              >
+                                }}>
                                 <TableCell
                                   component="th"
-                                  scope="row"
-                                >
+                                  scope="row">
                                   {row.name}
                                 </TableCell>
                                 <TableCell
                                   align="right"
-                                  sx={{ display: "flex", flexDirection: "row" }}
-                                >
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                  }}>
                                   {row.value}
                                 </TableCell>
                               </TableRow>
@@ -261,12 +248,10 @@ function AddClubDialog(props) {
                 <Grid
                   item
                   lg={8}
-                  xs={12}
-                >
+                  xs={12}>
                   <Paper
                     elevation={3}
-                    sx={{ padding: "0.5rem", height: "100%" }}
-                  >
+                    sx={{ padding: "0.5rem", height: "100%" }}>
                     <Box sx={{ width: "100%" }}>
                       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                         <Tabs
@@ -274,8 +259,7 @@ function AddClubDialog(props) {
                           onChange={handleChange}
                           variant="scrollable"
                           scrollButtons={false}
-                          aria-label="basic tabs example"
-                        >
+                          aria-label="basic tabs example">
                           <Tab
                             label="Activity Reporting"
                             {...a11yProps(0)}
@@ -296,14 +280,12 @@ function AddClubDialog(props) {
                       </Box>
                       <TabPanel
                         value={value}
-                        index={0}
-                      >
+                        index={0}>
                         Activity Reporting
                       </TabPanel>
                       <TabPanel
                         value={value}
-                        index={1}
-                      >
+                        index={1}>
                         <FormControl fullWidth>
                           <InputLabel id="demo-simple-select-label">
                             Search by month and Year
@@ -313,8 +295,7 @@ function AddClubDialog(props) {
                             id="demo-simple-select"
                             value={selectValue}
                             label="Search by month and Year"
-                            onChange={handleChangeSelect}
-                          >
+                            onChange={handleChangeSelect}>
                             {monthYear.map((item) => (
                               <MenuItem value={item.id}>{item.value}</MenuItem>
                             ))}
@@ -323,14 +304,12 @@ function AddClubDialog(props) {
                       </TabPanel>
                       <TabPanel
                         value={value}
-                        index={2}
-                      >
+                        index={2}>
                         Event Reporting
                       </TabPanel>
                       <TabPanel
                         value={value}
-                        index={3}
-                      >
+                        index={3}>
                         News Reporting
                       </TabPanel>
                     </Box>
@@ -343,8 +322,7 @@ function AddClubDialog(props) {
         <DialogActions>
           <Button
             onClick={props.close}
-            autoFocus
-          >
+            autoFocus>
             Close
           </Button>
         </DialogActions>
