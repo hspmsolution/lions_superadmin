@@ -15,6 +15,7 @@ import UpdatePrivacy from "./superadmin/pages/UpdatePrivacy";
 import Slider from "./superadmin/pages/Slider";
 import Contact from "./superadmin/pages/Contact";
 import DownloadResource from "./superadmin/pages/DownloadResource";
+import RegionZone from "./superadmin/pages/RegionZone";
 export default function Router() {
   const isAdmin = useSelector((state) => state.auth.admin);
   const role = useSelector((state) => state.auth.role);
@@ -30,7 +31,12 @@ export default function Router() {
       },
       {
         path: "*",
-        element: <Navigate to="/404" replace />,
+        element: (
+          <Navigate
+            to="/404"
+            replace
+          />
+        ),
       },
       // {
       //   path: "/dashboard",
@@ -109,6 +115,10 @@ export default function Router() {
                 {
                   path: "slider",
                   element: <Slider />,
+                },
+                {
+                  path: "alladminreport",
+                  element: <RegionZone />,
                 },
                 {
                   path: "contact",

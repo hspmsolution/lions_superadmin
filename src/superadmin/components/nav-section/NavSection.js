@@ -86,7 +86,12 @@ export default function NavSection({ ...other }) {
       // icon: icon("ic_slider"),
       isClick: false,
     },
-
+    {
+      title: "All Admin Reporting",
+      path: "/superadmin/dashboard/alladminreport",
+      // icon: icon("ic_contact"),
+      isClick: false,
+    },
     {
       title: "Contact Enquiries",
       path: "/superadmin/dashboard/contact",
@@ -118,7 +123,6 @@ export default function NavSection({ ...other }) {
               onClick={() => {
                 handleClick(item.title);
               }}
-              
             />
             {item.subItems && item.isClick && (
               <List
