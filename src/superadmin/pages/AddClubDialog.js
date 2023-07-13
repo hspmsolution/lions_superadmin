@@ -80,7 +80,7 @@ function AddClubDialog(props) {
 
   const rows01 = [
     createData01("Reports:", 0),
-    createData01("Activities:", 0),
+    createData01("Activities Count:", 0),
     createData01("Total Amount Spent", 0),
   ];
 
@@ -95,8 +95,6 @@ function AddClubDialog(props) {
     createData02("Club Name:", 0),
     createData02("Club Id:", 0),
     createData02("Last Update", 0),
-    createData02("Report Submitted", 0),
-    createData02("Activity Reported", 0),
     createData02("News Reported", 0),
     createData02("Event Reported", 0),
     createData02("Total Member", 0),
@@ -105,18 +103,18 @@ function AddClubDialog(props) {
   // Select
 
   const monthYear = [
-    { id: 1 - 2023, value: "July 2023" },
-    { id: 1 - 2023, value: "August 2023" },
-    { id: 1 - 2023, value: "September 2023" },
-    { id: 1 - 2023, value: "October 2023" },
-    { id: 1 - 2023, value: "November 2023" },
-    { id: 1 - 2020, value: "December 2023" },
-    { id: 1 - 2020, value: "January 2024" },
-    { id: 1 - 2020, value: "February 2024" },
-    { id: 1 - 2020, value: "March 2024" },
-    { id: 1 - 2020, value: "April 2024" },
-    { id: 1 - 2020, value: "May 2024" },
-    { id: 1 - 2020, value: "June 2024" },
+    { value: "July 2023" },
+    { value: "August 2023" },
+    { value: "September 2023" },
+    { value: "October 2023" },
+    { value: "November 2023" },
+    { value: "December 2023" },
+    { value: "January 2024" },
+    { value: "February 2024" },
+    { value: "March 2024" },
+    { value: "April 2024" },
+    { value: "May 2024" },
+    { value: "June 2024" },
   ];
 
   const [selectValue, setSelectValue] = React.useState("");
@@ -142,7 +140,7 @@ function AddClubDialog(props) {
             <Box
               sx={{
                 flexGrow: 1,
-                maxWidth: "1000px",
+                width: "850px",
                 height: "500px",
               }}>
               <Grid
@@ -189,10 +187,10 @@ function AddClubDialog(props) {
                                     alignItems: "end",
                                   }}>
                                   {row.stars}
-                                  {index === rows01.length - 1 ? (
-                                    ""
-                                  ) : (
+                                  {index === 0 ? (
                                     <StarIcon sx={{ color: "orange" }} />
+                                  ) : (
+                                    ""
                                   )}
                                 </TableCell>
                               </TableRow>
@@ -259,7 +257,8 @@ function AddClubDialog(props) {
                           onChange={handleChange}
                           variant="scrollable"
                           scrollButtons={false}
-                          aria-label="basic tabs example">
+                          aria-label="basic tabs example"
+                          >
                           <Tab
                             label="Activity Reporting"
                             {...a11yProps(0)}
@@ -268,10 +267,10 @@ function AddClubDialog(props) {
                             label=" Admin Reporting"
                             {...a11yProps(1)}
                           />
-                          <Tab
+                          {/* <Tab
                             label="Event Reporting"
                             {...a11yProps(2)}
-                          />
+                          /> */}
                           <Tab
                             label="News Reporting"
                             {...a11yProps(3)}
@@ -296,17 +295,17 @@ function AddClubDialog(props) {
                             value={selectValue}
                             label="Search by month and Year"
                             onChange={handleChangeSelect}>
-                            {monthYear.map((item) => (
-                              <MenuItem value={item.id}>{item.value}</MenuItem>
+                            {monthYear.map((item, index) => (
+                              <MenuItem value={index}>{item.value}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
                       </TabPanel>
-                      <TabPanel
+                      {/* <TabPanel
                         value={value}
                         index={2}>
                         Event Reporting
-                      </TabPanel>
+                      </TabPanel> */}
                       <TabPanel
                         value={value}
                         index={3}>
