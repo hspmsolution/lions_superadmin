@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
   button: {
     "&.MuiButton-root": {
-      backgroundColor: "transparent",
+      backgroundColor: "primary",
       border: "1px solid white",
       "&:hover, &:active": {
         color: "white",
@@ -76,7 +76,9 @@ const Login = () => {
   return (
     <Box
       sx={{
-        backgroundImage: 'url("/assets/img/loginPage.jpg")',
+        // backgroundImage: 'url("/assets/img/activity.png")',
+        backgroundImage:
+          'url("https://lionsdistrict317f.org/api/static/assets/1689239494654-loginpage.png")',
         backgroundSize: "cover",
         display: "flex",
         minHeight: "100vh",
