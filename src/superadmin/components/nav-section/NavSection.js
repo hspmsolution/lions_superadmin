@@ -10,7 +10,14 @@ import { StyledNavItem, StyledNavItemIcon } from "./styles";
 import SvgColor from "../svg-color";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
-
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import Groups2Icon from "@mui/icons-material/Groups2";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
+import CollectionsIcon from "@mui/icons-material/Collections";
+import PanoramaHorizontalSelectIcon from "@mui/icons-material/PanoramaHorizontalSelect";
+import NoteAltIcon from "@mui/icons-material/NoteAlt";
+import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 // ----------------------------------------------------------------------
 
 const icon = (name) => (
@@ -30,25 +37,25 @@ export default function NavSection({ ...other }) {
     {
       title: "dashboard",
       path: "/superadmin/dashboard/app",
-      icon: icon("ic_dashboard"),
+      icon: <DashboardIcon />,
       isClick: false,
     },
     {
       title: "Clubs",
       path: "/superadmin/dashboard/clubs",
-      // icon: icon("ic_clubs"),
+      icon: <ApartmentIcon />,
       isClick: false,
     },
     {
       title: "Members",
       path: "/superadmin/dashboard/members",
-      // icon: icon("ic_member"),
+      icon: <Groups2Icon />,
       isClick: false,
     },
     {
       title: "General",
       path: null,
-      // icon: icon("ic_general"),
+      icon: <FormatAlignJustifyIcon />,
       isClick: false,
       subItems: [
         {
@@ -77,25 +84,25 @@ export default function NavSection({ ...other }) {
     {
       title: "Gallery",
       path: "/superadmin/dashboard/gallery",
-      // icon: icon("ic_gallery"),
+      icon: <CollectionsIcon />,
       isClick: false,
     },
     {
       title: "Slider",
       path: "/superadmin/dashboard/slider",
-      // icon: icon("ic_slider"),
+      icon: <PanoramaHorizontalSelectIcon />,
       isClick: false,
     },
     {
       title: "All Admin Reporting",
       path: "/superadmin/dashboard/alladminreport",
-      // icon: icon("ic_contact"),
+      icon: <NoteAltIcon />,
       isClick: false,
     },
     {
       title: "Contact Enquiries",
       path: "/superadmin/dashboard/contact",
-      // icon: icon("ic_contact"),
+      icon: <ContactPhoneIcon />,
       isClick: false,
     },
   ];
@@ -160,9 +167,12 @@ function NavItem({ item, onClick }) {
       sx={
         !subItems && {
           "&.active": {
-            color: "text.primary",
-            bgcolor: "action.selected",
+            backgroundColor: "rgba(255, 255, 255, 1)",
+            color: "rgb(29, 61, 124)",
             fontWeight: "fontWeightBold",
+          },
+          "&.active .css-7llk8r-MuiListItemIcon-root": {
+            color: "rgb(29, 61, 124)",
           },
         }
       }>
