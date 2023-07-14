@@ -104,6 +104,10 @@ export default function Router() {
                 ,
                 { path: "privacy", element: <UpdatePrivacy /> },
                 {
+                  path: "Download",
+                  element: <DownloadResource />,
+                },
+                {
                   path: "activityType",
                   element: <AddActivity />,
                 },

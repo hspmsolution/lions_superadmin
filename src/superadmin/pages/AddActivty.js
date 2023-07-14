@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
@@ -7,6 +7,7 @@ import {
   Typography,
   MenuItem,
   Box,
+  Paper,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Activities from "./Activities";
@@ -91,13 +92,21 @@ export default function AddActivity() {
     e.preventDefault();
 
     dispatch(addActivity(activity));
-   setActivity(activityDetail);
+    setActivity(activityDetail);
   };
   return (
     <>
       <form onSubmit={submitdetails}>
-        <Box bgcolor="white" p={3} borderRadius={4}>
-          <Typography variant="h6" gutterBottom className={classes.heading}>
+        <Box
+          bgcolor="white"
+          p={3}
+          borderRadius={4}
+          component={Paper}
+          elevation={3}>
+          <Typography
+            variant="h6"
+            gutterBottom
+            className={classes.heading}>
             Add Activity
           </Typography>
           <Box
@@ -105,16 +114,14 @@ export default function AddActivity() {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
-            }}
-          >
+            }}>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 marginTop: "1em",
                 width: "40%",
-              }}
-            >
+              }}>
               <Typography className={classes.title}>
                 Enter Activity Type
               </Typography>
@@ -129,10 +136,11 @@ export default function AddActivity() {
                   dispatch(getSubtype(e.target.value));
                   handleChange(e);
                 }}
-                className={classes.label}
-              >
+                className={classes.label}>
                 {type.map((getType, index) => (
-                  <MenuItem key={index} value={getType.type}>
+                  <MenuItem
+                    key={index}
+                    value={getType.type}>
                     {getType.type}
                   </MenuItem>
                 ))}
@@ -144,8 +152,7 @@ export default function AddActivity() {
                 flexDirection: "column",
                 marginTop: "1em",
                 width: "40%",
-              }}
-            >
+              }}>
               <Typography className={classes.title}>
                 Enter SubActivity Type
               </Typography>
@@ -160,10 +167,11 @@ export default function AddActivity() {
                   dispatch(getCategory(e.target.value));
                   handleChange(e);
                 }}
-                className={classes.label}
-              >
+                className={classes.label}>
                 {subType.map((type, index) => (
-                  <MenuItem key={index} value={type.subtype}>
+                  <MenuItem
+                    key={index}
+                    value={type.subtype}>
                     {type.subtype}
                   </MenuItem>
                 ))}
@@ -175,16 +183,14 @@ export default function AddActivity() {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
-            }}
-          >
+            }}>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 marginTop: "1em",
                 width: "40%",
-              }}
-            >
+              }}>
               <Typography className={classes.title}>
                 Enter Category Type
               </Typography>
@@ -196,10 +202,11 @@ export default function AddActivity() {
                 label="Activity Category Type"
                 value={activity.activityCategory}
                 onChange={handleChange}
-                className={classes.label}
-              >
+                className={classes.label}>
                 {category.map((cat, index) => (
-                  <MenuItem key={index} value={cat.category}>
+                  <MenuItem
+                    key={index}
+                    value={cat.category}>
                     {cat.category}
                   </MenuItem>
                 ))}
@@ -211,8 +218,7 @@ export default function AddActivity() {
                 flexDirection: "column",
                 marginTop: "1em",
                 width: "40%",
-              }}
-            >
+              }}>
               <Typography className={classes.title}>
                 Enter Placeholder
               </Typography>
@@ -233,16 +239,14 @@ export default function AddActivity() {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
-            }}
-          >
+            }}>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 marginTop: "1em",
                 width: "40%",
-              }}
-            >
+              }}>
               <Typography className={classes.title}>
                 Enter Beneficiaries
               </Typography>
@@ -264,8 +268,7 @@ export default function AddActivity() {
                 flexDirection: "column",
                 marginTop: "1em",
                 width: "40%",
-              }}
-            >
+              }}>
               <Typography className={classes.title}>Enter Star</Typography>
               <TextField
                 required
@@ -281,8 +284,13 @@ export default function AddActivity() {
             </Box>
           </Box>
 
-          <Grid container justifyContent="center">
-            <Button type="submit" variant="contained" className={classes.btn} >
+          <Grid
+            container
+            justifyContent="center">
+            <Button
+              type="submit"
+              variant="contained"
+              className={classes.btn}>
               Add Activity
             </Button>
           </Grid>
