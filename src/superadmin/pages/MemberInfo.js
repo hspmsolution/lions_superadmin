@@ -238,7 +238,7 @@ export default function MemberInfo() {
             />
           </Grid>
         </Grid>
-        <TableContainer sx={{ maxHeight: 440, marginTop: "1em" }}>
+        <TableContainer sx={{  marginTop: "1em" }}>
           <Table
             stickyHeader
             aria-label="sticky table">
@@ -301,6 +301,8 @@ export default function MemberInfo() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+
+
       {/* Dialog */}
       <Dialog
         maxWidth={"none"}
