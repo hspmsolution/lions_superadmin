@@ -5,85 +5,107 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { Box, MenuItem, Button } from "@mui/material";
 
-
 const useStyles = makeStyles({
   Btn: {
     "& .css-12vebo6-MuiButtonBase-root-MuiButton-root": {
-      borderRadius: "0px 8px 0px 8px",
+      borderRadius: "0.5rem",
       padding: "10px 16px 10px 16px",
     },
     "& .css-731omg-MuiButtonBase-root-MuiButton-root": {
-      borderRadius: "0px 8px 0px 8px",
+      borderRadius: "0.5rem",
       padding: "10px 16px 10px 16px",
     },
-  }
+  },
 });
 
-
 const gender = [
-    { id: 1, name: "Male" },
-    { id: 2, name: "Female" },
-    { id: 3, name: "Transgender" },
-  ];
-  
-export default function DownloadResource()
- {
-    const classes=useStyles();
-    
-    const handleChange = (e) => {
-        console.log("change");
-      };
-    const submitDetails = (e) => {
-        e.preventDefault();}
+  { id: 1, name: "Male" },
+  { id: 2, name: "Female" },
+  { id: 3, name: "Transgender" },
+];
+
+export default function DownloadResource() {
+  const classes = useStyles();
+
+  const handleChange = (e) => {
+    console.log("change");
+  };
+  const submitDetails = (e) => {
+    e.preventDefault();
+  };
   return (
-    <Box sx={{ margin: "1em",borderRadius:'2em'}}>
-      <form onSubmit={submitDetails}>
-        <Box
-          bgcolor="white"
-          p={4}
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          mx="auto"
-          borderRadius="5px"
+    <>
+      <Box sx={{ margin: "1em", borderRadius: "2em" }}>
+        <form onSubmit={submitDetails}>
+          <Box
+            bgcolor="white"
+            p={4}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            mx="auto"
+            borderRadius="5px"
+            sx={{
+              backgroundColor: "White",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              margin: "1em",
+              borderRadius: "2em",
+            }}>
+            <Typography
+              variant="h5"
+              gutterBottom
+              sx={{
+                width: "25%",
+                borderBottom: "2px solid #B4880B",
+                color: "#003895",
+                alignItems: "center",
+                margin: "1em",
+              }}>
+              Download Resources
+            </Typography>
 
-          sx={{
-          backgroundColor:'White',
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat", margin: "1em",borderRadius:'2em',}}
-        >
-          <Typography variant="h5" gutterBottom sx={{ width: "25%",
-    borderBottom: "2px solid #B4880B",
-    color: "#003895",alignItems:'center',margin:'1em'}}>Download Resources</Typography>
-
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                required
-                id="firstName"
-                //value={user.firstName}
-                name="firstName"
-                label="Enter First Name"
-                fullWidth
-                autoComplete="given-name"
-                onChange={handleChange}
-                variant="standard"
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                required
-                id="middleName"
-                //value={user.middleName}
-                name="middleName"
-                label="Enter Middle Name"
-                fullWidth
-                onChange={handleChange}
-                variant="standard"
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              container
+              spacing={4}>
+              <Grid
+                item
+                xs={12}
+                sm={4}>
+                <TextField
+                  type="text"
+                  required
+                  id="resourceName"
+                  //value={user.firstName}
+                  name="resourceName"
+                  label="Enter Resource Name"
+                  fullWidth
+                  autoComplete="given-name"
+                  onChange={handleChange}
+                  variant="standard"
+                />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={4}>
+                <TextField
+                  type="file"
+                  required
+                  id="uplaodFile"
+                  //value={user.middleName}
+                  name="uplaodFile"
+                  label="Uplaod File"
+                  fullWidth
+                  onChange={handleChange}
+                  variant="standard"
+                />
+              </Grid>
+              {/* <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="lastName"
@@ -95,7 +117,10 @@ export default function DownloadResource()
                 variant="standard"
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="email"
@@ -108,7 +133,10 @@ export default function DownloadResource()
                 variant="standard"
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="phone"
@@ -121,7 +149,10 @@ export default function DownloadResource()
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="designation"
@@ -133,7 +164,10 @@ export default function DownloadResource()
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="clubName"
@@ -146,7 +180,10 @@ export default function DownloadResource()
               />
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="dob"
@@ -162,7 +199,10 @@ export default function DownloadResource()
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="address1"
@@ -174,7 +214,10 @@ export default function DownloadResource()
                 variant="standard"
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="address2"
@@ -187,7 +230,10 @@ export default function DownloadResource()
               />
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 id="city"
                 name="city"
@@ -199,19 +245,25 @@ export default function DownloadResource()
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="state"
                 name="state"
-               // value={user.state}
+                // value={user.state}
                 label="Enter state"
                 fullWidth
                 variant="standard"
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 required
                 id="postalCode"
@@ -223,9 +275,12 @@ export default function DownloadResource()
                 onChange={handleChange}
                 variant="standard"
               />
-            </Grid>
+            </Grid> */}
 
-            <Grid item xs={12} sm={4}>
+              {/* <Grid
+              item
+              xs={12}
+              sm={4}>
               <TextField
                 id="gender"
                 select
@@ -233,38 +288,132 @@ export default function DownloadResource()
                 //value={user.gender}
                 fullWidth
                 name="gender"
-                onChange={handleChange}
-              >
+                onChange={handleChange}>
                 {gender?.map((option) => (
-                  <MenuItem key={option.id} value={option.name}>
+                  <MenuItem
+                    key={option.id}
+                    value={option.name}>
                     {option.name}
                   </MenuItem>
                 ))}
               </TextField>
+            </Grid> */}
             </Grid>
-          </Grid>
-        
-          <Grid
-            container
-            justifyContent="center"
-            marginTop={2}
-            className={classes.Btn}
-          >
-            <Grid item xs={2}>
-              <Button type="submit" variant="contained" color="primary">
-                Submit
-              </Button>
-            </Grid>
-            <Grid item xs={2}>
-              <Box marginLeft={3}>
-                <Button type="button" variant="outlined">
-                  Cancel
+
+            <Grid
+              container
+              justifyContent="center"
+              marginTop={4}
+              className={classes.Btn}>
+              <Grid
+                item
+                xs={2}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary">
+                  Submit
                 </Button>
-              </Box>
+              </Grid>
+              <Grid
+                item
+                xs={2}>
+                <Box marginLeft={3}>
+                  <Button
+                    type="button"
+                    variant="outlined">
+                    Cancel
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      </form>
-    </Box>
+          </Box>
+        </form>
+      </Box>
+
+      <Box sx={{ margin: "1em", borderRadius: "2em" }}>
+        <form onSubmit={submitDetails}>
+          <Box
+            bgcolor="white"
+            p={4}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            mx="auto"
+            borderRadius="5px"
+            sx={{
+              backgroundColor: "White",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              margin: "1em",
+              borderRadius: "2em",
+            }}>
+            <Typography
+              variant="h5"
+              gutterBottom
+              sx={{
+                width: "25%",
+                borderBottom: "2px solid #B4880B",
+                color: "#003895",
+                alignItems: "center",
+                margin: "1em",
+              }}>
+              International Resources
+            </Typography>
+
+            <Grid
+              container
+              spacing={4}>
+              <Grid
+                item
+                xs={12}
+                sm={4}>
+                <TextField
+                  type="text"
+                  required
+                  id="resourceLink"
+                  //value={user.firstName}
+                  name="resourceLink"
+                  label="Enter Resource Link"
+                  fullWidth
+                  autoComplete="given-name"
+                  onChange={handleChange}
+                  variant="standard"
+                />
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              justifyContent="center"
+              marginTop={4}
+              className={classes.Btn}>
+              <Grid
+                item
+                xs={2}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary">
+                  Submit
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={2}>
+                <Box marginLeft={3}>
+                  <Button
+                    type="button"
+                    variant="outlined">
+                    Cancel
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </form>
+      </Box>
+    </>
   );
 }

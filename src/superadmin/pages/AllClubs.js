@@ -98,7 +98,7 @@ export default function AllClubs() {
             />
           </Grid>
         </Grid>
-        <TableContainer sx={{ maxHeight: 440, marginTop: "1em" }}>
+        <TableContainer sx={{ marginTop: "1em" }}>
           <Table
             stickyHeader
             aria-label="sticky table">
