@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Container,
   Grid,
@@ -8,9 +9,13 @@ import {
   Stepper,
   Step,
   StepLabel,
+  MenuItem,
 } from "@mui/material";
+import { UPDATE_MEMBER_INFO } from "../constants/actionTypes";
 
 const ProfileForm = () => {
+  const memberInfo = useSelector((state) => state.members.memberInfo);
+  const dispatch = useDispatch();
   return (
     <>
       <form>
@@ -23,50 +28,81 @@ const ProfileForm = () => {
           }}
         >
           <Box
-            sx={{ display: "flex", flexDirection: "column", marginTop: "1em",width:'30%' }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "1em",
+              width: "30%",
+            }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              First Name
-            </Typography>
             <TextField
               required
               type="text"
-              id="fname"
-              name="fname"
+              id="firstName"
+              label="First Name"
+              name="firstName"
               fullWidth
               autoComplete="given-name"
               variant="outlined"
+              value={memberInfo.firstName}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "firstName", value: e.target.value },
+                });
+              }}
             />
-          </Box>{" "}
+          </Box>
           <Box
-            sx={{ display: "flex", flexDirection: "column", marginTop: "1em",width:'30%' }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "1em",
+              width: "30%",
+            }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              Middle Name
-            </Typography>
             <TextField
+              required
               type="text"
               id="middleName"
+              label="Middle Name"
               name="middleName"
               fullWidth
-              autoComplete="given-name"
+              autoComplete="additional-name"
               variant="outlined"
+              value={memberInfo.middleName}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "middleName", value: e.target.value },
+                });
+              }}
             />
-          </Box>{" "}
+          </Box>
           <Box
-            sx={{ display: "flex", flexDirection: "column", marginTop: "1em" ,width:'30%'}}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "1em",
+              width: "30%",
+            }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              Last Name
-            </Typography>
             <TextField
               required
               type="text"
-              id="lName"
-              name="lName"
+              id="lastName"
+              label="Last Name"
+              name="lastName"
               fullWidth
-              autoComplete="given-name"
+              autoComplete="family-name"
               variant="outlined"
+              value={memberInfo.lastName}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "lastName", value: e.target.value },
+                });
+              }}
             />
           </Box>
         </Box>
@@ -78,70 +114,87 @@ const ProfileForm = () => {
             width: "100%",
           }}
         >
-            <Box
+          <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              marginTop: "1em",width:'30%'
-             
+              marginTop: "1em",
+              width: "30%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              Email ID
-            </Typography>
             <TextField
               required
               type="email"
               id="email"
+              label="Email-Id"
               name="email"
               fullWidth
+              autoComplete="email"
               variant="outlined"
+              value={memberInfo.email}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "email", value: e.target.value },
+                });
+              }}
             />
           </Box>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              marginTop: "1em",width:'30%'
-             
+              marginTop: "1em",
+              width: "30%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              Contact No
-            </Typography>
             <TextField
               required
               type="tel"
-              id="contact"
-              name="contact"
+              id="tel"
+              label="Mobile Number"
+              name="tel"
               fullWidth
+              autoComplete="tel"
               variant="outlined"
+              value={memberInfo.phone}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "phone", value: e.target.value },
+                });
+              }}
             />
           </Box>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              marginTop: "1em",width:'30%'
-             
+              marginTop: "1em",
+              width: "30%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              Select DOB
-            </Typography>
             <TextField
               required
               type="date"
-              id="dob"
+              id="date"
+              label="Date of Birth"
               name="dob"
               fullWidth
-              autoComplete="given-name"
+              autoComplete="bday"
               variant="outlined"
+              value={memberInfo.dob}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "dob", value: e.target.value },
+                });
+              }}
             />
-          </Box>         
           </Box>
+        </Box>
 
-          <Box
+        <Box
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -149,69 +202,90 @@ const ProfileForm = () => {
             width: "100%",
           }}
         >
-           
-            <Box
+          <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              marginTop: "1em",width:'30%'
-             
+              marginTop: "1em",
+              width: "30%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              Enter Spouse Name
-            </Typography>
             <TextField
-              required
               type="text"
-              id="spouse"
-              name="spouse"
+              id="spouseName"
+              label=" Spouse Name"
+              name="spouseName"
               fullWidth
               variant="outlined"
+              value={memberInfo.spouseName}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "spouseName", value: e.target.value },
+                });
+              }}
             />
           </Box>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              marginTop: "1em",width:'30%'
-             
+              marginTop: "1em",
+              width: "30%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              Select Gender
-            </Typography>
             <TextField
               required
-              select
-              id="Gender"
+              id="gender"
+              label="Gender"
               name="gender"
               fullWidth
+              select
               variant="outlined"
-            />
+              value={memberInfo.gender}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "gender", value: e.target.value },
+                });
+              }}
+            >
+              <MenuItem key={"Male"} value={"Male"}>
+                Male
+              </MenuItem>
+              <MenuItem key={"Female"} value={"Female"}>
+                Female
+              </MenuItem>
+              <MenuItem key={"Transgender"} value={"Transgender"}>
+                Transgender
+              </MenuItem>
+            </TextField>
           </Box>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              marginTop: "1em",width:'30%'
-             
+              marginTop: "1em",
+              width: "30%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              Select Occupation
-            </Typography>
             <TextField
-              required
-              select
+              type="text"
               id="occupation"
+              label="occupation"
               name="occupation"
               fullWidth
               variant="outlined"
+              value={memberInfo.occupation}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "occupation", value: e.target.value },
+                });
+              }}
             />
-          </Box>         
           </Box>
-       
+        </Box>
       </form>
     </>
   );

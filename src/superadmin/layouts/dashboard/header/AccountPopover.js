@@ -164,7 +164,7 @@ export default function AccountPopover() {
         <MenuItem
           onClick={() => {
             dispatch({ type: LOGOUT });
-            navigate("/");
+            navigate("/superadmin");
           }}
           sx={{ m: 1 }}>
           Logout

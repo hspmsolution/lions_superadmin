@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { Button, Grid, TextField, Typography, Box } from "@mui/material";
@@ -21,11 +22,16 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import ClubActivities from "./ClubActivities";
+import ClubNews from "./ClubNews";
+import { getClubNews } from "../../actions/clubs";
 
 function AddClubDialog(props) {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
+  const dispatch = useDispatch();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const clubInfo = useSelector((state) => state.clubs?.clubInfo);
 
   // const handleClickOpen = () => {
   //   setOpen(true);
@@ -44,7 +50,8 @@ function AddClubDialog(props) {
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
-        {...other}>
+        {...other}
+      >
         {value === index && (
           <Box sx={{ p: 3 }}>
             <Typography>{children}</Typography>
@@ -79,9 +86,9 @@ function AddClubDialog(props) {
   }
 
   const rows01 = [
-    createData01("Reports:", 0),
-    createData01("Activities Count:", 0),
-    createData01("Total Amount Spent", 0),
+    createData01("Admin Reports:", clubInfo?.adminPoint),
+    createData01("Activities Count:", clubInfo?.activityCount),
+    createData01("Total Amount Spent", clubInfo?.totalExpense),
   ];
 
   function createData02(name, value) {
@@ -92,12 +99,11 @@ function AddClubDialog(props) {
   }
 
   const rows02 = [
-    createData02("Club Name:", 0),
-    createData02("Club Id:", 0),
-    createData02("Last Update", 0),
-    createData02("News Reported", 0),
-    createData02("Event Reported", 0),
-    createData02("Total Member", 0),
+    createData02("Club Name:", clubInfo?.clubName),
+    createData02("Club Id:", clubInfo?.clubId),
+    createData02("Last Update", clubInfo?.lastupdated?.slice(0, 10)),
+    createData02("News Reported", clubInfo?.totalNews),
+    createData02("Total Member", clubInfo?.totalMembers),
   ];
 
   // Select
@@ -129,11 +135,10 @@ function AddClubDialog(props) {
         open={props.open}
         onClose={props.close}
         aria-labelledby="responsive-dialog-title"
-        maxWidth={"none"}>
-        <DialogTitle
-          id="responsive-dialog-title"
-          align="center">
-          Heading
+        maxWidth={"none"}
+      >
+        <DialogTitle id="responsive-dialog-title" align="center">
+          {clubInfo?.clubName}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -142,41 +147,33 @@ function AddClubDialog(props) {
                 flexGrow: 1,
                 width: "850px",
                 height: "500px",
-              }}>
-              <Grid
-                container
-                spacing={2}
-                padding={"1rem"}>
-                <Grid
-                  item
-                  lg={4}
-                  xs={12}
-                  spacing={2}>
+              }}
+            >
+              <Grid container spacing={2} padding={"1rem"}>
+                <Grid item lg={4} xs={12} spacing={2}>
                   <Grid item>
-                    <Paper
-                      elevation={3}
-                      sx={{ padding: "0.5rem", mb: "1rem" }}>
+                    <Paper elevation={3} sx={{ padding: "0.5rem", mb: "1rem" }}>
                       <Typography
                         variant="3"
                         align={"center"}
-                        display={"block"}>
+                        display={"block"}
+                      >
                         Name
                       </Typography>
 
                       <TableContainer component={Paper}>
                         <Table aria-label="simple table">
                           <TableBody>
-                            {rows01.map((row, index) => (
+                            {rows01?.map((row, index) => (
                               <TableRow
                                 key={row.name}
                                 sx={{
                                   "&:last-child td, &:last-child th": {
                                     border: 0,
                                   },
-                                }}>
-                                <TableCell
-                                  component="th"
-                                  scope="row">
+                                }}
+                              >
+                                <TableCell component="th" scope="row">
                                   {row.name}
                                 </TableCell>
                                 <TableCell
@@ -185,7 +182,8 @@ function AddClubDialog(props) {
                                     display: "flex",
                                     flexDirection: "row",
                                     alignItems: "end",
-                                  }}>
+                                  }}
+                                >
                                   {row.stars}
                                   {index === 0 ? (
                                     <StarIcon sx={{ color: "orange" }} />
@@ -201,30 +199,28 @@ function AddClubDialog(props) {
                     </Paper>
                   </Grid>
                   <Grid item>
-                    <Paper
-                      elevation={3}
-                      sx={{ padding: "0.5rem" }}>
+                    <Paper elevation={3} sx={{ padding: "0.5rem" }}>
                       <Typography
                         variant="3"
                         align={"center"}
-                        display={"block"}>
+                        display={"block"}
+                      >
                         Info
                       </Typography>
 
                       <TableContainer component={Paper}>
                         <Table aria-label="simple table">
                           <TableBody>
-                            {rows02.map((row) => (
+                            {rows02?.map((row) => (
                               <TableRow
                                 key={row.name}
                                 sx={{
                                   "&:last-child td, &:last-child th": {
                                     border: 0,
                                   },
-                                }}>
-                                <TableCell
-                                  component="th"
-                                  scope="row">
+                                }}
+                              >
+                                <TableCell component="th" scope="row">
                                   {row.name}
                                 </TableCell>
                                 <TableCell
@@ -232,7 +228,8 @@ function AddClubDialog(props) {
                                   sx={{
                                     display: "flex",
                                     flexDirection: "row",
-                                  }}>
+                                  }}
+                                >
                                   {row.value}
                                 </TableCell>
                               </TableRow>
@@ -243,13 +240,11 @@ function AddClubDialog(props) {
                     </Paper>
                   </Grid>
                 </Grid>
-                <Grid
-                  item
-                  lg={8}
-                  xs={12}>
+                <Grid item lg={8} xs={12}>
                   <Paper
                     elevation={3}
-                    sx={{ padding: "0.5rem", height: "100%" }}>
+                    sx={{ padding: "0.5rem", height: "100%" }}
+                  >
                     <Box sx={{ width: "100%" }}>
                       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                         <Tabs
@@ -258,33 +253,22 @@ function AddClubDialog(props) {
                           variant="scrollable"
                           scrollButtons={false}
                           aria-label="basic tabs example"
-                          >
-                          <Tab
-                            label="Activity Reporting"
-                            {...a11yProps(0)}
-                          />
-                          <Tab
-                            label=" Admin Reporting"
-                            {...a11yProps(1)}
-                          />
+                        >
+                          <Tab label="Activity Reporting" {...a11yProps(0)} />
+                          <Tab label=" Admin Reporting" {...a11yProps(1)} />
                           {/* <Tab
                             label="Event Reporting"
                             {...a11yProps(2)}
                           /> */}
-                          <Tab
-                            label="News Reporting"
-                            {...a11yProps(3)}
-                          />
+                          <Tab label="News Reporting" {...a11yProps(3)} />
                         </Tabs>
                       </Box>
-                      <TabPanel
-                        value={value}
-                        index={0}>
-                        Activity Reporting
+                      <TabPanel value={value} index={0} >
+                      {/* check the issue here why component is loading when placed in news section */}
+                      <ClubNews/>
+                        {/* <ClubActivities /> */}
                       </TabPanel>
-                      <TabPanel
-                        value={value}
-                        index={1}>
+                      <TabPanel value={value} index={1}>
                         <FormControl fullWidth>
                           <InputLabel id="demo-simple-select-label">
                             Search by month and Year
@@ -294,22 +278,19 @@ function AddClubDialog(props) {
                             id="demo-simple-select"
                             value={selectValue}
                             label="Search by month and Year"
-                            onChange={handleChangeSelect}>
+                            onChange={handleChangeSelect}
+                          >
                             {monthYear.map((item, index) => (
                               <MenuItem value={index}>{item.value}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
                       </TabPanel>
-                      {/* <TabPanel
-                        value={value}
-                        index={2}>
-                        Event Reporting
-                      </TabPanel> */}
                       <TabPanel
                         value={value}
-                        index={3}>
-                        News Reporting
+                        index={3}
+                      >
+                        {/* <ClubNews /> */}
                       </TabPanel>
                     </Box>
                   </Paper>
@@ -319,9 +300,7 @@ function AddClubDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={props.close}
-            autoFocus>
+          <Button onClick={props.close} autoFocus>
             Close
           </Button>
         </DialogActions>

@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { CLIENT_MSG ,All_CLUBS,REGION_DATA} from '../constants/actionTypes';
+import { CLIENT_MSG ,All_CLUBS,REGION_DATA, DELETE_CLUB_SUCCESS,CLUB_INFO,CLUB_ACTIVITIES,CLUB_NEWS} from '../constants/actionTypes';
 
 export const addClubs = (formData) => async (dispatch) => {
   try {
@@ -33,11 +33,12 @@ export const getClubs = () => async (dispatch) => {
 
 export const deleteClub = (clubId) => async (dispatch) => {
   try {
-    const { data, status }= await api.deleteClub(clubId);
+    const {data, status }= await api.deleteClub(clubId);
     dispatch({
       type: CLIENT_MSG,
       message: { info: data.successMessage, status },
     });
+    dispatch({type:DELETE_CLUB_SUCCESS,payload:clubId})
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,
@@ -54,6 +55,36 @@ export const getRegion = () => async (dispatch) => {
   try {
     const { data } = await api.getRegion();
     dispatch({ type: REGION_DATA, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const clubInfo = (clubId) => async (dispatch) => {
+  try {
+    const { data } = await api.clubInfo(clubId);
+
+    dispatch({ type: CLUB_INFO, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getClubActivites = (clubId) => async (dispatch) => {
+  try {
+    const { data } = await api.clubActivites(clubId);
+
+    dispatch({ type: CLUB_ACTIVITIES, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getClubNews = (clubId) => async (dispatch) => {
+  try {
+    const { data } = await api.clubNews(clubId);
+
+    dispatch({ type: CLUB_NEWS, payload: data });
   } catch (error) {
     console.log(error);
   }

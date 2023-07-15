@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Container,
   Grid,
@@ -9,8 +10,10 @@ import {
   Step,
   StepLabel,
 } from "@mui/material";
-
+import { UPDATE_MEMBER_INFO } from "../constants/actionTypes";
 const FinalDetails = () => {
+  const dispatch = useDispatch();
+  const memberInfo = useSelector((state) => state.members.memberInfo);
   return (
     <>
       <form>
@@ -30,10 +33,21 @@ const FinalDetails = () => {
               width: "40%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              PinCode
-            </Typography>
-            <TextField required id="pincode" type="number" fullWidth name="pincode" />
+            <TextField
+              type="number"
+              id="postalCode"
+              label="Pincode"
+              name="postalCode"
+              fullWidth
+              variant="outlined"
+              value={memberInfo.postalCode}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "postalCode", value: e.target.value },
+                });
+              }}
+            />
           </Box>
           <Box
             sx={{
@@ -43,10 +57,21 @@ const FinalDetails = () => {
               width: "40%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-              State
-            </Typography>
-            <TextField required id="state" type="text" fullWidth name="state" />
+            <TextField
+              type="text"
+              id="state"
+              label="state"
+              name="state"
+              fullWidth
+              variant="outlined"
+              value={memberInfo.state}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "state", value: e.target.value },
+                });
+              }}
+            />
           </Box>
         </Box>
         <Box
@@ -65,15 +90,20 @@ const FinalDetails = () => {
               width: "40%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-            City
-            </Typography>
             <TextField
-              required
+              type="text"
               id="city"
-            type="text"
-              fullWidth
+              label="city"
               name="city"
+              fullWidth
+              variant="outlined"
+              value={memberInfo.city}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "city", value: e.target.value },
+                });
+              }}
             />
           </Box>
           <Box
@@ -84,15 +114,20 @@ const FinalDetails = () => {
               width: "40%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-            Flat No, House No, Appartment
-            </Typography>
             <TextField
-              required
+              type="text"
               id="address"
-            type="text"
+              label="address"
+              name="address1"
               fullWidth
-              name="address"
+              variant="outlined"
+              value={memberInfo.address1}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "address1", value: e.target.value },
+                });
+              }}
             />
           </Box>
         </Box>
@@ -113,15 +148,20 @@ const FinalDetails = () => {
               width: "40%",
             }}
           >
-            <Typography sx={{ color: "#003895", fontSize: "1em" }}>
-            Street, Area
-            </Typography>
             <TextField
-              required
-              id="street"
-            type="text"
+              type="text"
+              id="address"
+              label="address 2"
+              name="address2"
               fullWidth
-              name="street"
+              variant="outlined"
+              value={memberInfo.address2}
+              onChange={(e) => {
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "address2", value: e.target.value },
+                });
+              }}
             />
           </Box>
         </Box>

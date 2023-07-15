@@ -11,6 +11,8 @@ import ClubForm from "../../Forms/ClubForm";
 import ProfileForm from "../../Forms/ProfileForm";
 import FinalDetails from "../../Forms/FinalDetails";
 import MemberInfo from "./MemberInfo";
+import { useDispatch,useSelector } from "react-redux";
+import { addMember } from "../../actions/members";
 
 const useStyles = makeStyles({
   root: {
@@ -71,6 +73,8 @@ const useStyles = makeStyles({
 const steps = ["Club Information", "Personal Information", "Final Details"];
 
 export default function FormWizard() {
+  const memberInfo = useSelector((state) => state.members.memberInfo);
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const [activeStep, setActiveStep] = useState(0);
@@ -101,7 +105,7 @@ export default function FormWizard() {
 
   // Submit form
   const handleSubmit = () => {
-      console.log("submitted")
+      dispatch(addMember(memberInfo));
   };
 
 
@@ -151,7 +155,7 @@ export default function FormWizard() {
                 Submit
               </Button>
             ) : (
-              <Button onClick={handleNext} variant="contained" color="primary">
+              <Button onClick={handleNext} variant="contained" color="primary" disabled={!memberInfo.id_available}>
                 Next
               </Button>
             )}
