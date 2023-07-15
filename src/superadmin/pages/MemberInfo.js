@@ -136,17 +136,25 @@ const steps = ["Club Information", "Personal Information", "Final Details"];
 
 export default function MemberInfo() {
   const [page, setPage] = React.useState(0);
-  const Members = useSelector((state) => state.members.memberData);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
+
+  const Members = useSelector((state) => {
+    const filteredMembers = state.members.memberData.filter((members) =>
+      members.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return filteredMembers;
+  });
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
+    setPage(0);
   };
-  console.log(Members);
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -231,7 +239,7 @@ export default function MemberInfo() {
             style={{ textAlign: "left", marginLeft: "1em" }}>
             <TextField
               id="search"
-              label="Search"
+              label="Search Member"
               variant="outlined"
               size="small"
               onChange={handleSearchInputChange}

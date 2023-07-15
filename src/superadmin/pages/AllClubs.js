@@ -9,7 +9,13 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-import { getClubs } from "../../actions/clubs";
+import {
+  getClubs,
+  deleteClub,
+  clubInfo,
+  getClubActivites,
+  getClubNews,
+} from "../../actions/clubs";
 
 import AddClubDialog from "./AddClubDialog";
 
@@ -23,23 +29,27 @@ const columns = [
   { label: "View", minWidth: 100 },
 ];
 
-function createData(id, clubId, clubName, adminstars, lastupdated) {
-  return { id, clubId, clubName, adminstars, lastupdated };
-}
-
 export default function AllClubs() {
   const [page, setPage] = React.useState(0);
-  const Clubs = useSelector((state) => state.clubs.registeredClubs);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
+
+  const Clubs = useSelector((state) => {
+    const filteredClubs = state.clubs.registeredClubs.filter((club) =>
+      club.clubName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return filteredClubs;
+  });
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
+    setPage(0);
   };
-  console.log(Clubs);
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -51,7 +61,10 @@ export default function AllClubs() {
 
   // Club Dialog
   const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
+  const handleClickOpen = (clubId) => {
+    dispatch(clubInfo(clubId));
+    dispatch(getClubActivites(clubId));
+    dispatch(getClubNews(clubId));
     setOpen(true);
   };
 
@@ -67,7 +80,8 @@ export default function AllClubs() {
           overflow: "hidden",
           borderRadius: "1em",
           marginTop: "2em",
-        }}>
+        }}
+      >
         <Typography
           variant="h6"
           gutterBottom
@@ -77,18 +91,17 @@ export default function AllClubs() {
             color: "#003895",
             alignItems: "center",
             margin: "1em",
-          }}>
+          }}
+        >
           All Clubs
         </Typography>
         <Grid
           container
           justifyContent="space-between"
           spacing={3}
-          style={{ marginTop: "16px" }}>
-          <Grid
-            item
-            xs={6}
-            style={{ textAlign: "left", marginLeft: "1em" }}>
+          style={{ marginTop: "16px" }}
+        >
+          <Grid item xs={6} style={{ textAlign: "left", marginLeft: "1em" }}>
             <TextField
               id="search"
               label="Search Club"
@@ -98,17 +111,16 @@ export default function AllClubs() {
             />
           </Grid>
         </Grid>
-        <TableContainer sx={{ marginTop: "1em" }}>
-          <Table
-            stickyHeader
-            aria-label="sticky table">
+        <TableContainer sx={{ maxHeight: 440, marginTop: "1em" }}>
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
-                    style={{ minWidth: column.minWidth }}>
+                    style={{ minWidth: column.minWidth }}
+                  >
                     {column.label}
                   </TableCell>
                 ))}
@@ -121,20 +133,30 @@ export default function AllClubs() {
               ).map((row, index) => {
                 return (
                   <TableRow>
-                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{index + 1 + rowsPerPage * page}</TableCell>
                     <TableCell>{row.clubId}</TableCell>
                     <TableCell>{row.clubName}</TableCell>
                     <TableCell>{row.adminstars}</TableCell>
                     <TableCell>{row.lastupdated?.slice(0, 10)}</TableCell>
 
                     <TableCell>
-                      <Button variant="outlined">Delete</Button>
+                      <Button
+                        onClick={() => {
+                          dispatch(deleteClub(row.clubId));
+                        }}
+                        variant="outlined"
+                      >
+                        Delete
+                      </Button>
                     </TableCell>
                     <TableCell>
                       <Button
                         sx={{ color: "red" }}
                         variant="outlined"
-                        onClick={handleClickOpen}>
+                        onClick={() => {
+                          handleClickOpen(row.clubId);
+                        }}
+                      >
                         View
                       </Button>
                     </TableCell>
@@ -154,11 +176,7 @@ export default function AllClubs() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-
-      <AddClubDialog
-        open={open}
-        close={handleClose}
-      />
+      <AddClubDialog open={open} close={handleClose} />
     </>
   );
 }
