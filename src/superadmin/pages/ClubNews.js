@@ -42,7 +42,7 @@ const ClubNews = () => {
   const reportedNews = useSelector((state) => state.clubs.clubNews);
 
   return (
-    <Box bgcolor="white" p={3} borderRadius={4}>
+    <Box bgcolor="white"  borderRadius={4}>
       <Typography variant="h6" gutterBottom>
         Reported News
       </Typography>
