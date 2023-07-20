@@ -94,8 +94,8 @@ export default function NavSection({ ...other }) {
       isClick: false,
     },
     {
-      title: "All Admin Reporting",
-      path: "/superadmin/dashboard/alladminreport",
+      title: "Approve Admin Report",
+      path: "/superadmin/dashboard/approveadminreport",
       icon: <NoteAltIcon />,
       isClick: false,
     },

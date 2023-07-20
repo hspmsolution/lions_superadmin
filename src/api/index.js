@@ -56,6 +56,12 @@ export const addActivity = (formData) =>
 export const getActivities = () => API.get("activity/activities");
 export const selectRegion = () => API.get("members/regions");
 export const selectZone = (region) => API.get(`members/zones?region=${region}`);
-export const selectClub = (region,zone) => API.get(`members/clubs?region=${region}&zone=${zone}`)
-export const checkMemberId=(id)=>API.get(`members/validate?id=${id}`)
-export const addMember=(data)=>API.post("members/add",data);
+export const selectClub = (region, zone) =>
+  API.get(`members/clubs?region=${region}&zone=${zone}`);
+export const checkMemberId = (id) => API.get(`members/validate?id=${id}`);
+export const addMember = (data) => API.post("members/add", data);
+export const clubsReporting = () => API.get("adminreporting/clubsreporting");
+export const addReport = (data) => API.post("adminreporting/addreport", data);
+export const getPoints = () => API.get("adminreporting/points");
+export const getAdminReports = (month) =>
+  API.get(`adminreporting/reports?month=${month}`);
