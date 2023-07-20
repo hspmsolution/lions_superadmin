@@ -15,7 +15,7 @@ import UpdatePrivacy from "./superadmin/pages/UpdatePrivacy";
 import Slider from "./superadmin/pages/Slider";
 import Contact from "./superadmin/pages/Contact";
 import DownloadResource from "./superadmin/pages/DownloadResource";
-import AllAdminReport from "./superadmin/pages/AllAdminReport";
+import ApproveAdminReport from "./superadmin/pages/ApproveAdminReport";
 export default function Router() {
   const isAdmin = useSelector((state) => state.auth.admin);
   const role = useSelector((state) => state.auth.role);
@@ -121,8 +121,8 @@ export default function Router() {
                   element: <Slider />,
                 },
                 {
-                  path: "alladminreport",
-                  element: <AllAdminReport />,
+                  path: "approveadminreport",
+                  element: <ApproveAdminReport />,
                 },
                 {
                   path: "contact",
