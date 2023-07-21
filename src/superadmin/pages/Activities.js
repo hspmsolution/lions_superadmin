@@ -10,6 +10,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivities } from "../../actions/activity";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const columns = [
   { id: "id", label: "SrNo.", minWidth: 60 },
@@ -46,6 +51,16 @@ export default function Activities() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  // Delete Dialog
+  const [openDel, setOpenDel] = React.useState(false);
+  const handleClickOpenDel = () => {
+    setOpenDel(true);
+  };
+
+  const handleCloseDel = () => {
+    setOpenDel(false);
   };
 
   return (
@@ -109,23 +124,50 @@ export default function Activities() {
               page * rowsPerPage + rowsPerPage
             ).map((row, index) => {
               return (
-                <TableRow>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{row.type}</TableCell>
-                  <TableCell>{row.subtype}</TableCell>
-                  <TableCell>{row.category}</TableCell>
-                  <TableCell>{row.placeholder}</TableCell>
-                  <TableCell>
-                    <Button variant="outlined">Edit</Button>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      sx={{ color: "red" }}
-                      variant="outlined">
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
+                <>
+                  <TableRow>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{row.type}</TableCell>
+                    <TableCell>{row.subtype}</TableCell>
+                    <TableCell>{row.category}</TableCell>
+                    <TableCell>{row.placeholder}</TableCell>
+                    <TableCell>
+                      <Button variant="outlined">Edit</Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        onClick={handleClickOpenDel}
+                        sx={{ color: "red" }}
+                        variant="outlined">
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+
+                  {/* Delete Dialog */}
+                  {/* <Dialog
+                    open={openDel}
+                    onClose={handleCloseDel}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete? This action cannot be
+                        reversed.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleCloseDel}>Cancel</Button>
+                      <Button
+                        onClick={handleCloseDel}
+                        autoFocus
+                        color="error">
+                        Delete
+                      </Button>
+                    </DialogActions>
+                  </Dialog> */}
+                </>
               );
             })}
           </TableBody>
@@ -140,6 +182,27 @@ export default function Activities() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      <Dialog
+        open={openDel}
+        onClose={handleCloseDel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete? This action cannot be reversed.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDel}>Cancel</Button>
+          <Button
+            onClick={handleCloseDel}
+            autoFocus
+            color="error">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 }

@@ -25,16 +25,14 @@ const ProfileForm = () => {
             flexDirection: "row",
             justifyContent: "space-around",
             width: "100%",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
               required
               type="text"
@@ -59,10 +57,8 @@ const ProfileForm = () => {
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
-              required
               type="text"
               id="middleName"
               label="Middle Name"
@@ -85,8 +81,7 @@ const ProfileForm = () => {
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
               required
               type="text"
@@ -112,16 +107,14 @@ const ProfileForm = () => {
             flexDirection: "row",
             justifyContent: "space-around",
             width: "100%",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
               required
               type="email"
@@ -146,8 +139,7 @@ const ProfileForm = () => {
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
               required
               type="tel"
@@ -172,10 +164,8 @@ const ProfileForm = () => {
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
-              required
               type="date"
               id="date"
               label="Date of Birth"
@@ -200,16 +190,14 @@ const ProfileForm = () => {
             flexDirection: "row",
             justifyContent: "space-around",
             width: "100%",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
               type="text"
               id="spouseName"
@@ -232,8 +220,7 @@ const ProfileForm = () => {
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
               required
               id="gender"
@@ -248,15 +235,20 @@ const ProfileForm = () => {
                   type: UPDATE_MEMBER_INFO,
                   payload: { name: "gender", value: e.target.value },
                 });
-              }}
-            >
-              <MenuItem key={"Male"} value={"Male"}>
+              }}>
+              <MenuItem
+                key={"Male"}
+                value={"Male"}>
                 Male
               </MenuItem>
-              <MenuItem key={"Female"} value={"Female"}>
+              <MenuItem
+                key={"Female"}
+                value={"Female"}>
                 Female
               </MenuItem>
-              <MenuItem key={"Transgender"} value={"Transgender"}>
+              <MenuItem
+                key={"Transgender"}
+                value={"Transgender"}>
                 Transgender
               </MenuItem>
             </TextField>
@@ -267,8 +259,7 @@ const ProfileForm = () => {
               flexDirection: "column",
               marginTop: "1em",
               width: "30%",
-            }}
-          >
+            }}>
             <TextField
               type="text"
               id="occupation"

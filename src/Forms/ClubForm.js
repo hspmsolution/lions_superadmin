@@ -39,16 +39,14 @@ const ClubForm = (props) => {
             flexDirection: "row",
             justifyContent: "space-around",
             width: "100%",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <TextField
               id="region"
               value={memberInfo.regionName}
@@ -74,20 +72,22 @@ const ClubForm = (props) => {
               // className={classes.label}
             >
               {regions.map((region, index) => (
-                <MenuItem key={index} value={region.regionName}>
+                <MenuItem
+                  key={index}
+                  value={region.regionName}>
                   {region.regionName}
                 </MenuItem>
               ))}
             </TextField>
           </Box>
+
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <TextField
               id="zone"
               value={memberInfo.zoneName}
@@ -109,29 +109,30 @@ const ClubForm = (props) => {
               // className={classes.label}
             >
               {zones.map((zone, index) => (
-                <MenuItem key={index} value={zone.zoneName}>
+                <MenuItem
+                  key={index}
+                  value={zone.zoneName}>
                   {zone.zoneName}
                 </MenuItem>
               ))}
             </TextField>
           </Box>
         </Box>
+
         <Box
           sx={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-around",
             width: "100%",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <TextField
               id="clubName"
               value={memberInfo.clubName}
@@ -146,7 +147,7 @@ const ClubForm = (props) => {
 
                 dispatch({
                   type: UPDATE_MEMBER_INFO,
-                  payload: { name: "clubName", value: e.target.value},
+                  payload: { name: "clubName", value: e.target.value },
                 });
                 dispatch({
                   type: UPDATE_MEMBER_INFO,
@@ -156,7 +157,9 @@ const ClubForm = (props) => {
               // className={classes.label}
             >
               {clubs.map((club, index) => (
-                <MenuItem key={club.clubId} value={club.clubName}>
+                <MenuItem
+                  key={club.clubId}
+                  value={club.clubName}>
                   {club.clubName}
                 </MenuItem>
               ))}
@@ -168,8 +171,7 @@ const ClubForm = (props) => {
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <TextField
               id="clubId"
               value={memberInfo.clubId}
@@ -181,14 +183,22 @@ const ClubForm = (props) => {
               // className={classes.label}
             ></TextField>
           </Box>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: "100%",
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <TextField
               id="id"
               value={memberInfo.id}
@@ -204,26 +214,15 @@ const ClubForm = (props) => {
                   type: UPDATE_MEMBER_INFO,
                   payload: { name: "id", value: e.target.value },
                 });
-              }}
-            ></TextField>
+              }}></TextField>
           </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around",
-            width: "100%",
-          }}
-        >
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               marginTop: "1em",
               width: "40%",
-            }}
-          >
+            }}>
             <TextField
               id="title"
               value={memberInfo.title}
@@ -240,7 +239,9 @@ const ClubForm = (props) => {
               // className={classes.label}
             >
               {MEMBER_DESIGNATION.map((title, index) => (
-                <MenuItem key={index} value={title}>
+                <MenuItem
+                  key={index}
+                  value={title}>
                   {title}
                 </MenuItem>
               ))}
