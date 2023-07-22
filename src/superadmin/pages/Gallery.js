@@ -13,6 +13,12 @@ import {
   Icon,
   IconButton,
 } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -119,6 +125,16 @@ export default function Gallery() {
       data: event.target.files[0],
     };
     setGallery({ ...gallery, image: img });
+  };
+
+  // Delete Dialog
+  const [openDel, setOpenDel] = useState(false);
+  const handleClickOpenDel = () => {
+    setOpenDel(true);
+  };
+
+  const handleCloseDel = () => {
+    setOpenDel(false);
   };
 
   return (
@@ -292,39 +308,66 @@ export default function Gallery() {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell
-                    component="th"
-                    scope="row">
-                    {row.sNO}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    minWidth={"150px"}
-                    maxWidth={"150px"}
-                    height={"100px"}>
-                    {/* {images?.map((item, index) => (
+                <>
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell
+                      component="th"
+                      scope="row">
+                      {row.sNO}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      minWidth={"150px"}
+                      maxWidth={"150px"}
+                      height={"100px"}>
+                      {/* {images?.map((item, index) => (
                       <img
                         alt={`img${index}`}
                         src={`${API_URL}${item?.image}`}
                       />
                     ))} */}
-                    {row.imgURL}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.imgTitle}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.imgDec}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </StyledTableCell>
-                </StyledTableRow>
+                      {row.imgURL}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.imgTitle}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.imgDec}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <IconButton onClick={handleClickOpenDel}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                </>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+
+        {/* Delete Dialog */}
+        <Dialog
+          open={openDel}
+          onClose={handleCloseDel}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description">
+          <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to delete? This action cannot be reversed.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDel}>Cancel</Button>
+            <Button
+              onClick={handleCloseDel}
+              autoFocus
+              color="error">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </>
   );

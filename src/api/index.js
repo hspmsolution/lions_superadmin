@@ -60,8 +60,9 @@ export const selectClub = (region, zone) =>
   API.get(`members/clubs?region=${region}&zone=${zone}`);
 export const checkMemberId = (id) => API.get(`members/validate?id=${id}`);
 export const addMember = (data) => API.post("members/add", data);
-export const clubsReporting = () => API.get("adminreporting/clubsreporting");
-export const addReport = (data) => API.post("adminreporting/addreport", data);
-export const getPoints = () => API.get("adminreporting/points");
+
+export const clubsReporting = () => API.get("admin/adminreporting/clubsreporting");
+export const addReport = (data) => API.post("admin/adminreporting/addreport", data);
+export const getPoints = () => API.get("admin/adminreporting/points");
 export const getAdminReports = (month) =>
-  API.get(`adminreporting/reports?month=${month}`);
+  API.get(`admin/adminreporting/reports?month=${month}`);

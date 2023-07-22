@@ -158,7 +158,7 @@ export default function AddActivity() {
               </Typography>
               <TextField
                 id="activitySubType"
-                select
+                // select
                 fullWidth
                 name="activitySubType"
                 label="Activity Subtype"
@@ -168,13 +168,13 @@ export default function AddActivity() {
                   handleChange(e);
                 }}
                 className={classes.label}>
-                {subType.map((type, index) => (
+                {/* {subType.map((type, index) => (
                   <MenuItem
                     key={index}
                     value={type.subtype}>
                     {type.subtype}
                   </MenuItem>
-                ))}
+                ))} */}
               </TextField>
             </Box>
           </Box>
@@ -196,20 +196,20 @@ export default function AddActivity() {
               </Typography>
               <TextField
                 id="activityCategory"
-                select
+                // select
                 fullWidth
                 name="activityCategory"
                 label="Activity Category Type"
                 value={activity.activityCategory}
                 onChange={handleChange}
                 className={classes.label}>
-                {category.map((cat, index) => (
+                {/* {category.map((cat, index) => (
                   <MenuItem
                     key={index}
                     value={cat.category}>
                     {cat.category}
                   </MenuItem>
-                ))}
+                ))} */}
               </TextField>
             </Box>
             <Box
@@ -239,50 +239,7 @@ export default function AddActivity() {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
-            }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: "1em",
-                width: "40%",
-              }}>
-              <Typography className={classes.title}>
-                Enter Beneficiaries
-              </Typography>
-              <TextField
-                required
-                id="beneficiaries"
-                name="beneficiaries"
-                fullWidth
-                type="number"
-                value={activity.beneficiaries}
-                variant="outlined"
-                onChange={handleChange}
-                className={classes.label}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: "1em",
-                width: "40%",
-              }}>
-              <Typography className={classes.title}>Enter Star</Typography>
-              <TextField
-                required
-                id="star"
-                name="star"
-                fullWidth
-                type="number"
-                value={activity.star}
-                variant="outlined"
-                onChange={handleChange}
-                className={classes.label}
-              />
-            </Box>
-          </Box>
+            }}></Box>
 
           <Grid
             container

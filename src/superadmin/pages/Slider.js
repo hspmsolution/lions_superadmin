@@ -22,6 +22,11 @@ import TableRow from "@mui/material/TableRow";
 import { CLIENT_MSG } from "../../constants/actionTypes";
 import { useDispatch } from "react-redux";
 import { addSlider } from "../../actions/assets";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 var sliderDetail = {
   title: "",
@@ -115,6 +120,16 @@ export default function Slider() {
       data: event.target.files[0],
     };
     setSlider({ ...slider, image: img });
+  };
+
+  // Delete Dialog
+  const [openDel, setOpenDel] = React.useState(false);
+  const handleClickOpenDel = () => {
+    setOpenDel(true);
+  };
+
+  const handleCloseDel = () => {
+    setOpenDel(false);
   };
 
   return (
@@ -288,34 +303,61 @@ export default function Slider() {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell
-                    component="th"
-                    scope="row">
-                    {row.sNO}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    minWidth={"150px"}
-                    maxWidth={"150px"}
-                    height={"100px"}>
-                    {row.imgURL}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.imgTitle}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.imgDec}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <IconButton>
-                      <DeleteIcon  />
-                    </IconButton>
-                  </StyledTableCell>
-                </StyledTableRow>
+                <>
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell
+                      component="th"
+                      scope="row">
+                      {row.sNO}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      minWidth={"150px"}
+                      maxWidth={"150px"}
+                      height={"100px"}>
+                      {row.imgURL}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.imgTitle}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.imgDec}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <IconButton onClick={handleClickOpenDel}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                </>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </Box>
+
+      {/* Delete Dialog */}
+      <Dialog
+        open={openDel}
+        onClose={handleCloseDel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete? This action cannot be reversed.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDel}>Cancel</Button>
+          <Button
+            onClick={handleCloseDel}
+            autoFocus
+            color="error">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
