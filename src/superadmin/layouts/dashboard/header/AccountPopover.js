@@ -21,6 +21,7 @@ import {
 // mocks_
 
 import { LOGOUT } from "../../../../constants/actionTypes";
+import { DOMAIN_URL } from "../../../../api";
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -42,23 +43,17 @@ export default function AccountPopover() {
     {
       label: "Profile",
       icon: "eva:person-fill",
-      nav: () => navigate("/superadmin/users"),
-      label: "Profile",
-      icon: "eva:person-fill",
-      nav: () => {
-        navigate("/superadmin/dashboard/edit-profile");
-        handleClose();
-      },
+      nav: "/dashboard/profile",
     },
     {
       label: "Change Password",
       icon: "eva:settings-2-fill",
-      nav: () => navigate("/superadmin/password"),
+      nav: "/password",
     },
     {
       label: "Back to Website",
       icon: "eva:settings-2-fill",
-      nav: () => navigate("/"),
+      nav: "/",
     },
   ];
 
@@ -73,7 +68,8 @@ export default function AccountPopover() {
             "&:hover": {
               borderColor: "rgba(128,128,128,0.55)",
             },
-          }}>
+          }}
+        >
           <IconButton
             onClick={handleOpen}
             sx={{
@@ -89,7 +85,8 @@ export default function AccountPopover() {
                   bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
                 },
               }),
-            }}>
+            }}
+          >
             <Badge
               overlap="circular"
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -102,7 +99,8 @@ export default function AccountPopover() {
                     fontSize: "1rem",
                   }}
                 />
-              }>
+              }
+            >
               <Avatar
                 src={
                   memberData?.picture
@@ -132,17 +130,13 @@ export default function AccountPopover() {
               borderRadius: 0.75,
             },
           },
-        }}>
+        }}
+      >
         <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography
-            variant="subtitle2"
-            noWrap>
+          <Typography variant="subtitle2" noWrap>
             {memberData?.firstName + " " + memberData?.lastName}
           </Typography>
-          <Typography
-            variant="body2"
-            sx={{ color: "text.secondary" }}
-            noWrap>
+          <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
             {memberData?.clubName}
           </Typography>
         </Box>
@@ -153,7 +147,9 @@ export default function AccountPopover() {
           {MENU_OPTIONS.map((option) => (
             <MenuItem
               key={option.label}
-              onClick={option.nav}>
+              component="a"
+              href={DOMAIN_URL + option.nav}
+            >
               {option.label}
             </MenuItem>
           ))}
@@ -166,7 +162,8 @@ export default function AccountPopover() {
             dispatch({ type: LOGOUT });
             navigate("/superadmin");
           }}
-          sx={{ m: 1 }}>
+          sx={{ m: 1 }}
+        >
           Logout
         </MenuItem>
       </Popover>
