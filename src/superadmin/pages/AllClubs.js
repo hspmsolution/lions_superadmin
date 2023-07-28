@@ -34,14 +34,14 @@ export default function AllClubs() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
-
+  
   const Clubs = useSelector((state) => {
     const filteredClubs = state.clubs.registeredClubs.filter((club) =>
       club.clubName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     return filteredClubs;
   });
-
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

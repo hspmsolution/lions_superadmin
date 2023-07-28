@@ -141,10 +141,14 @@ export default function MemberInfo() {
   const dispatch = useDispatch();
 
   const Members = useSelector((state) => {
-    const filteredMembers = state.members.memberData.filter((members) =>
-      members.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    return filteredMembers;
+    if (searchTerm.trim() === "") {
+      return state.members.memberData;
+    } else {
+      const filteredMembers = state.members.memberData.filter((members) =>
+        members.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      return filteredMembers;
+    }
   });
 
   const handleChangePage = (event, newPage) => {
@@ -192,7 +196,7 @@ export default function MemberInfo() {
   const getStepForm = () => {
     switch (activeStep) {
       case 0:
-        return <ClubForm label={'editDetails'}/>;
+        return <ClubForm label={"editDetails"} />;
       case 1:
         return <ProfileForm />;
       case 2:
@@ -215,7 +219,8 @@ export default function MemberInfo() {
           overflow: "hidden",
           borderRadius: "1em",
           marginTop: "2em",
-        }}>
+        }}
+      >
         <Typography
           variant="h6"
           gutterBottom
@@ -225,18 +230,17 @@ export default function MemberInfo() {
             color: "#003895",
             alignItems: "center",
             margin: "1em",
-          }}>
+          }}
+        >
           Member Details
         </Typography>
         <Grid
           container
           justifyContent="space-between"
           spacing={3}
-          style={{ marginTop: "16px" }}>
-          <Grid
-            item
-            xs={6}
-            style={{ textAlign: "left", marginLeft: "1em" }}>
+          style={{ marginTop: "16px" }}
+        >
+          <Grid item xs={6} style={{ textAlign: "left", marginLeft: "1em" }}>
             <TextField
               id="search"
               label="Search Member"
@@ -246,17 +250,16 @@ export default function MemberInfo() {
             />
           </Grid>
         </Grid>
-        <TableContainer sx={{  marginTop: "1em" }}>
-          <Table
-            stickyHeader
-            aria-label="sticky table">
+        <TableContainer sx={{ marginTop: "1em" }}>
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
-                    style={{ minWidth: column.minWidth }}>
+                    style={{ minWidth: column.minWidth }}
+                  >
                     {column.label}
                   </TableCell>
                 ))}
@@ -284,9 +287,7 @@ export default function MemberInfo() {
                     <TableCell>{row.gender}</TableCell>
                     <TableCell>{row.occupation}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="outlined"
-                        onClick={handleClickOpen}>
+                      <Button variant="outlined" onClick={handleClickOpen}>
                         Edit
                       </Button>
                     </TableCell>
@@ -310,24 +311,19 @@ export default function MemberInfo() {
         />
       </Paper>
 
-
       {/* Dialog */}
-      <Dialog
-        maxWidth={"none"}
-        open={open}
-        onClose={handleClose}>
+      <Dialog maxWidth={"none"} open={open} onClose={handleClose}>
         <DialogTitle>Edit Member Details</DialogTitle>
         <DialogContent
           sx={{
             flexGrow: 1,
-            width:'100%',
+            width: "100%",
             width: "1000px",
             // height: "500px",
-          }}>
+          }}
+        >
           <div className={classes.root}>
-            <Stepper
-              className={classes.stepBtn}
-              activeStep={activeStep}>
+            <Stepper className={classes.stepBtn} activeStep={activeStep}>
               {steps.map((step, index) => (
                 <Step
                   key={step}
@@ -335,16 +331,15 @@ export default function MemberInfo() {
                     activeStep === index
                       ? classes.activeStep
                       : classes.inactiveStep
-                  }>
+                  }
+                >
                   <StepLabel>{step}</StepLabel>
                 </Step>
               ))}
             </Stepper>
 
             {/* Step content */}
-            <Paper
-              elevation={3}
-              style={{ padding: "20px" }}>
+            <Paper elevation={3} style={{ padding: "20px" }}>
               {getStepForm()}
 
               {/* Buttons */}
@@ -353,11 +348,13 @@ export default function MemberInfo() {
                   marginTop: "20px",
                   display: "flex",
                   justifyContent: "flex-end",
-                }}>
+                }}
+              >
                 <Button
                   disabled={activeStep === 0}
                   onClick={handleBack}
-                  style={{ marginRight: "10px" }}>
+                  style={{ marginRight: "10px" }}
+                >
                   Back
                 </Button>
 
@@ -365,14 +362,16 @@ export default function MemberInfo() {
                   <Button
                     onClick={handleSubmit}
                     variant="contained"
-                    color="primary">
+                    color="primary"
+                  >
                     Update
                   </Button>
                 ) : (
                   <Button
                     onClick={handleNext}
                     variant="contained"
-                    color="primary">
+                    color="primary"
+                  >
                     Next
                   </Button>
                 )}
