@@ -9,6 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { signIn } from "../../actions/auth";
 import { ADMIN } from "../../constants/actionTypes";
 import { makeStyles } from "@mui/styles";
+import { DOMAIN_URL } from "../../api";
 
 const useStyles = makeStyles({
   label: {
@@ -106,7 +107,7 @@ const Login = () => {
           color: "#fff",
         }}>
         <Container maxWidth="sm">
-          <Link to="/">
+          <Link to={DOMAIN_URL}>
             <Button
               component="a"
               sx={{ color: "white" }}

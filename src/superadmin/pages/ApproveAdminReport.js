@@ -62,7 +62,7 @@ function ApproveAdminReport() {
   const clubReporting = useSelector(
     (state) => state.adminReporting.clubReporting
   );
-  console.log(clubReporting);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -126,113 +126,9 @@ function ApproveAdminReport() {
             </FormControl> */}
           </Box>
 
-          <TableContainer component={Paper}>
-            <Table aria-label="news table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Sr No.</TableCell>
-                  <TableCell>Club Name</TableCell>
-                  <TableCell>Club Id</TableCell>
-                  {months.map((month) => (
-                    <TableCell key={month}>{month}</TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow key={club.clubId}>
-                  <TableCell>{1}</TableCell>
-                  <TableCell>clubName</TableCell>
-                  <TableCell>clubId</TableCell>
-                  <TableCell>
-                    {club.month1 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month2 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month3 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month4 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month5 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month6 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month7 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month8 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month9 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month10 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month11 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {club.month12 == "0" ? (
-                      <DisabledByDefaultIcon color="error" />
-                    ) : (
-                      <CheckBoxIcon color="success" />
-                    )}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
 
-          {/* <TableContainer component={Paper}>
+
+          <TableContainer component={Paper}>
             <Table aria-label="news table">
               <TableHead>
                 <TableRow>
@@ -251,84 +147,84 @@ function ApproveAdminReport() {
                     <TableCell>{club.clubName}</TableCell>
                     <TableCell>{club.clubId}</TableCell>
                     <TableCell>
-                      {club.month1 === "0" ? (
+                      {club.month1 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month2 === "0" ? (
+                      {club.month2 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month3 === "0" ? (
+                      {club.month3 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month4 === "0" ? (
+                      {club.month4 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month5 === "0" ? (
+                      {club.month5 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month6 === "0" ? (
+                      {club.month6 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month7 === "0" ? (
+                      {club.month7 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month8 === "0" ? (
+                      {club.month8 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month9 === "0" ? (
+                      {club.month9 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month10 === "0" ? (
+                      {club.month10 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month11 === "0" ? (
+                      {club.month11 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
                       )}
                     </TableCell>
                     <TableCell>
-                      {club.month12 === "0" ? (
+                      {club.month12 == "0" ? (
                         <DisabledByDefaultIcon color="error" />
                       ) : (
                         <CheckBoxIcon color="success" />
@@ -338,7 +234,7 @@ function ApproveAdminReport() {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer> */}
+          </TableContainer>
 
           {/* Dialog */}
 
