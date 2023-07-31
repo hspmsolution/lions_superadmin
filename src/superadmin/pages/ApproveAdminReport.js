@@ -12,10 +12,10 @@ import {
 } from "@mui/material";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
+import { styled } from "@mui/material/styles";
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableRow,
@@ -23,6 +23,8 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import PreviewIcon from "@mui/icons-material/Preview";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -52,6 +54,49 @@ const months = [
   "November 2023",
   "December 2023",
 ];
+const available_months = [
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+];
+// Table
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#1d3d7c",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+function createData(sNO, id, name) {
+  return { sNO, id, name };
+}
+
+const rows = [
+  createData(1, "Id", "Name"),
+  createData(1, "Id", "Name"),
+  createData(1, "Id", "Name"),
+];
 
 function ApproveAdminReport() {
   const [club, setClub] = React.useState("");
@@ -62,7 +107,6 @@ function ApproveAdminReport() {
   const clubReporting = useSelector(
     (state) => state.adminReporting.clubReporting
   );
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -102,14 +146,43 @@ function ApproveAdminReport() {
           Approve Admin Report
         </Typography>
         <Box>
-          <Box sx={{ width: "500px", marginBottom: "2rem" }}>
-            <TextField
-              id="search"
-              label="Search Club"
-              variant="outlined"
-              size="small"
-              onChange={handleSearchInputChange}
-            />
+          <Box sx={{ maxWidth: "500px", marginBottom: "2rem" }}>
+            <Grid
+              item
+              xs={6}>
+              <TextField
+                id="Month"
+                select
+                fullWidth
+                label="Select Month "
+                // onChange={(e) => {
+                //   const selectedIndexes = monthNames
+                //     .map((month, index) => (month === e.target.value ? index + 1 : -1))
+                //     .filter((index) => index !== -1);
+                //   if (canReport(selectedIndexes[0])) {
+                //     dispatch(getAdminReports(selectedIndexes[0]));
+                //     dispatch({ type: SELECTED_MONTH, payload: selectedIndexes[0] });
+                //   } else {
+                //     dispatch({ type: ADMIN_REPORTS, payload: [] });
+                //     dispatch({
+                //       type: CLIENT_MSG,
+                //       message: {
+                //         info: "You can only report for current month",
+                //         status: 400,
+                //       },
+                //     });
+                //   }
+                // }}
+              >
+                {available_months.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
             {/* <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Select Club</InputLabel>
               <Select
@@ -126,9 +199,7 @@ function ApproveAdminReport() {
             </FormControl> */}
           </Box>
 
-
-
-          <TableContainer component={Paper}>
+          {/* <TableContainer component={Paper}>
             <Table aria-label="news table">
               <TableHead>
                 <TableRow>
@@ -234,21 +305,153 @@ function ApproveAdminReport() {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer>
+          </TableContainer> */}
 
-          {/* Dialog */}
+          {/* Table */}
 
-          <Dialog
-            open={open}
-            onClose={handleClose}>
-            <DialogTitle>Optional sizes</DialogTitle>
-            <DialogContent></DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Close</Button>
-            </DialogActions>
-          </Dialog>
+          <Grid
+            container
+            spacing={2}>
+            <Grid
+              item
+              xs={12}
+              md={6}>
+              <Box sx={{ marginTop: "2rem" }}>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    color: "#1d3d7c",
+                    textAlign: "center",
+                    padding: "1rem",
+                  }}>
+                  Reported Club
+                </Typography>
+                <TableContainer
+                  component={Paper}
+                  elevation={11}>
+                  <Table
+                    fullWidth
+                    aria-label="customized table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell width={"10px"}>S. NO</StyledTableCell>{" "}
+                        <StyledTableCell
+                          minWidth={"100px"}
+                          maxWidth={"100px"}
+                          align="center">
+                          Club Id
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Club Name
+                        </StyledTableCell>
+                        <StyledTableCell align="center">View</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <>
+                          <StyledTableRow key={row.name}>
+                            <StyledTableCell
+                              component="th"
+                              scope="row">
+                              {row.sNO}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              {row.id}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              {row.name}
+                            </StyledTableCell>
+
+                            <StyledTableCell align="center">
+                              <IconButton>
+                                <PreviewIcon />
+                              </IconButton>
+                            </StyledTableCell>
+                          </StyledTableRow>
+                        </>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}>
+              <Box sx={{ marginTop: "2rem" }}>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    color: "#1d3d7c",
+                    textAlign: "center",
+                    padding: "1rem",
+                  }}>
+                  Non Reported Club
+                </Typography>
+                <TableContainer
+                  component={Paper}
+                  elevation={11}>
+                  <Table
+                    fullWidth
+                    aria-label="customized table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell width={"10px"}>S. NO</StyledTableCell>{" "}
+                        <StyledTableCell
+                          minWidth={"100px"}
+                          maxWidth={"100px"}
+                          align="center">
+                          Club Id
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Club Name
+                        </StyledTableCell>
+                        <StyledTableCell align="center">View</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <>
+                          <StyledTableRow key={row.name}>
+                            <StyledTableCell
+                              component="th"
+                              scope="row">
+                              {row.sNO}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              {row.id}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              {row.name}
+                            </StyledTableCell>
+
+                            <StyledTableCell align="center">
+                              <IconButton>
+                                <PreviewIcon />
+                              </IconButton>
+                            </StyledTableCell>
+                          </StyledTableRow>
+                        </>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
+      <Dialog
+        open={open}
+        onClose={handleClose}>
+        <DialogTitle>Optional sizes</DialogTitle>
+        <DialogContent></DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
