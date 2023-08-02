@@ -1,17 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  Paper,
-  Divider,
-  Typography,
-  Icon,
-  Box,
-} from "@mui/material";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
+import React, { useEffect, useState } from "react";
+import { Button, Paper, Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import {
   Table,
@@ -28,32 +16,28 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-
-import { Card, CardMedia, CardContent } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-
 import { useDispatch, useSelector } from "react-redux";
-import { clubsReporting } from "../../actions/approveAdminReport";
+import { AllAdminReport, clubAdminReport } from "../../actions/clubs";
+import ClubReports from "./ClubReports";
+import { CLIENT_MSG, CLUB_ADMIN_REPORT } from "../../constants/actionTypes";
 
-const months = [
-  "January 2023",
-  "February 2023",
-  "March 2023",
-  "April 2023",
-  "May 2023",
-  "June 2023",
-  "July 2023",
-  "August 2023",
-  "September 2023",
-  "October 2023",
-  "November 2023",
-  "December 2023",
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
+
 const available_months = [
   "July",
   "August",
@@ -102,23 +86,29 @@ function ApproveAdminReport() {
   const [club, setClub] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
-
+  const [selectedMonth, setSelectedMonth] = useState(false);
+  const [monthIndex, setMonthIndex] = useState();
   const dispatch = useDispatch();
-  const clubReporting = useSelector(
-    (state) => state.adminReporting.clubReporting
-  );
+  const allAdminReport = useSelector((state) => state.clubs.allAdminReport);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (clubId) => {
+    if (!monthIndex) {
+      dispatch({
+        type: CLIENT_MSG,
+        message: {
+          info: "Please select month",
+          status: 400,
+        },
+      });
+      return;
+    }
+    dispatch(clubAdminReport(clubId, monthIndex));
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    dispatch(clubsReporting());
-  }, []);
 
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -137,185 +127,47 @@ function ApproveAdminReport() {
           border: "1px solid rgba( 255, 255, 255, 0.18 )",
           padding: "77px 2rem",
           color: "#fff",
-        }}>
+        }}
+      >
         <Typography
           variant="h3"
           color={"#1d3d7c"}
           textAlign={"center"}
-          marginBottom={"1rem"}>
+          marginBottom={"1rem"}
+        >
           Approve Admin Report
         </Typography>
         <Box>
           <Box sx={{ maxWidth: "500px", marginBottom: "2rem" }}>
-            <Grid
-              item
-              xs={6}>
+            <Grid item xs={6}>
               <TextField
                 id="Month"
                 select
+                value={selectedMonth}
                 fullWidth
                 label="Select Month "
-                // onChange={(e) => {
-                //   const selectedIndexes = monthNames
-                //     .map((month, index) => (month === e.target.value ? index + 1 : -1))
-                //     .filter((index) => index !== -1);
-                //   if (canReport(selectedIndexes[0])) {
-                //     dispatch(getAdminReports(selectedIndexes[0]));
-                //     dispatch({ type: SELECTED_MONTH, payload: selectedIndexes[0] });
-                //   } else {
-                //     dispatch({ type: ADMIN_REPORTS, payload: [] });
-                //     dispatch({
-                //       type: CLIENT_MSG,
-                //       message: {
-                //         info: "You can only report for current month",
-                //         status: 400,
-                //       },
-                //     });
-                //   }
-                // }}
+                onChange={(e) => {
+                  setSelectedMonth(e.target.value);
+                  const selectedIndexes = monthNames
+                    .map((month, index) =>
+                      month === e.target.value ? index + 1 : -1
+                    )
+                    .filter((index) => index !== -1);
+                  dispatch(AllAdminReport(selectedIndexes[0]));
+                  setMonthIndex(selectedIndexes[0]);
+                }}
               >
                 {available_months.map((item, index) => (
-                  <MenuItem
-                    key={index}
-                    value={item}>
+                  <MenuItem key={item} value={item}>
                     {item}
                   </MenuItem>
                 ))}
               </TextField>
             </Grid>
-            {/* <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Select Club</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={club}
-                label="Select Club"
-                onChange={handleChange}>
-                <MenuItem value={"Zone01"}>Club 01</MenuItem>
-                <MenuItem value={"Zone02"}>Club 02</MenuItem>
-                <MenuItem value={"Zone03"}>Club 03</MenuItem>
-                <MenuItem value={"Zone04"}>Club 04</MenuItem>
-              </Select>
-            </FormControl> */}
           </Box>
 
-          {/* <TableContainer component={Paper}>
-            <Table aria-label="news table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Sr No.</TableCell>
-                  <TableCell>Club Name</TableCell>
-                  <TableCell>Club Id</TableCell>
-                  {months.map((month) => (
-                    <TableCell key={month}>{month}</TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {clubReporting.map((club, index) => (
-                  <TableRow key={club.clubId}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{club.clubName}</TableCell>
-                    <TableCell>{club.clubId}</TableCell>
-                    <TableCell>
-                      {club.month1 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month2 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month3 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month4 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month5 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month6 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month7 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month8 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month9 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month10 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month11 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {club.month12 == "0" ? (
-                        <DisabledByDefaultIcon color="error" />
-                      ) : (
-                        <CheckBoxIcon color="success" />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer> */}
-
-          {/* Table */}
-
-          <Grid
-            container
-            spacing={2}>
-            <Grid
-              item
-              xs={12}
-              md={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
               <Box sx={{ marginTop: "2rem" }}>
                 <Typography
                   variant="h4"
@@ -323,48 +175,55 @@ function ApproveAdminReport() {
                     color: "#1d3d7c",
                     textAlign: "center",
                     padding: "1rem",
-                  }}>
+                  }}
+                >
                   Reported Club
                 </Typography>
-                <TableContainer
-                  component={Paper}
-                  elevation={11}>
-                  <Table
-                    fullWidth
-                    aria-label="customized table">
+                <TableContainer component={Paper} elevation={11}>
+                  <Table fullWidth aria-label="customized table">
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell width={"10px"}>S. NO</StyledTableCell>{" "}
                         <StyledTableCell
                           minWidth={"100px"}
                           maxWidth={"100px"}
-                          align="center">
+                          align="center"
+                        >
                           Club Id
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           Club Name
                         </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Admin Points
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Activity Points
+                        </StyledTableCell>
                         <StyledTableCell align="center">View</StyledTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
+                      {allAdminReport?.reportedClubs.map((row) => (
                         <>
-                          <StyledTableRow key={row.name}>
-                            <StyledTableCell
-                              component="th"
-                              scope="row">
-                              {row.sNO}
+                          <StyledTableRow key={row.clubId}>
+                            <StyledTableCell component="th" scope="row">
+                              {row.clubId}
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              {row.id}
+                              {row.clubName}
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              {row.name}
+                              {row.adminstars}
                             </StyledTableCell>
-
                             <StyledTableCell align="center">
-                              <IconButton>
+                              {row.activityStar}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              <IconButton
+                                onClick={() => {
+                                  handleClickOpen(row.clubId);
+                                }}
+                              >
                                 <PreviewIcon />
                               </IconButton>
                             </StyledTableCell>
@@ -376,10 +235,7 @@ function ApproveAdminReport() {
                 </TableContainer>
               </Box>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              md={6}>
+            <Grid item xs={12} md={6}>
               <Box sx={{ marginTop: "2rem" }}>
                 <Typography
                   variant="h4"
@@ -387,50 +243,47 @@ function ApproveAdminReport() {
                     color: "#1d3d7c",
                     textAlign: "center",
                     padding: "1rem",
-                  }}>
+                  }}
+                >
                   Non Reported Club
                 </Typography>
-                <TableContainer
-                  component={Paper}
-                  elevation={11}>
-                  <Table
-                    fullWidth
-                    aria-label="customized table">
+                <TableContainer component={Paper} elevation={11}>
+                  <Table fullWidth aria-label="customized table">
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell width={"10px"}>S. NO</StyledTableCell>{" "}
                         <StyledTableCell
                           minWidth={"100px"}
                           maxWidth={"100px"}
-                          align="center">
+                          align="center"
+                        >
                           Club Id
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           Club Name
                         </StyledTableCell>
-                        <StyledTableCell align="center">View</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Admin Points
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Activity Points
+                        </StyledTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
+                      {allAdminReport?.nonReportedClubs.map((row) => (
                         <>
-                          <StyledTableRow key={row.name}>
-                            <StyledTableCell
-                              component="th"
-                              scope="row">
-                              {row.sNO}
+                          <StyledTableRow key={row.clubId}>
+                            <StyledTableCell component="th" scope="row">
+                              {row.clubId}
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              {row.id}
+                              {row.clubName}
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              {row.name}
+                              {row.adminstars}
                             </StyledTableCell>
-
                             <StyledTableCell align="center">
-                              <IconButton>
-                                <PreviewIcon />
-                              </IconButton>
+                              {row.activityStar}
                             </StyledTableCell>
                           </StyledTableRow>
                         </>
@@ -445,11 +298,26 @@ function ApproveAdminReport() {
       </Box>
       <Dialog
         open={open}
-        onClose={handleClose}>
-        <DialogTitle>Optional sizes</DialogTitle>
-        <DialogContent></DialogContent>
+        onClose={() => {
+          handleClose();
+          dispatch({ type: CLUB_ADMIN_REPORT, payload: {} });
+        }}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>Club Admin Reports</DialogTitle>
+        <DialogContent>
+          <ClubReports />
+        </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
+          <Button
+            onClick={() => {
+              handleClose();
+              dispatch({ type: CLUB_ADMIN_REPORT, payload: {} });
+            }}
+          >
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </>

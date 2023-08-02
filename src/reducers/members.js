@@ -10,7 +10,7 @@ const memberDetails = {
   clubName: "",
   clubId: "",
   regionName: "",
-  title: "",
+  title: [],
   zoneName: "",
   firstName: "",
   middleName: "",

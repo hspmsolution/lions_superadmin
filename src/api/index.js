@@ -5,21 +5,21 @@ export let DOMAIN_URL;
 
 if (ROOT_URL.includes(".up.railway.app")) {
   API_URL =
-    "https://lionsinternationalbackend-production.up.railway.app/api/admin";
-    DOMAIN_URL = "https://lionsinternationalbackend-production.up.railway.app";
+    "https://lionsinternationalbackend-production.up.railway.app/api/admin/";
+    DOMAIN_URL = "https://lionsinternationalbackend-production.up.railway.app/";
 } else if (ROOT_URL.includes("lionsdistrict317f.org")) {
-  API_URL = "https://lionsdistrict317f.org/api/admin";
-  DOMAIN_URL = "https://lionsdistrict317f.org";
-} else if (ROOT_URL.includes("lions317b.org")) {
-  API_URL = "https://lions317b.org/api/admin";
-  DOMAIN_URL = "https://lions317b.org";
+  API_URL = "https://lionsdistrict317f.org/api/admin/";
+  DOMAIN_URL = "https://lionsdistrict317f.org/";
+} else if (ROOT_URL.includes("lions317b.org/")) {
+  API_URL = "https://lions317b.org/api/admin/";
+  DOMAIN_URL = "https://lions317b.org/";
 } else if (ROOT_URL.includes("lions317f.org")) {
-  API_URL = "https://lions317f.org/api/admin";
-  DOMAIN_URL = "https://lions317f.org";
+  API_URL = "https://lions317f.org/api/admin/";
+  DOMAIN_URL = "https://lions317f.org/";
 } else {
   // Default to local development URL
-  API_URL = "http://localhost:5000/api/admin";
-  DOMAIN_URL = "http://localhost:3001";
+  API_URL = "http://localhost:5000/api/admin/";
+  DOMAIN_URL = "http://localhost:3001/";
 }
 
 const API = axios.create({ baseURL: API_URL });
@@ -55,6 +55,8 @@ export const clubInfo = (clubId) =>
 export const clubActivites = (clubId) =>
   API.get(`clubs/clubactivities?clubId=${clubId}`);
 export const clubNews = (clubId) => API.get(`clubs/clubnews?clubId=${clubId}`);
+export const clubAdminReport=(clubId,month)=>API.get(`clubs/clubadminreport?clubId=${clubId}&month=${month}`)
+export const AllAdminReport=(month)=>API.get(`clubs/alladminreport?month=${month}`)
 export const getUpcomingActivity = () =>
   API.get("activity/getUpcomingActivity");
 export const addActivity = (formData) =>
@@ -67,8 +69,3 @@ export const selectClub = (region, zone) =>
 export const checkMemberId = (id) => API.get(`members/validate?id=${id}`);
 export const addMember = (data) => API.post("members/add", data);
 
-export const clubsReporting = () => API.get("admin/adminreporting/clubsreporting");
-export const addReport = (data) => API.post("admin/adminreporting/addreport", data);
-export const getPoints = () => API.get("admin/adminreporting/points");
-export const getAdminReports = (month) =>
-  API.get(`admin/adminreporting/reports?month=${month}`);

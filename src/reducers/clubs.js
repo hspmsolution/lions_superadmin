@@ -4,11 +4,13 @@ import {
   DELETE_CLUB_SUCCESS,
   CLUB_INFO,
   CLUB_ACTIVITIES,
-  CLUB_NEWS
+  CLUB_NEWS,
+  CLUB_ADMIN_REPORT,
+  ALL_ADMIN_REPORT
 } from "../constants/actionTypes";
 
 const clubsReducer = (
-  state = { region: [], registeredClubs: [], clubInfo: [], clubActivities: [],clubNews:[]},
+  state = { region: [], registeredClubs: [], clubInfo: [], clubActivities: [],clubNews:[],clubAdminReport:{},allAdminReport:{reportedClubs:[],nonReportedClubs:[]}},
   action
 ) => {
   switch (action.type) {
@@ -25,7 +27,10 @@ const clubsReducer = (
 
     case CLUB_NEWS:
       return {...state,clubNews:action.payload}
-
+    case CLUB_ADMIN_REPORT:
+      return {...state,clubAdminReport:action.payload}
+    case ALL_ADMIN_REPORT:
+      return {...state,allAdminReport:action.payload}
     case CLUB_ACTIVITIES:
       return { ...state, clubActivities: action.payload };
     case All_CLUBS:
