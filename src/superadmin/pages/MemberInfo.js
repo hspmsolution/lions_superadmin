@@ -19,6 +19,7 @@ import ClubForm from "../../Forms/ClubForm";
 import ProfileForm from "../../Forms/ProfileForm";
 import FinalDetails from "../../Forms/FinalDetails";
 import { Stepper, Step, StepLabel } from "@mui/material";
+import DialogContentText from "@mui/material/DialogContentText";
 
 const columns = [
   { id: "index", label: "SrNo.", minWidth: 60 },
@@ -211,6 +212,17 @@ export default function MemberInfo() {
     console.log("submitted");
   };
 
+  // Delete Dialog
+  const [openDel, setOpenDel] = React.useState(false);
+
+  const handleClickOpenDel = () => {
+    setOpenDel(true);
+  };
+
+  const handleCloseDel = () => {
+    setOpenDel(false);
+  };
+
   return (
     <>
       <Paper
@@ -292,7 +304,11 @@ export default function MemberInfo() {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Button variant="outlined">Delete</Button>
+                      <Button
+                        onClick={handleClickOpenDel}
+                        variant="outlined">
+                        Delete
+                      </Button>
                     </TableCell>
                   </TableRow>
                 );
@@ -381,6 +397,31 @@ export default function MemberInfo() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/*Delete Dialog */}
+      <Dialog
+        open={openDel}
+        onClose={handleCloseDel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete? This action cannot be reversed.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDel}>Cancel</Button>
+          <Button
+            onClick={() => {
+              setOpenDel(false);
+            }}
+            autoFocus
+            color="error">
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </>

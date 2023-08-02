@@ -23,7 +23,7 @@ import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 const icon = (name) => (
   <SvgColor
     src={`/assets/icons/navbar/${name}.svg`}
-    sx={{ width: 1, height: 1 }}
+    sx={{ width: 1, height: 1, color: "white" }}
   />
 );
 

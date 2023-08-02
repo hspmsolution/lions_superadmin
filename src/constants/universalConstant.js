@@ -1,5 +1,5 @@
 export const MEMBER_DESIGNATION = [
-  "Club Director",
+  "Club Administrator",
   "Club Treasurer",
   "Lion Member",
   "Club Secretary",
