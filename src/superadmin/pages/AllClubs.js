@@ -23,6 +23,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import AddClubDialog from "./AddClubDialog";
+import { CLUB_ADMIN_REPORT } from "../../constants/actionTypes";
 
 const columns = [
   { id: "id", label: "SrNo.", minWidth: 60 },
@@ -73,11 +74,13 @@ export default function AllClubs() {
     dispatch(clubInfo(clubId));
     dispatch(getClubActivites(clubId));
     dispatch(getClubNews(clubId));
+    setSelectedClubId(clubId);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    dispatch({ type: CLUB_ADMIN_REPORT, payload: {} });
   };
 
   // Delete Dialog
@@ -203,6 +206,7 @@ export default function AllClubs() {
       <AddClubDialog
         open={open}
         close={handleClose}
+        clubId={selectedClubId}
       />
 
       {/* Dialog */}
