@@ -41,9 +41,11 @@ export const getPlaceHolder = (Category) =>
 export const getStats = () => API.get("activity/stats");
 export const getRegion = () => API.get("regiondata");
 export const addGallery = (formData) => API.post("assets/addGallery", formData);
-export const gallery = () => API.get("assets/addGallery");
+export const gallery = () => API.get("assets/gallery");
+export const deleteGallery = (id) => API.delete(`assets/gallery/${id}`);
 export const addSlider = (formData) => API.post("assets/addSlider", formData);
 export const slider = () => API.get("assets/slider");
+export const deleteSlider = (id) => API.delete(`assets/slider/${id}`);
 export const addClubs = (formData) => API.post("clubs/addclubs", formData);
 export const getClubs = () => API.get("clubs/getclubs");
 export const deleteClub = (clubId) =>
