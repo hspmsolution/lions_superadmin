@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {Button,Grid,TextField,Typography,Box} from '@mui/material';
+import {
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Box,
+  MenuItem,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import AllClubs from "./AllClubs";
-import {addClubs} from "../../actions/clubs";
-import { useState } from 'react';
+import { addClubs } from "../../actions/clubs";
+
+import { getSelectRegion, getSelectZone } from "../../actions/members";
+
 const useStyles = makeStyles({
   heading: {
     width: "25%",
@@ -40,30 +49,131 @@ const useStyles = makeStyles({
   },
 });
 
-export default  function AddClub() {
-    const classes=useStyles();
-    const dispatch = useDispatch();
-  const [club, setClub] = useState({ clubName: '', clubId: '' });
+export default function AddClub() {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const regions = useSelector((state) => state.members.selectRegion);
+  const zones = useSelector((state) => state.members.selectZone);
+  const [club, setClub] = useState({
+    clubName: "",
+    clubId: "",
+    regionName: "",
+    zoneName: "",
+  });
 
   const handleInputChange = (e) => {
-    setClub({ ...club, [e.target.name]: e.target.value });
+    let updatedClub = { ...club }; 
+    
+    if (e.target.name === "regionName") {
+      updatedClub.zoneName = ""; 
+    }
+  
+    updatedClub[e.target.name] = e.target.value;
+  
+    setClub(updatedClub); 
+   
   };
+  
 
   const submitDetails = (e) => {
     e.preventDefault();
-    dispatch(addClubs(club)); 
-    setClub({ clubName: '', clubId: '' }); 
+    dispatch(addClubs(club));
+    setClub({ clubName: "", clubId: "", regionName: "", zoneName: "" });
   };
+
+  useEffect(() => {
+    dispatch(getSelectRegion());
+  }, []);
   return (
-   <>
-   <form onSubmit={submitDetails}>
+    <>
+      <form onSubmit={submitDetails}>
         <Box bgcolor="white" p={3} borderRadius={4}>
           <Typography variant="h6" gutterBottom className={classes.heading}>
             Add Club
           </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '1em', width: '40%' }}>
-              <Typography className={classes.title}>Club Name</Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              width: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "1em",
+                width: "40%",
+              }}
+            >
+              <TextField
+                id="region"
+                value={club.regionName}
+                select
+                required
+                fullWidth
+                name="regionName"
+                label=" Select Region "
+                onChange={(e) => {
+                  dispatch(getSelectZone(e.target.value));
+                  handleInputChange(e);
+                }}
+                // className={classes.label}
+              >
+                {regions.map((region, index) => (
+                  <MenuItem key={index} value={region.regionName}>
+                    {region.regionName}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "1em",
+                width: "40%",
+              }}
+            >
+              <TextField
+                id="zone"
+                value={club.zoneName}
+                select
+                fullWidth
+                required
+                name="zoneName"
+                label=" Select Zone"
+                onChange={handleInputChange}
+                // className={classes.label}
+              >
+                {zones.map((zone, index) => (
+                  <MenuItem key={index} value={zone.zoneName}>
+                    {zone.zoneName}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              width: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "1em",
+                width: "40%",
+              }}
+            >
+              {/* <Typography className={classes.title}>Club Name</Typography> */}
               <TextField
                 required
                 id="ClubName"
@@ -78,8 +188,16 @@ export default  function AddClub() {
                 onChange={handleInputChange}
               />
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '1em', width: '40%' }}>
-              <Typography className={classes.title}>Club ID</Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "1em",
+                width: "40%",
+              }}
+            >
+              {/* <Typography className={classes.title}>Club ID</Typography> */}
               <TextField
                 required
                 id="clubId"
@@ -104,7 +222,5 @@ export default  function AddClub() {
       </form>
       <AllClubs />
     </>
-
-  )
+  );
 }
-
