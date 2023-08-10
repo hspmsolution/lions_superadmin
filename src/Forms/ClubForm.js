@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Container,
-  Grid,
-  Typography,
+
   Box,
   TextField,
-  Stepper,
-  Step,
-  StepLabel,
+
   MenuItem,
 } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
@@ -23,7 +19,7 @@ import {
   getSelectZone,
   checkMemberId,
 } from "../actions/members";
-import { UPDATE_MEMBER_INFO } from "../constants/actionTypes";
+import { UPDATE_MEMBER_INFO,SELECT_CLUB } from "../constants/actionTypes";
 import { MEMBER_DESIGNATION } from "../constants/universalConstant";
 
 const ITEM_HEIGHT = 48;
@@ -65,7 +61,7 @@ const ClubForm = (props) => {
   const zones = useSelector((state) => state.members.selectZone);
   const clubs = useSelector((state) => state.members.selectClub);
   const memberInfo = useSelector((state) => state.members.memberInfo);
-  console.log(memberInfo);
+
   useEffect(() => {
     dispatch(getSelectRegion());
   }, []);
@@ -120,6 +116,11 @@ const ClubForm = (props) => {
                   type: UPDATE_MEMBER_INFO,
                   payload: { name: "clubName", value: "" },
                 });
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "clubId", value: "" },
+                });
+                dispatch({ type: SELECT_CLUB, payload: [] });
               }}
               // className={classes.label}
             >
@@ -156,6 +157,10 @@ const ClubForm = (props) => {
                 dispatch({
                   type: UPDATE_MEMBER_INFO,
                   payload: { name: "clubName", value: "" },
+                });
+                dispatch({
+                  type: UPDATE_MEMBER_INFO,
+                  payload: { name: "clubId", value: "" },
                 });
               }}
               // className={classes.label}
