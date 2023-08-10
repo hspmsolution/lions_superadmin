@@ -29,7 +29,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { CLIENT_MSG } from "../../constants/actionTypes";
 import { useDispatch } from "react-redux";
-import { addGallery } from "../../actions/assets";
+import { addGallery, getGallery, deleteGallery } from "../../actions/assets";
 
 var galleryDetail = {
   title: "",
@@ -58,24 +58,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(sNO, imgURL, imgTitle, imgDec) {
-  return { sNO, imgURL, imgTitle, imgDec };
-}
-
-const rows = [
-  createData(1, "Img", "Img Title", "Img Des"),
-  createData(2, "Img", "Img Title", "Img Des"),
-  createData(3, "Img", "Img Title", "Img Des"),
-  createData(4, "Img", "Img Title", "Img Des"),
-  createData(5, "Img", "Img Title", "Img Des"),
-];
-
 export default function Gallery() {
-  // const images = useSelector((state) => state.client.galleryImages);
-
   const fileUploadRef = useRef();
   const [gallery, setGallery] = useState(galleryDetail);
+  const [galleryId, setGalleryId] = useState(null);
   const dispatch = useDispatch();
+  const galleryImages = useSelector((state) => state.assets.galleryImages);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -129,14 +117,19 @@ export default function Gallery() {
 
   // Delete Dialog
   const [openDel, setOpenDel] = useState(false);
-  const handleClickOpenDel = () => {
+  const handleClickOpenDel = (id) => {
     setOpenDel(true);
+    setGalleryId(id);
   };
 
   const handleCloseDel = () => {
     setOpenDel(false);
+    setGalleryId(null);
   };
 
+  useEffect(() => {
+    dispatch(getGallery());
+  }, []);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -153,12 +146,14 @@ export default function Gallery() {
             border: "1px solid rgba( 255, 255, 255, 0.18 )",
             padding: "77px 99px 87px",
             color: "#fff",
-          }}>
+          }}
+        >
           <Typography
             variant="h3"
             color={"#1d3d7c"}
             textAlign={"center"}
-            marginBottom={"1rem"}>
+            marginBottom={"1rem"}
+          >
             Gallery
           </Typography>
           <Box>
@@ -199,7 +194,8 @@ export default function Gallery() {
                 color: "#003895",
                 alignItems: "center",
                 margin: "1em",
-              }}>
+              }}
+            >
               Image Title
             </Typography>
             <TextField
@@ -224,7 +220,8 @@ export default function Gallery() {
                 color: "#003895",
                 alignItems: "center",
                 margin: "1em",
-              }}>
+              }}
+            >
               Image Description
             </Typography>
             <TextField
@@ -244,7 +241,8 @@ export default function Gallery() {
               display: "flex",
               justifyContent: "space-around",
               flexDirection: "row",
-            }}>
+            }}
+          >
             {" "}
             <Button
               type="submit"
@@ -259,24 +257,9 @@ export default function Gallery() {
                 margin: "auto",
                 fontSize: "1.12em",
                 marginTop: "1em",
-              }}>
+              }}
+            >
               Save
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                width: "120px",
-                color: "#FFF",
-                backgroundColor: "#1D3D7C",
-                padding: "10px",
-                display: "flex",
-                justifyContent: "center",
-                margin: "auto",
-                fontSize: "1.12em",
-                marginTop: "1em",
-              }}>
-              Delete
             </Button>
           </Box>
         </Box>
@@ -284,19 +267,16 @@ export default function Gallery() {
 
       {/* Table */}
       <Box sx={{ marginTop: "2rem" }}>
-        <TableContainer
-          component={Paper}
-          elevation={11}>
-          <Table
-            fullWidth
-            aria-label="customized table">
+        <TableContainer component={Paper} elevation={11}>
+          <Table fullWidth aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell width={"10px"}>S. NO</StyledTableCell>{" "}
+                <StyledTableCell width={"10px"}>Sr. NO</StyledTableCell>{" "}
                 <StyledTableCell
                   minWidth={"100px"}
                   maxWidth={"100px"}
-                  align="center">
+                  align="center"
+                >
                   Image
                 </StyledTableCell>
                 <StyledTableCell align="center">Image Title</StyledTableCell>
@@ -307,35 +287,36 @@ export default function Gallery() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {galleryImages?.map((row, index) => (
                 <>
                   <StyledTableRow key={row.name}>
-                    <StyledTableCell
-                      component="th"
-                      scope="row">
-                      {row.sNO}
+                    <StyledTableCell component="th" scope="row">
+                      {index + 1}
                     </StyledTableCell>
                     <StyledTableCell
                       align="center"
-                      minWidth={"150px"}
-                      maxWidth={"150px"}
-                      height={"100px"}>
-                      {/* {images?.map((item, index) => (
+                      width="150px"
+                      height="150px"
+                      padding="0.5rem"
+                    >
                       <img
-                        alt={`img${index}`}
-                        src={`${API_URL}${item?.image}`}
+                        src={`${API_URL + row.image}`}
+                        alt="Activity"
+                        srcset={`${API_URL + row.image}`}
                       />
-                    ))} */}
-                      {row.imgURL}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.imgTitle}
+                      {row.title}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.imgDec}
+                      {row.description}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <IconButton onClick={handleClickOpenDel}>
+                      <IconButton
+                        onClick={() => {
+                          handleClickOpenDel(row.id);
+                        }}
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </StyledTableCell>
@@ -351,7 +332,8 @@ export default function Gallery() {
           open={openDel}
           onClose={handleCloseDel}
           aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description">
+          aria-describedby="alert-dialog-description"
+        >
           <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -361,9 +343,13 @@ export default function Gallery() {
           <DialogActions>
             <Button onClick={handleCloseDel}>Cancel</Button>
             <Button
-              onClick={handleCloseDel}
+              onClick={() => {
+                dispatch(deleteGallery(galleryId));
+                handleCloseDel();
+              }}
               autoFocus
-              color="error">
+              color="error"
+            >
               Delete
             </Button>
           </DialogActions>

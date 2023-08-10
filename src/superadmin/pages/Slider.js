@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
-  Card,
-  CardMedia,
-  CardContent,
   Typography,
   TextField,
   Paper,
@@ -20,13 +17,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { CLIENT_MSG } from "../../constants/actionTypes";
-import { useDispatch } from "react-redux";
-import { addSlider } from "../../actions/assets";
+import { useDispatch, useSelector } from "react-redux";
+import { addSlider, getSlider, deleteSlider } from "../../actions/assets";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { API_URL } from "../../api";
 
 var sliderDetail = {
   title: "",
@@ -55,22 +53,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(sNO, imgURL, imgTitle, imgDec) {
-  return { sNO, imgURL, imgTitle, imgDec };
-}
-
-const rows = [
-  createData(1, "Img", "Img Title", "Img Des"),
-  createData(2, "Img", "Img Title", "Img Des"),
-  createData(3, "Img", "Img Title", "Img Des"),
-  createData(4, "Img", "Img Title", "Img Des"),
-  createData(5, "Img", "Img Title", "Img Des"),
-];
-
 export default function Slider() {
   const fileUploadRef = useRef();
   const [slider, setSlider] = useState(sliderDetail);
+  const [sliderId, setSliderId] = useState(null);
   const dispatch = useDispatch();
+  const sliderImages = useSelector((state) => state.assets.sliderImages);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -124,14 +112,19 @@ export default function Slider() {
 
   // Delete Dialog
   const [openDel, setOpenDel] = React.useState(false);
-  const handleClickOpenDel = () => {
+  const handleClickOpenDel = (id) => {
     setOpenDel(true);
+    setSliderId(id);
   };
 
   const handleCloseDel = () => {
     setOpenDel(false);
+    setSliderId(null);
   };
 
+  useEffect(() => {
+    dispatch(getSlider());
+  }, []);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -149,12 +142,14 @@ export default function Slider() {
             margin: "auto",
             padding: "77px 99px 87px",
             color: "#fff",
-          }}>
+          }}
+        >
           <Typography
             variant="h3"
             color={"#1d3d7c"}
             textAlign={"center"}
-            marginBottom={"1rem"}>
+            marginBottom={"1rem"}
+          >
             Slider
           </Typography>
           <Box>
@@ -177,11 +172,7 @@ export default function Slider() {
               onClick={() => fileUploadRef.current.click()}
             />
             {slider.image.preview && (
-              <img
-                src={slider.image.preview}
-                width="100"
-                height="100"
-              />
+              <img src={slider.image.preview} width="100" height="100" />
             )}
           </Box>
           <Box>
@@ -194,7 +185,8 @@ export default function Slider() {
                 color: "#003895",
                 alignItems: "center",
                 margin: "1em",
-              }}>
+              }}
+            >
               Image Title
             </Typography>
             <TextField
@@ -219,7 +211,8 @@ export default function Slider() {
                 color: "#003895",
                 alignItems: "center",
                 margin: "1em",
-              }}>
+              }}
+            >
               Image Description
             </Typography>
             <TextField
@@ -239,7 +232,8 @@ export default function Slider() {
               display: "flex",
               justifyContent: "space-around",
               flexDirection: "row",
-            }}>
+            }}
+          >
             {" "}
             <Button
               type="submit"
@@ -254,24 +248,9 @@ export default function Slider() {
                 margin: "auto",
                 fontSize: "1.12em",
                 marginTop: "1em",
-              }}>
+              }}
+            >
               Save
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                width: "120px",
-                color: "#FFF",
-                backgroundColor: "#1D3D7C",
-                padding: "10px",
-                display: "flex",
-                justifyContent: "center",
-                margin: "auto",
-                fontSize: "1.12em",
-                marginTop: "1em",
-              }}>
-              Delete
             </Button>
           </Box>
         </Box>
@@ -279,19 +258,16 @@ export default function Slider() {
 
       {/* Table */}
       <Box sx={{ marginTop: "2rem" }}>
-        <TableContainer
-          component={Paper}
-          elevation={11}>
-          <Table
-            fullWidth
-            aria-label="customized table">
+        <TableContainer component={Paper} elevation={11}>
+          <Table fullWidth aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell width={"10px"}>S. NO</StyledTableCell>{" "}
+                <StyledTableCell width={"10px"}>Sr. NO</StyledTableCell>{" "}
                 <StyledTableCell
                   minWidth={"100px"}
                   maxWidth={"100px"}
-                  align="center">
+                  align="center"
+                >
                   Image
                 </StyledTableCell>
                 <StyledTableCell align="center">Image Title</StyledTableCell>
@@ -302,29 +278,36 @@ export default function Slider() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {sliderImages?.map((row, index) => (
                 <>
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell
-                      component="th"
-                      scope="row">
-                      {row.sNO}
+                  <StyledTableRow key={row.id}>
+                    <StyledTableCell component="th" scope="row">
+                      {index + 1}
                     </StyledTableCell>
                     <StyledTableCell
                       align="center"
-                      minWidth={"150px"}
-                      maxWidth={"150px"}
-                      height={"100px"}>
-                      {row.imgURL}
+                      width="150px"
+                      height="150px"
+                      padding="0.5rem"
+                    >
+                      <img
+                        src={`${API_URL + row.image}`}
+                        alt="Activity"
+                        srcset={`${API_URL + row.image}`}
+                      />
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.imgTitle}
+                      {row.title}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.imgDec}
+                      {row.description}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <IconButton onClick={handleClickOpenDel}>
+                      <IconButton
+                        onClick={() => {
+                          handleClickOpenDel(row.id);
+                        }}
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </StyledTableCell>
@@ -341,7 +324,8 @@ export default function Slider() {
         open={openDel}
         onClose={handleCloseDel}
         aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
+        aria-describedby="alert-dialog-description"
+      >
         <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -351,9 +335,13 @@ export default function Slider() {
         <DialogActions>
           <Button onClick={handleCloseDel}>Cancel</Button>
           <Button
-            onClick={handleCloseDel}
+            onClick={() => {
+              dispatch(deleteSlider(sliderId));
+              handleCloseDel();
+            }}
             autoFocus
-            color="error">
+            color="error"
+          >
             Delete
           </Button>
         </DialogActions>
