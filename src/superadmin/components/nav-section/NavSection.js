@@ -74,8 +74,13 @@ export default function NavSection({ ...other }) {
           icon: icon("ic_arrow"),
         },
         {
-          title: "Download Resource",
-          path: "/superadmin/dashboard/Download",
+          title: "District Resource",
+          path: "/superadmin/dashboard/district-resource",
+          icon: icon("ic_arrow"),
+        },
+        {
+          title: "International Resource",
+          path: "/superadmin/dashboard/international-resource",
           icon: icon("ic_arrow"),
         },
       ],

@@ -40,10 +40,10 @@ export const getPlaceHolder = (Category) =>
   API.get(`activity/placeholder?category=${Category}`);
 export const getStats = () => API.get("activity/stats");
 export const getRegion = () => API.get("regiondata");
-export const addGallery = (formData) => API.post("assets/addGallery", formData);
+export const addGallery = (formData) => API.post("assets/addgallery", formData);
 export const gallery = () => API.get("assets/gallery");
 export const deleteGallery = (id) => API.delete(`assets/gallery/${id}`);
-export const addSlider = (formData) => API.post("assets/addSlider", formData);
+export const addSlider = (formData) => API.post("assets/addslider", formData);
 export const slider = () => API.get("assets/slider");
 export const deleteSlider = (id) => API.delete(`assets/slider/${id}`);
 export const addClubs = (formData) => API.post("clubs/addclubs", formData);
@@ -70,4 +70,11 @@ export const selectClub = (region, zone) =>
   API.get(`members/clubs?region=${region}&zone=${zone}`);
 export const checkMemberId = (id) => API.get(`members/validate?id=${id}`);
 export const addMember = (data) => API.post("members/add", data);
+export const addDistrictResources = (formData) => API.post("assets/add-district-resources", formData);
+export const getDistrictResources = () => API.get("assets/district-resources");
+export const deleteDistrictResources = (id) => API.delete(`assets/district-resources/${id}`);
+export const addInternationalResources = (formData) => API.post("assets/add-international-resources", formData);
+export const getInternationalResources = () => API.get("assets/international-resources");
+export const deleteInternationalResources = (id) => API.delete(`assets/international-resources/${id}`);
+
 

@@ -1,9 +1,11 @@
-import { GALLARY_IMAGES, SLIDER_IMAGES,DELETE_SLIDER_SUCCESS,DELETE_GALLERY_SUCCESS } from "../constants/actionTypes";
+import { GALLARY_IMAGES, SLIDER_IMAGES,DELETE_SLIDER_SUCCESS,DELETE_GALLERY_SUCCESS,DISTRICT_RESOURCES,INTERNATIONAL_RESOURCES,DELETE_INTERNATIONAL_RESOURCES,DELETE_DISTRICT_RESOURCES } from "../constants/actionTypes";
 
 const assetsReducer = (
   state = {
     sliderImages: [{ image: "" }],
     galleryImages: [{ image: "" }],
+    districtResources:[],
+    internationalResources:[],
   },
   action
 ) => {
@@ -28,7 +30,25 @@ const assetsReducer = (
                 (gallery) => gallery.id !== action.payload
             ),
         };
-
+    case DISTRICT_RESOURCES:
+        return { ...state, districtResources: action.payload };
+    case INTERNATIONAL_RESOURCES:
+        return { ...state, internationalResources: action.payload };
+    case DELETE_DISTRICT_RESOURCES:
+        return {
+            ...state,
+            districtResources: state.districtResources.filter(
+                (district) => district.id !== action.payload
+            ),
+        };
+    case DELETE_INTERNATIONAL_RESOURCES:
+        return {
+            ...state,
+            internationalResources: state.internationalResources.filter(
+                (international) => international.id !== action.payload
+            ),
+        };
+        
     default:
       return state;
   }

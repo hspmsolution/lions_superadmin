@@ -14,7 +14,8 @@ import Gallery from "./superadmin/pages/Gallery";
 import UpdatePrivacy from "./superadmin/pages/UpdatePrivacy";
 import Slider from "./superadmin/pages/Slider";
 import Contact from "./superadmin/pages/Contact";
-import DownloadResource from "./superadmin/pages/DownloadResource";
+import DistrictResource from "./superadmin/pages/DistrictResource";
+import InternatinalResource from "./superadmin/pages/InternationalResources";
 import ApproveAdminReport from "./superadmin/pages/ApproveAdminReport";
 export default function Router() {
   const isAdmin = useSelector((state) => state.auth.admin);
@@ -104,8 +105,12 @@ export default function Router() {
                 ,
                 { path: "privacy", element: <UpdatePrivacy /> },
                 {
-                  path: "Download",
-                  element: <DownloadResource />,
+                  path: "district-resource",
+                  element: <DistrictResource />,
+                },
+                {
+                  path: "international-resource",
+                  element: <InternatinalResource />,
                 },
                 {
                   path: "activityType",
