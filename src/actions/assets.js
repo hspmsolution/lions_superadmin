@@ -18,6 +18,7 @@ export const addGallery = (formData) => async (dispatch) => {
       type: CLIENT_MSG,
       message: { info: data.successMessage, status },
     });
+    dispatch(getGallery());
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,
@@ -35,6 +36,7 @@ export const addSlider = (formData) => async (dispatch) => {
       type: CLIENT_MSG,
       message: { info: data.successMessage, status },
     });
+    dispatch(getSlider());
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,
@@ -112,6 +114,7 @@ export const addDistrictResources = (formData) => async (dispatch) => {
       type: CLIENT_MSG,
       message: { info: data.successMessage, status },
     });
+    dispatch(getDistrictResources());
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,
@@ -161,6 +164,7 @@ export const addInternationalResources = (formData) => async (dispatch) => {
       type: CLIENT_MSG,
       message: { info: data.successMessage, status },
     });
+    dispatch(getInternationalResources());
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,

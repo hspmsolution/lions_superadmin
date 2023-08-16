@@ -335,7 +335,6 @@ export default function MemberInfo() {
             flexGrow: 1,
             width: "100%",
             width: "1000px",
-            // height: "500px",
           }}
         >
           <div className={classes.root}>
