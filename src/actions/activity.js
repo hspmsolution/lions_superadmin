@@ -9,6 +9,7 @@ import {
   STATS
 } from "../constants/actionTypes";
 import * as api from "../api";
+import * as xlsx from "xlsx";
 
 
 export const getStats = () => async (dispatch) => {
@@ -113,6 +114,29 @@ export const getActivities = () => async (dispatch) => {
     const { data } = await api.getActivities();
     dispatch({ type: ALL_ACTIVITY, payload: data });
   } catch (error) {
+    console.log(error);
+  }
+};
+
+export const downloadUpcomingActivity = (data) => async (dispatch) => {
+  try {
+    const sheet = xlsx.utils.json_to_sheet(data);
+    const book = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(book, sheet, "Sheet1");
+    xlsx.writeFile(book, "upcoming_activities.xlsx");
+
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: "Activity Downloaded", status: 200 },
+    });
+  } catch (error) {
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: "Please try again later",
+        status: 400,
+      },
+    });
     console.log(error);
   }
 };

@@ -90,7 +90,7 @@ const ClubReports = () => {
                       <>
                         <StyledTableRow key={index + 1}>
                           <StyledTableCell component="th" scope="row">
-                            {index + 1}
+                            {row.titleId}
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {row.title}

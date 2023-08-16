@@ -216,7 +216,6 @@ export default function Slider() {
               Image Description
             </Typography>
             <TextField
-              required
               id="description"
               name="description"
               type="text"

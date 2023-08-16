@@ -225,7 +225,6 @@ export default function Gallery() {
               Image Description
             </Typography>
             <TextField
-              required
               id="description"
               name="description"
               type="text"
