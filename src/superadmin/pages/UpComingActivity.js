@@ -25,6 +25,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
 import { API_URL } from "../../api";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const useStyles = makeStyles(() => ({
   activityContainer: {
