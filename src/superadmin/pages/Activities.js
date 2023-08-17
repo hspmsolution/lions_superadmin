@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-import { getActivities } from "../../actions/activity";
+import { getActivities,deleteActivityType } from "../../actions/activity";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -22,25 +22,36 @@ const columns = [
   { id: "subtype", label: "Activity SubType", minWidth: 100 },
   { id: "category", label: "Activty Category", minWidth: 100 },
   { id: "placeholder", label: "Place Holder", minWidth: 100 },
-  { label: "Edit", minWidth: 100 },
   { label: "Delete", minWidth: 100 },
 ];
 
-function createData(type, subtype, category, placeholder) {
-  return { type, subtype, category, placeholder };
-}
 
-const rows = [createData(1, 23, "Pune", 34, "2022/11/2")];
 
 export default function Activities() {
+  const dispatch = useDispatch();
   const [page, setPage] = React.useState(0);
-  const Activity = useSelector((state) => state.activity.allActivity);
+
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
-  const dispatch = useDispatch();
+
+  const Activity = useSelector((state) => {
+    if (searchTerm.trim() === "") {
+      return state.activity.allActivity;
+    } else {
+      const filteredActivity = state.activity.allActivity.filter(
+        (activity) =>
+          activity.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          activity.subtype?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          activity.category?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      return filteredActivity;
+    }
+  });
+
   useEffect(() => {
     dispatch(getActivities());
   }, []);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -55,12 +66,15 @@ export default function Activities() {
 
   // Delete Dialog
   const [openDel, setOpenDel] = React.useState(false);
-  const handleClickOpenDel = () => {
+  const [delId, setDelId] = React.useState(null);
+  const handleClickOpenDel = (id) => {
     setOpenDel(true);
+    setDelId(id);
   };
 
   const handleCloseDel = () => {
     setOpenDel(false);
+    setDelId(null);
   };
 
   return (
@@ -71,7 +85,8 @@ export default function Activities() {
         overflow: "hidden",
         borderRadius: "1em",
         marginTop: "2em",
-      }}>
+      }}
+    >
       <Typography
         variant="h6"
         gutterBottom
@@ -81,18 +96,17 @@ export default function Activities() {
           color: "#003895",
           alignItems: "center",
           margin: "1em",
-        }}>
+        }}
+      >
         All Activities
       </Typography>
       <Grid
         container
         justifyContent="space-between"
         spacing={3}
-        style={{ marginTop: "16px" }}>
-        <Grid
-          item
-          xs={6}
-          style={{ textAlign: "left", marginLeft: "1em" }}>
+        style={{ marginTop: "16px" }}
+      >
+        <Grid item xs={6} style={{ textAlign: "left", marginLeft: "1em" }}>
           <TextField
             id="search"
             label="Search Activty"
@@ -103,16 +117,15 @@ export default function Activities() {
         </Grid>
       </Grid>
       <TableContainer sx={{ marginTop: "1em" }}>
-        <Table
-          stickyHeader
-          aria-label="sticky table">
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}>
+                  style={{ minWidth: column.minWidth }}
+                >
                   {column.label}
                 </TableCell>
               ))}
@@ -126,47 +139,23 @@ export default function Activities() {
               return (
                 <>
                   <TableRow>
-                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{(page * rowsPerPage) + index+1}</TableCell>
                     <TableCell>{row.type}</TableCell>
                     <TableCell>{row.subtype}</TableCell>
                     <TableCell>{row.category}</TableCell>
                     <TableCell>{row.placeholder}</TableCell>
                     <TableCell>
-                      <Button variant="outlined">Edit</Button>
-                    </TableCell>
-                    <TableCell>
                       <Button
-                        onClick={handleClickOpenDel}
+                        onClick={() => {
+                          handleClickOpenDel(row.id);
+                        }}
                         sx={{ color: "red" }}
-                        variant="outlined">
+                        variant="outlined"
+                      >
                         Delete
                       </Button>
                     </TableCell>
                   </TableRow>
-
-                  {/* Delete Dialog */}
-                  {/* <Dialog
-                    open={openDel}
-                    onClose={handleCloseDel}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description">
-                    <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete? This action cannot be
-                        reversed.
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleCloseDel}>Cancel</Button>
-                      <Button
-                        onClick={handleCloseDel}
-                        autoFocus
-                        color="error">
-                        Delete
-                      </Button>
-                    </DialogActions>
-                  </Dialog> */}
                 </>
               );
             })}
@@ -186,7 +175,8 @@ export default function Activities() {
         open={openDel}
         onClose={handleCloseDel}
         aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
+        aria-describedby="alert-dialog-description"
+      >
         <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -196,9 +186,13 @@ export default function Activities() {
         <DialogActions>
           <Button onClick={handleCloseDel}>Cancel</Button>
           <Button
-            onClick={handleCloseDel}
+            onClick={() => {
+              handleCloseDel();
+              dispatch(deleteActivityType(delId));
+            }}
             autoFocus
-            color="error">
+            color="error"
+          >
             Delete
           </Button>
         </DialogActions>

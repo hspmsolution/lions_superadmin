@@ -6,7 +6,8 @@ import {
   ACTIVITY_PLACEHOLDER,
   UPCOMING_ACTIVITY,
   ALL_ACTIVITY,
-  STATS
+  STATS,
+  DELETE_ACTIVITY_SUCCESS
 } from "../constants/actionTypes";
 import * as api from "../api";
 import * as xlsx from "xlsx";
@@ -90,7 +91,7 @@ export const getUpcomingActivity = () => async (dispatch) => {
   }
 };
 export const addActivity = (formData) => async (dispatch) => {
-  console.log(formData);
+  
   try {
     const { data, status } = await api.addActivity(formData);
   
@@ -109,6 +110,28 @@ export const addActivity = (formData) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const deleteActivityType = (id) => async (dispatch) => {
+
+  try {
+    const { data, status } = await api.deleteActivityType(id);
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: data.successMessage, status },
+    });
+    dispatch({ type: DELETE_ACTIVITY_SUCCESS, payload: id });
+  } catch (error) {
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: error.response.data?.message,
+        status: error.response.status,
+      },
+    });
+    console.log(error);
+  }
+};
+
 export const getActivities = () => async (dispatch) => {
   try {
     const { data } = await api.getActivities();

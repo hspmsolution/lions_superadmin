@@ -6,7 +6,8 @@ import {
   REPORTED_ACTIVITY,
   UPCOMING_ACTIVITY,
   ALL_ACTIVITY,
-  STATS
+  STATS,
+  DELETE_ACTIVITY_SUCCESS
 } from "../constants/actionTypes";
 
 const activityReducer = (
@@ -43,6 +44,13 @@ const activityReducer = (
         return { ...state, upcomingActivity: action.payload };
     case ALL_ACTIVITY:
         return { ...state, allActivity: action.payload };
+    case DELETE_ACTIVITY_SUCCESS:
+      return {
+        ...state,
+        allActivity: state.allActivity.filter(
+          (activity) => activity.id !== action.payload
+        ),
+      };
     default:
       return state;
   }

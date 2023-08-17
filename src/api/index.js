@@ -62,7 +62,9 @@ export const AllAdminReport=(month)=>API.get(`clubs/alladminreport?month=${month
 export const getUpcomingActivity = () =>
   API.get("activity/getUpcomingActivity");
 export const addActivity = (formData) =>
-  API.post("activity/addActivity", formData);
+  API.post("activity/add-activity-type", formData);
+export const deleteActivityType = (id) =>
+  API.delete(`activity/delete-activity-type/${id}`);
 export const getActivities = () => API.get("activity/activities");
 export const selectRegion = () => API.get("members/regions");
 export const selectZone = (region) => API.get(`members/zones?region=${region}`);
