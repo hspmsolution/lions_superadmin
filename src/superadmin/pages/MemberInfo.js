@@ -36,7 +36,7 @@ const columns = [
   { id: "dob", label: "DOB", minWidth: 100 },
   { id: "gender", label: "Gender", minWidth: 100 },
   { id: "occupation", label: "Occupation", minWidth: 100 },
-  { label: "Edit", minWidth: 100 },
+ // { label: "Edit", minWidth: 100 },
   { label: "Delete", minWidth: 100 },
 ];
 
@@ -298,11 +298,11 @@ export default function MemberInfo() {
                     <TableCell>{row.dob?.slice(0, 10)}</TableCell>
                     <TableCell>{row.gender}</TableCell>
                     <TableCell>{row.occupation}</TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <Button variant="outlined" onClick={handleClickOpen}>
                         Edit
                       </Button>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Button
                         onClick={handleClickOpenDel}
