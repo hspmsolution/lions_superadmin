@@ -196,7 +196,7 @@ export default function DistrictResource() {
                   type="file"
                   id="image-upload"
                   name="image"
-                  label="Upload Photo less than 500kb"
+                  label="Upload file less than 5mb"
                   fullWidth
                   required
                   margin="normal"

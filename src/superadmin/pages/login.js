@@ -107,14 +107,14 @@ const Login = () => {
           color: "#fff",
         }}>
         <Container maxWidth="sm">
-          <Link to={DOMAIN_URL}>
+          <a href={DOMAIN_URL}>
             <Button
               component="a"
               sx={{ color: "white" }}
               startIcon={<ArrowBackIcon fontSize="small" />}>
               Home
             </Button>
-          </Link>
+          </a>
           <form
             onSubmit={formik.handleSubmit}
             className={classes.label}>
