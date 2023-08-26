@@ -11,10 +11,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Activities from "./Activities";
-import {
-  addActivity,
-  getActivity,
-} from "../../actions/activity";
+import { addActivity, getActivity } from "../../actions/activity";
 
 const useStyles = makeStyles({
   heading: {
@@ -55,7 +52,7 @@ const activityDetail = {
   activityCategory: "",
   placeHolderValue: "",
   beneficiaries: "",
-  star: "",
+  star: 1,
 };
 
 export default function AddActivity() {
@@ -162,6 +159,7 @@ export default function AddActivity() {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
+              
             }}
           >
             <Box
@@ -203,6 +201,38 @@ export default function AddActivity() {
                 name="placeHolderValue"
                 fullWidth
                 value={activity.placeHolderValue}
+                variant="outlined"
+                onChange={handleChange}
+                className={classes.label}
+              />
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "1em",
+                width: "30%",
+              }}
+            >
+              <Typography className={classes.title}>
+                Enter Points
+              </Typography>
+              <TextField
+                required
+                id="star"
+                name="star"
+                fullWidth
+                type="number"
+                value={activity.star}
                 variant="outlined"
                 onChange={handleChange}
                 className={classes.label}

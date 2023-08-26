@@ -66,6 +66,7 @@ export const addActivity = (formData) =>
 export const deleteActivityType = (id) =>
   API.delete(`activity/delete-activity-type/${id}`);
 export const getActivities = () => API.get("activity/activities");
+export const downloadAllActivity = () => API.get("activity/download-activities");
 export const selectRegion = () => API.get("members/regions");
 export const selectZone = (region) => API.get(`members/zones?region=${region}`);
 export const selectClub = (region, zone) =>

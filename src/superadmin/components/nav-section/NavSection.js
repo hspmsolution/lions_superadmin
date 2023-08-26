@@ -58,16 +58,16 @@ export default function NavSection({ ...other }) {
       icon: <FormatAlignJustifyIcon />,
       isClick: false,
       subItems: [
-        {
-          title: "Update T&C",
-          path: "/superadmin/dashboard/updateTC",
-          icon: icon("ic_arrow"),
-        },
-        {
-          title: "Update Privacy Policy",
-          path: "/superadmin/dashboard/privacy",
-          icon: icon("ic_arrow"),
-        },
+        // {
+        //   title: "Update T&C",
+        //   path: "/superadmin/dashboard/updateTC",
+        //   icon: icon("ic_arrow"),
+        // },
+        // {
+        //   title: "Update Privacy Policy",
+        //   path: "/superadmin/dashboard/privacy",
+        //   icon: icon("ic_arrow"),
+        // },
         {
           title: "Add Activity Type",
           path: "/superadmin/dashboard/activityType",

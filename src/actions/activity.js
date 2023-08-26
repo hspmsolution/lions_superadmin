@@ -163,3 +163,28 @@ export const downloadUpcomingActivity = (data) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const downloadAllActivity = () => async (dispatch) => {
+  try {
+    const { data,status} = await api.downloadAllActivity();
+
+    const sheet = xlsx.utils.json_to_sheet(data);
+    const book = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(book, sheet, "Sheet1");
+    xlsx.writeFile(book, "all_activities.xlsx");
+
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: "Activities Downloaded", status: 200 },
+    });
+  } catch (error) {
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: "Please try again later",
+        status: 400,
+      },
+    });
+    console.log(error);
+  }
+};
