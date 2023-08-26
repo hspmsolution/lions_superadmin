@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
-import { downloadUpcomingActivity, getUpcomingActivity } from "../../actions/activity";
+import {
+  downloadAllActivity,
+  downloadUpcomingActivity,
+  getUpcomingActivity,
+} from "../../actions/activity";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
@@ -260,19 +264,39 @@ export default function UpComingActivity() {
   }, []);
   return (
     <Box bgcolor="white" p={3} borderRadius={4} marginTop={2}>
-      <Typography
-        variant="h6"
-        gutterBottom
+      <Box
+        bgcolor="white"
+        p={3}
         sx={{
-          width: "25%",
-          borderBottom: "2px solid #B4880B",
-          color: "#003895",
-          alignItems: "center",
-          margin: "1em",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
         }}
       >
-        UpComing Activities
-      </Typography>
+        <Typography
+          variant="h6"
+          gutterBottom
+          sx={{
+            width: "25%",
+            borderBottom: "2px solid #B4880B",
+            color: "#003895",
+            alignItems: "center",
+            margin: "1em",
+          }}
+        >
+          UpComing Activities
+        </Typography>
+        <Button
+          variant="outlined"
+          size="medium"
+          color="primary"  
+          onClick={() => {
+            dispatch(downloadAllActivity());
+          }}
+        >
+          Download All Reported Activities
+        </Button>
+      </Box>
       <TableContainer component={Paper}>
         <Table aria-label="news table">
           <TableHead>
@@ -312,7 +336,14 @@ export default function UpComingActivity() {
                   />
                 </StyledTableCell>
                 <StyledTableCell>
-                  <Button variant="outlined" onClick={()=>{dispatch(downloadUpcomingActivity([row]))}}>Download</Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      dispatch(downloadUpcomingActivity([row]));
+                    }}
+                  >
+                    Download
+                  </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

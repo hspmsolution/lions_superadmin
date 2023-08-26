@@ -22,6 +22,7 @@ const columns = [
   { id: "subtype", label: "Activity SubType", minWidth: 100 },
   { id: "category", label: "Activty Category", minWidth: 100 },
   { id: "placeholder", label: "Place Holder", minWidth: 100 },
+  { id: "star", label: "Points", minWidth: 100 },
   { label: "Delete", minWidth: 100 },
 ];
 
@@ -144,6 +145,7 @@ export default function Activities() {
                     <TableCell>{row.subtype}</TableCell>
                     <TableCell>{row.category}</TableCell>
                     <TableCell>{row.placeholder}</TableCell>
+                    <TableCell>{row.star}</TableCell>
                     <TableCell>
                       <Button
                         onClick={() => {
