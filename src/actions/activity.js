@@ -141,6 +141,30 @@ export const getActivities = () => async (dispatch) => {
   }
 };
 
+export const downloadClubRanking = () => async (dispatch) => {
+  try {
+    const { data,status } = await api.downloadClubRanking();
+    const sheet = xlsx.utils.json_to_sheet(data);
+    const book = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(book, sheet, "Sheet1");
+    xlsx.writeFile(book, "club_ranking.xlsx");
+
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: "Club Ranking Downloaded", status: 200 },
+    });
+  } catch (error) {
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: "Please try again later",
+        status: 400,
+      },
+    });
+    console.log(error);
+  }
+};
+
 export const downloadUpcomingActivity = (data) => async (dispatch) => {
   try {
     const sheet = xlsx.utils.json_to_sheet(data);
@@ -176,6 +200,46 @@ export const downloadAllActivity = () => async (dispatch) => {
     dispatch({
       type: CLIENT_MSG,
       message: { info: "Activities Downloaded", status: 200 },
+    });
+  } catch (error) {
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: "Please try again later",
+        status: 400,
+      },
+    });
+    console.log(error);
+  }
+};
+
+
+export const downloadReport = (data,month) => async (dispatch) => {
+  try {
+    if(!month){
+      dispatch({
+        type: CLIENT_MSG,
+        message: { info: "Please Select Month", status: 404 },
+      });
+      return;
+    }
+    const nonReportedClubs=data?.nonReportedClubs;
+    const reportedClubs=data?.reportedClubs;
+   
+    const sheet1 = xlsx.utils.json_to_sheet(nonReportedClubs);
+    const sheet2 = xlsx.utils.json_to_sheet(reportedClubs);
+
+    const book1 = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(book1, sheet1, "Sheet1");
+    xlsx.writeFile(book1, `${month}_nonreported_club.xlsx`);
+    
+    const book2 = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(book2, sheet2, "Sheet2");
+    xlsx.writeFile(book2, `${month}_reported_club.xlsx`);
+
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: "Report downloaded", status: 200 },
     });
   } catch (error) {
     dispatch({

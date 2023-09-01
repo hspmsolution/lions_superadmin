@@ -146,12 +146,17 @@ export default function MemberInfo() {
       return state.members.memberData;
     } else {
       const filteredMembers = state.members.memberData.filter((members) =>
-        members.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
+        members.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        members.id?.toString().includes(searchTerm.toLowerCase()) ||
+        members.clubName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        members.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        members.clubId?.toString().includes(searchTerm.toLowerCase()) ||
+        members.email?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       return filteredMembers;
     }
   });
-
+ console.log(Members)
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

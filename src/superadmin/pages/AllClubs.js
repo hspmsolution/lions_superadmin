@@ -44,10 +44,16 @@ export default function AllClubs() {
   const dispatch = useDispatch();
   
   const Clubs = useSelector((state) => {
-    const filteredClubs = state.clubs.registeredClubs.filter((club) =>
-      club.clubName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    return filteredClubs;
+    if (searchTerm.trim() === "") {
+      return state.clubs.registeredClubs;
+    } else {
+      const filteredClubs = state.clubs.registeredClubs.filter(
+        (club) =>
+        club.clubName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        club.clubId.toString().includes(searchTerm.toLowerCase())
+      );
+      return filteredClubs;
+    }
   });
   
   const handleChangePage = (event, newPage) => {

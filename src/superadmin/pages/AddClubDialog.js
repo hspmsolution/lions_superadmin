@@ -78,7 +78,7 @@ function AddClubDialog(props) {
   }
 
   const rows01 = [
-    createData01("Admin Reports:", clubInfo?.adminPoint),
+    createData01("Total Admin Points", clubInfo?.adminPoint),
     createData01("Activities Count:", clubInfo?.activityCount),
     createData01("Total Amount Spent", clubInfo?.totalExpense),
   ];

@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AllAdminReport, clubAdminReport } from "../../actions/clubs";
 import ClubReports from "./ClubReports";
 import { CLIENT_MSG, CLUB_ADMIN_REPORT } from "../../constants/actionTypes";
+import { downloadClubRanking, downloadReport } from "../../actions/activity";
 
 const monthNames = [
   "January",
@@ -139,7 +140,7 @@ function ApproveAdminReport() {
         </Typography>
         <Box>
           <Box sx={{ maxWidth: "500px", marginBottom: "2rem" }}>
-            <Grid item xs={6}>
+            <Grid item xs={6} sx={{display:"flex", gap:"1em", justifyContent: "space-between"}} >
               <TextField
                 id="Month"
                 select
@@ -163,7 +164,31 @@ function ApproveAdminReport() {
                   </MenuItem>
                 ))}
               </TextField>
+             
+              <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              style={{width:"230px"}}
+              onClick={() => {
+                dispatch(downloadReport(allAdminReport,selectedMonth));
+              }}
+            >
+              Download Reports
+            </Button>
+            <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              style={{width:"230px" }}
+              onClick={() => {
+                dispatch(downloadClubRanking());
+              }}
+            >
+              Download Ranking
+            </Button>
             </Grid>
+           
           </Box>
 
           <Grid container spacing={2}>

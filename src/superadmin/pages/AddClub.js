@@ -62,17 +62,16 @@ export default function AddClub() {
   });
 
   const handleInputChange = (e) => {
-    let updatedClub = { ...club }; 
-    
-    if (e.target.name === "regionName") {
-      updatedClub.zoneName = ""; 
+    const { name, value } = e.target;
+    const updatedClub = { ...club, [name]: name === "clubName" ? value.toUpperCase() : value };
+  
+    if (name === "regionName") {
+      updatedClub.zoneName = "";
     }
   
-    updatedClub[e.target.name] = e.target.value;
-  
-    setClub(updatedClub); 
-   
+    setClub(updatedClub);
   };
+  
   
 
   const submitDetails = (e) => {
