@@ -59,6 +59,7 @@ export const clubActivites = (clubId) =>
 export const clubNews = (clubId) => API.get(`clubs/clubnews?clubId=${clubId}`);
 export const clubAdminReport=(clubId,month)=>API.get(`clubs/clubadminreport?clubId=${clubId}&month=${month}`)
 export const AllAdminReport=(month)=>API.get(`clubs/alladminreport?month=${month}`)
+export const downloadClubRanking = () => API.get("clubs/download-club-ranking");
 export const getUpcomingActivity = () =>
   API.get("activity/getUpcomingActivity");
 export const addActivity = (formData) =>
@@ -79,5 +80,6 @@ export const deleteDistrictResources = (id) => API.delete(`assets/district-resou
 export const addInternationalResources = (formData) => API.post("assets/add-international-resources", formData);
 export const getInternationalResources = () => API.get("assets/international-resources");
 export const deleteInternationalResources = (id) => API.delete(`assets/international-resources/${id}`);
+
 
 

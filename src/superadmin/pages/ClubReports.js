@@ -39,7 +39,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ClubReports = () => {
   const clubAdminReport = useSelector((state) => state.clubs.clubAdminReport);
-  console.log(clubAdminReport);
+ 
   return (
     <>
       {!clubAdminReport.pdfPath && <div>No data found</div>}
@@ -48,7 +48,7 @@ const ClubReports = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Typography variant="h4" sx={{ marginTop: "2rem" }}>
-                Total Admin Points {clubAdminReport?.adminstars}
+                 Admin Points {clubAdminReport?.adminstars}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
