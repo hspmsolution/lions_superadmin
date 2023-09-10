@@ -5,7 +5,8 @@ import {
   SELECT_CLUB,
   UPDATE_MEMBER_INFO,
   CLIENT_MSG,
-  RESET_MEMBER_INFO
+  RESET_MEMBER_INFO,
+  MEMBER_INFO
 } from "../constants/actionTypes";
 import * as api from "../api";
 
@@ -20,11 +21,26 @@ export const getMembers = () => async (dispatch) => {
   }
 };
 
+export const memberDetails = (id) => async (dispatch) => {
+  try {
+    const {data,status}= await api.memberDetails(id);   
+    dispatch({ type: MEMBER_INFO, payload: data });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: error.response.data?.message,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
 export const getSelectRegion = () => async (dispatch) => {
   try {
     const response = await api.selectRegion();
     const data = response.data;
-
     dispatch({ type: SELECT_REGION, payload: data });
   } catch (error) {
     console.log(error);
@@ -90,6 +106,30 @@ export const addMember = (formData) => async (dispatch) => {
     dispatch({
       type:RESET_MEMBER_INFO
     });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: error.response.data?.message,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+export const updateMemberInfo = (formData,handleClose) => async (dispatch) => {
+  try {
+    const {data,status} = await api.updateMemberInfo(formData);
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: data.successMessage, status },
+    });
+    dispatch(getMembers());
+    dispatch({
+      type:RESET_MEMBER_INFO
+    });
+    handleClose();
   } catch (error) {
     console.log(error);
     dispatch({

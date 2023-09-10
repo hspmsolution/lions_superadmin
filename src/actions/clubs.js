@@ -8,7 +8,8 @@ import {
   CLUB_ACTIVITIES,
   CLUB_NEWS,
   CLUB_ADMIN_REPORT,
-  ALL_ADMIN_REPORT
+  ALL_ADMIN_REPORT,
+  EDIT_CLUB_INFO
 } from "../constants/actionTypes";
 
 export const addClubs = (formData) => async (dispatch) => {
@@ -48,6 +49,47 @@ export const deleteClub = (clubId) => async (dispatch) => {
       message: { info: data.successMessage, status },
     });
     dispatch({ type: DELETE_CLUB_SUCCESS, payload: clubId });
+  } catch (error) {
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: error.response.data?.message,
+        status: error.response.status,
+      },
+    });
+    console.log(error);
+  }
+};
+
+
+export const editClubInfo = (clubId) => async (dispatch) => {
+  try {
+    const { data, status } = await api.editClubInfo(clubId);
+    dispatch({ type: EDIT_CLUB_INFO, payload: data });
+
+  } catch (error) {
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: error.response.data?.message,
+        status: error.response.status,
+      },
+    });
+    console.log(error);
+  }
+};
+
+
+export const updateClubInfo = (formData,handleCloseEdit) => async (dispatch) => {
+  try {
+    const { data, status } = await api.updateClubInfo(formData);
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: data.successMessage, status },
+    });
+    dispatch(getClubs());
+    handleCloseEdit();
+    
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,

@@ -5,6 +5,7 @@ import {
   SELECT_CLUB,
   UPDATE_MEMBER_INFO,
   RESET_MEMBER_INFO,
+  MEMBER_INFO,
 } from "../constants/actionTypes";
 const memberDetails = {
   clubName: "",
@@ -50,6 +51,8 @@ const membersReducer = (
       };
     case RESET_MEMBER_INFO:
       return {...state,memberInfo:memberDetails}
+    case MEMBER_INFO:
+      return {...state,memberInfo:action.payload}
     case SELECT_REGION:
       return { ...state, selectRegion: action.payload };
     case SELECT_ZONE:

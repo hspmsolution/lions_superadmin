@@ -6,7 +6,7 @@ import Login from "./superadmin/pages/login";
 import Page404 from "./superadmin/pages/Page404";
 import DashboardAppPage from "./superadmin/pages/DashboardAppPage";
 import DashboardLayout from "./superadmin/layouts/dashboard";
-import AddClub from "./superadmin/pages/AddClub";
+import AllClubs from "./superadmin/pages/AllClubs";
 import Member from "./superadmin/pages/Member";
 import UpdateTC from "./superadmin/pages/UpdateTC";
 import AddActivity from "./superadmin/pages/AddActivty";
@@ -95,7 +95,7 @@ export default function Router() {
                 },
                 {
                   path: "clubs",
-                  element: <AddClub />,
+                  element: <AllClubs />,
                 },
                 {
                   path: "members",

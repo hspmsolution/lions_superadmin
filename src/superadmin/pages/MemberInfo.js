@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-import { getMembers } from "../../actions/members";
+import { getMembers, memberDetails, updateMemberInfo } from "../../actions/members";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -20,6 +20,8 @@ import ProfileForm from "../../Forms/ProfileForm";
 import FinalDetails from "../../Forms/FinalDetails";
 import { Stepper, Step, StepLabel } from "@mui/material";
 import DialogContentText from "@mui/material/DialogContentText";
+import { RESET_MEMBER_INFO } from "../../constants/actionTypes";
+import { set } from "lodash";
 
 const columns = [
   { id: "index", label: "SrNo.", minWidth: 60 },
@@ -36,45 +38,10 @@ const columns = [
   { id: "dob", label: "DOB", minWidth: 100 },
   { id: "gender", label: "Gender", minWidth: 100 },
   { id: "occupation", label: "Occupation", minWidth: 100 },
- // { label: "Edit", minWidth: 100 },
+ { label: "Edit", minWidth: 100 },
   { label: "Delete", minWidth: 100 },
 ];
 
-function createData(
-  id,
-  clubName,
-  clubId,
-  title,
-  fullName,
-  address,
-  city,
-  email,
-  phone,
-  spouseName,
-  dob,
-  gender,
-  occupation,
-  Edit,
-  Delete
-) {
-  return {
-    id,
-    clubName,
-    clubId,
-    title,
-    fullName,
-    address,
-    city,
-    email,
-    phone,
-    spouseName,
-    dob,
-    gender,
-    occupation,
-    Edit,
-    Delete,
-  };
-}
 
 // Dialog
 const useStyles = makeStyles({
@@ -139,7 +106,9 @@ export default function MemberInfo() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
   const dispatch = useDispatch();
+  const memberInfo = useSelector((state) => state.members.memberInfo);
 
   const Members = useSelector((state) => {
     if (searchTerm.trim() === "") {
@@ -156,7 +125,7 @@ export default function MemberInfo() {
       return filteredMembers;
     }
   });
- console.log(Members)
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -176,17 +145,22 @@ export default function MemberInfo() {
   // Dialog
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id) => {
+    dispatch(memberDetails(id))
     setOpen(true);
   };
 
   const handleClose = () => {
+    setActiveStep(0);
     setOpen(false);
+    dispatch({
+      type:RESET_MEMBER_INFO
+    });
   };
 
   const classes = useStyles();
 
-  const [activeStep, setActiveStep] = useState(0);
+
 
   // Go to next step
   const handleNext = () => {
@@ -199,14 +173,14 @@ export default function MemberInfo() {
   };
 
   // Get form component for current step
-  const getStepForm = () => {
+  const getStepForm = (isEdit=true) => {
     switch (activeStep) {
       case 0:
-        return <ClubForm label={"editDetails"} />;
+        return <ClubForm isEdit />;
       case 1:
-        return <ProfileForm />;
+        return <ProfileForm isEdit/>;
       case 2:
-        return <FinalDetails />;
+        return <FinalDetails isEdit/>;
       default:
         return null;
     }
@@ -214,6 +188,7 @@ export default function MemberInfo() {
 
   // Submit form
   const handleSubmit = () => {
+    dispatch(updateMemberInfo(memberInfo,handleClose))
     console.log("submitted");
   };
 
@@ -260,7 +235,7 @@ export default function MemberInfo() {
           <Grid item xs={6} style={{ textAlign: "left", marginLeft: "1em" }}>
             <TextField
               id="search"
-              label="Search Member"
+              label="Search"
               variant="outlined"
               size="small"
               onChange={handleSearchInputChange}
@@ -303,11 +278,11 @@ export default function MemberInfo() {
                     <TableCell>{row.dob?.slice(0, 10)}</TableCell>
                     <TableCell>{row.gender}</TableCell>
                     <TableCell>{row.occupation}</TableCell>
-                    {/* <TableCell>
-                      <Button variant="outlined" onClick={handleClickOpen}>
+                    <TableCell>
+                      <Button variant="outlined" onClick={()=>{handleClickOpen(row.id)}}>
                         Edit
                       </Button>
-                    </TableCell> */}
+                    </TableCell>
                     <TableCell>
                       <Button
                         onClick={handleClickOpenDel}
