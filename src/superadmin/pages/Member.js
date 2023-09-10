@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  Paper,
-} from "@mui/material";
+import { Stepper, Step, StepLabel, Button, Paper,Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import ClubForm from "../../Forms/ClubForm";
 import ProfileForm from "../../Forms/ProfileForm";
 import FinalDetails from "../../Forms/FinalDetails";
 import MemberInfo from "./MemberInfo";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addMember } from "../../actions/members";
 
 const useStyles = makeStyles({
@@ -44,8 +38,8 @@ const useStyles = makeStyles({
     "& .MuiStepIcon-root": {
       color: "#0077C0",
     },
-    padding: '10px 30px 10px 30px',
-    borderRadius: '4px',
+    padding: "10px 30px 10px 30px",
+    borderRadius: "4px",
   },
   inactiveStep: {
     color: "#F2F2F2",
@@ -53,8 +47,8 @@ const useStyles = makeStyles({
     "& .MuiStepIcon-root": {
       color: "#49A5FF",
     },
-    padding: '10px 30px 10px 30px',
-    borderRadius: '4px',
+    padding: "10px 30px 10px 30px",
+    borderRadius: "4px",
   },
   totalPoints: {
     marginRight: "8px",
@@ -105,13 +99,24 @@ export default function FormWizard() {
 
   // Submit form
   const handleSubmit = () => {
-      dispatch(addMember(memberInfo));
+    dispatch(addMember(memberInfo));
   };
-
-
 
   return (
     <>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{
+          width: "25%",
+          borderBottom: "2px solid #B4880B",
+          color: "#003895",
+          alignItems: "center",
+          margin: "1em",
+        }}
+      >
+        Add New Member
+      </Typography>
       <div className={classes.root}>
         <Stepper className={classes.stepBtn} activeStep={activeStep}>
           {steps.map((step, index) => (
@@ -155,15 +160,19 @@ export default function FormWizard() {
                 Submit
               </Button>
             ) : (
-              <Button onClick={handleNext} variant="contained" color="primary" disabled={!memberInfo.id_available}>
+              <Button
+                onClick={handleNext}
+                variant="contained"
+                color="primary"
+                disabled={!memberInfo.id_available}
+              >
                 Next
               </Button>
             )}
           </div>
         </Paper>
       </div>
-      <MemberInfo/>
+      <MemberInfo />
     </>
   );
 }
-

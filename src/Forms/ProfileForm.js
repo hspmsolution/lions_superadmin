@@ -116,7 +116,6 @@ const ProfileForm = () => {
               width: "30%",
             }}>
             <TextField
-              required
               type="email"
               id="email"
               label="Email-Id"
@@ -141,7 +140,6 @@ const ProfileForm = () => {
               width: "30%",
             }}>
             <TextField
-              required
               type="tel"
               id="tel"
               label="Mobile Number"

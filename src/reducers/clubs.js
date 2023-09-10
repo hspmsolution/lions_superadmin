@@ -6,11 +6,12 @@ import {
   CLUB_ACTIVITIES,
   CLUB_NEWS,
   CLUB_ADMIN_REPORT,
-  ALL_ADMIN_REPORT
+  ALL_ADMIN_REPORT,
+  EDIT_CLUB_INFO
 } from "../constants/actionTypes";
 
 const clubsReducer = (
-  state = { region: [], registeredClubs: [], clubInfo: [], clubActivities: [],clubNews:[],clubAdminReport:{},allAdminReport:{reportedClubs:[],nonReportedClubs:[]}},
+  state = { region: [], registeredClubs: [], clubInfo: [], clubActivities: [],clubNews:[],clubAdminReport:{},allAdminReport:{reportedClubs:[],nonReportedClubs:[]},clubEditInfo:{}},
   action
 ) => {
   switch (action.type) {
@@ -37,6 +38,8 @@ const clubsReducer = (
       return { ...state, registeredClubs: action.payload };
     case REGION_DATA:
       return { ...state, region: action.payload };
+    case EDIT_CLUB_INFO:
+      return {...state,clubEditInfo:action.payload}
     default:
       return state;
   }

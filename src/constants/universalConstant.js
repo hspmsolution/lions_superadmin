@@ -6,4 +6,6 @@ export const MEMBER_DESIGNATION = [
   "Club President",
   "Zone Chairperson",
   "Region Chairperson",
+  "Club First Vice President",
+  "Club Second Vice President",
 ];

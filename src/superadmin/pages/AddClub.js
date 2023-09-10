@@ -10,8 +10,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import AllClubs from "./AllClubs";
-import { addClubs } from "../../actions/clubs";
+import { addClubs, updateClubInfo } from "../../actions/clubs";
 
 import { getSelectRegion, getSelectZone } from "../../actions/members";
 
@@ -49,11 +48,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AddClub() {
+export default function AddClub(props) {
   const classes = useStyles();
+  const isEdit = props.isEdit;
   const dispatch = useDispatch();
   const regions = useSelector((state) => state.members.selectRegion);
   const zones = useSelector((state) => state.members.selectZone);
+  const clubEditInfo = useSelector((state) => state.clubs.clubEditInfo);
   const [club, setClub] = useState({
     clubName: "",
     clubId: "",
@@ -76,19 +77,27 @@ export default function AddClub() {
 
   const submitDetails = (e) => {
     e.preventDefault();
-    dispatch(addClubs(club));
+    if (isEdit) {
+      dispatch(updateClubInfo(club,props.handleCloseEdit));
+    }else{
+      dispatch(addClubs(club));
+    }  
     setClub({ clubName: "", clubId: "", regionName: "", zoneName: "" });
   };
 
   useEffect(() => {
     dispatch(getSelectRegion());
-  }, []);
+    if (isEdit) {
+      setClub(clubEditInfo);
+      dispatch(getSelectZone(clubEditInfo.regionName));
+    }
+  }, [clubEditInfo]);
   return (
     <>
       <form onSubmit={submitDetails}>
         <Box bgcolor="white" p={3} borderRadius={4}>
           <Typography variant="h6" gutterBottom className={classes.heading}>
-            Add Club
+          {isEdit ? "Edit Club" : "Add Club"}
           </Typography>
 
           <Box
@@ -202,6 +211,7 @@ export default function AddClub() {
                 id="clubId"
                 name="clubId"
                 type="number"
+                disabled={isEdit}
                 label="Enter Club Id"
                 fullWidth
                 autoComplete="given-name"
@@ -214,12 +224,11 @@ export default function AddClub() {
           </Box>
           <Grid container justifyContent="center">
             <Button type="submit" variant="contained" className={classes.btn}>
-              Add Club
+             { isEdit ? "Update Club":"Add Club"}
             </Button>
           </Grid>
         </Box>
       </form>
-      <AllClubs />
     </>
   );
 }

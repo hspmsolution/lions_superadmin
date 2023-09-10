@@ -80,6 +80,10 @@ export const deleteDistrictResources = (id) => API.delete(`assets/district-resou
 export const addInternationalResources = (formData) => API.post("assets/add-international-resources", formData);
 export const getInternationalResources = () => API.get("assets/international-resources");
 export const deleteInternationalResources = (id) => API.delete(`assets/international-resources/${id}`);
+export const memberDetails = (id) => API.get(`members/member-details?id=${id}`);
+export const updateMemberInfo = (formData) => API.post("members/update", formData);
+export const editClubInfo = (clubId) => API.get(`clubs/editclubinfo?clubId=${clubId}`);
+export const updateClubInfo = (formData) => API.post("clubs/update", formData);
 
 
 

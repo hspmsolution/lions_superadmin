@@ -57,17 +57,24 @@ function getStyles(name, personName, theme) {
 
 const ClubForm = (props) => {
   const dispatch = useDispatch();
+  const isEdit = props.isEdit;
   const regions = useSelector((state) => state.members.selectRegion);
   const zones = useSelector((state) => state.members.selectZone);
   const clubs = useSelector((state) => state.members.selectClub);
   const memberInfo = useSelector((state) => state.members.memberInfo);
+  const [personName, setPersonName] = useState([]);
 
   useEffect(() => {
     dispatch(getSelectRegion());
-  }, []);
+    if(isEdit && memberInfo.id){
+      dispatch(getSelectZone(memberInfo.regionName));
+      dispatch(getSelectClub(memberInfo.regionName,memberInfo.zoneName));
+      setPersonName(memberInfo.title);
+    }
+  }, [memberInfo.id]);
 
   const theme = useTheme();
-  const [personName, setPersonName] = useState([]);
+
 
   const handleChange = (event) => {
     const {
@@ -99,6 +106,7 @@ const ClubForm = (props) => {
               id="region"
               value={memberInfo.regionName}
               select
+              required
               fullWidth
               name="regionName"
               label=" Select Region "
@@ -145,6 +153,7 @@ const ClubForm = (props) => {
               id="zone"
               value={memberInfo.zoneName}
               select
+              required
               fullWidth
               name="zoneName"
               label=" Select Zone"
@@ -193,6 +202,7 @@ const ClubForm = (props) => {
             <TextField
               id="clubName"
               value={memberInfo.clubName}
+              required
               select
               fullWidth
               name="clubName"
@@ -232,6 +242,7 @@ const ClubForm = (props) => {
             <TextField
               id="clubId"
               value={memberInfo.clubId}
+              required
               type="number"
               fullWidth
               name="clubId"
@@ -260,6 +271,7 @@ const ClubForm = (props) => {
               id="id"
               value={memberInfo.id}
               required
+              disabled={isEdit}
               type="number"
               fullWidth
               name="id"
@@ -280,29 +292,7 @@ const ClubForm = (props) => {
               marginTop: "1em",
               width: "40%",
             }}>
-            {/* <TextField
-              id="title"
-              value={memberInfo.title}
-              select
-              fullWidth
-              name="title"
-              label=" Select Designation"
-              onChange={(e) => {
-                dispatch({
-                  type: UPDATE_MEMBER_INFO,
-                  payload: { name: "title", value: e.target.value },
-                });
-              }}
-              // className={classes.label}
-            >
-              {MEMBER_DESIGNATION.map((title, index) => (
-                <MenuItem
-                  key={index}
-                  value={title}>
-                  {title}
-                </MenuItem>
-              ))}
-            </TextField> */}{" "}
+      
             <FormControl>
               <InputLabel id="demo-multiple-chip-label">
                 Select Designation
@@ -311,6 +301,7 @@ const ClubForm = (props) => {
                 labelId="demo-multiple-chip-label"
                 id="demo-multiple-chip"
                 multiple
+                required
                 value={personName}
                 // onChange={handleChange}
                 onChange={(e) => {

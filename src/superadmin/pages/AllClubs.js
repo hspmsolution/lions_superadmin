@@ -15,6 +15,7 @@ import {
   clubInfo,
   getClubActivites,
   getClubNews,
+  editClubInfo,
 } from "../../actions/clubs";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -24,6 +25,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import AddClubDialog from "./AddClubDialog";
 import { CLUB_ADMIN_REPORT } from "../../constants/actionTypes";
+import AddClub from "./AddClub";
 
 const columns = [
   { id: "id", label: "SrNo.", minWidth: 60 },
@@ -31,8 +33,9 @@ const columns = [
   { id: "clubName", label: "ClubName", minWidth: 100 },
   { id: "adminStars", label: "AdminStars", minWidth: 100 },
   { id: "lastUpdate", label: "LastUpdate", minWidth: 100 },
-  { label: "Delete", minWidth: 100 },
-  { label: "View", minWidth: 100 },
+  { id: "View", label: "View", minWidth: 100 },
+  { id: "Edit", label: "Edit", minWidth: 100 },
+  { id: "Delete", label: "Delete", minWidth: 100 },
 ];
 
 export default function AllClubs() {
@@ -42,20 +45,20 @@ export default function AllClubs() {
   const [selectedClubId, setSelectedClubId] = useState();
 
   const dispatch = useDispatch();
-  
+
   const Clubs = useSelector((state) => {
     if (searchTerm.trim() === "") {
       return state.clubs.registeredClubs;
     } else {
       const filteredClubs = state.clubs.registeredClubs.filter(
         (club) =>
-        club.clubName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        club.clubId.toString().includes(searchTerm.toLowerCase())
+          club.clubName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          club.clubId.toString().includes(searchTerm.toLowerCase())
       );
       return filteredClubs;
     }
   });
-  
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -101,15 +104,29 @@ export default function AllClubs() {
     setOpenDel(false);
   };
 
+  // Edit Dialog
+  const [openEdit, setOpenEdit] = React.useState(false);
+
+  const handleClickOpenEdit = (clubId) => {
+    dispatch(editClubInfo(clubId));
+    setOpenEdit(true);
+  }
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  }
+
   return (
     <>
+     <AddClub/>
       <Paper
         sx={{
           width: "100%",
           overflow: "hidden",
           borderRadius: "1em",
           marginTop: "2em",
-        }}>
+        }}
+      >
         <Typography
           variant="h6"
           gutterBottom
@@ -119,18 +136,17 @@ export default function AllClubs() {
             color: "#003895",
             alignItems: "center",
             margin: "1em",
-          }}>
+          }}
+        >
           All Clubs
         </Typography>
         <Grid
           container
           justifyContent="space-between"
           spacing={3}
-          style={{ marginTop: "16px" }}>
-          <Grid
-            item
-            xs={6}
-            style={{ textAlign: "left", marginLeft: "1em" }}>
+          style={{ marginTop: "16px" }}
+        >
+          <Grid item xs={6} style={{ textAlign: "left", marginLeft: "1em" }}>
             <TextField
               id="search"
               label="Search Club"
@@ -141,16 +157,15 @@ export default function AllClubs() {
           </Grid>
         </Grid>
         <TableContainer sx={{ marginTop: "1em" }}>
-          <Table
-            stickyHeader
-            aria-label="sticky table">
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
-                    style={{ minWidth: column.minWidth }}>
+                    style={{ minWidth: column.minWidth }}
+                  >
                     {column.label}
                   </TableCell>
                 ))}
@@ -169,27 +184,36 @@ export default function AllClubs() {
                       <TableCell>{row.clubName}</TableCell>
                       <TableCell>{row.adminstars}</TableCell>
                       <TableCell>{row.lastupdated?.slice(0, 10)}</TableCell>
-
-                      <TableCell>
-                        <Button
-                          onClick={() => {
-                            handleClickOpenDel(row.clubId);
-                          }}
-                          // onClick={() => {
-                          //   dispatch(deleteClub(row.clubId));
-                          // }}
-                          variant="outlined"
-                          sx={{ color: "red" }}>
-                          Delete
-                        </Button>
-                      </TableCell>
                       <TableCell>
                         <Button
                           variant="outlined"
                           onClick={() => {
                             handleClickOpen(row.clubId);
-                          }}>
+                          }}
+                        >
                           View
+                        </Button>
+                      </TableCell>
+
+                      <TableCell>
+                        <Button
+                          variant="outlined"
+                          onClick={() => {
+                            handleClickOpenEdit(row.clubId);
+                          }}
+                        >
+                          Edit
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => {
+                            handleClickOpenDel(row.clubId);
+                          }}
+                          variant="outlined"
+                          sx={{ color: "red" }}
+                        >
+                          Delete
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -209,18 +233,17 @@ export default function AllClubs() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <AddClubDialog
-        open={open}
-        close={handleClose}
-        clubId={selectedClubId}
-      />
+
+      <AddClubDialog open={open} close={handleClose} clubId={selectedClubId} />
 
       {/* Dialog */}
       <Dialog
         open={openDel}
         onClose={handleCloseDel}
         aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
+        aria-describedby="alert-dialog-description"
+        size="medium"
+      >
         <DialogTitle id="alert-dialog-title">Delete</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -235,9 +258,25 @@ export default function AllClubs() {
               setOpenDel(false);
             }}
             autoFocus
-            color="error">
+            color="error"
+          >
             Delete
           </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+      {/* Dialog to open club Edit */}
+      <Dialog
+        open={openEdit}
+        onClose={handleCloseEdit}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <AddClub isEdit={true} handleCloseEdit={handleCloseEdit}/>
+        <DialogActions>
+          <Button onClick={handleCloseEdit}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </>
