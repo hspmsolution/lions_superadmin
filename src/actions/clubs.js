@@ -9,7 +9,7 @@ import {
   CLUB_NEWS,
   CLUB_ADMIN_REPORT,
   ALL_ADMIN_REPORT,
-  EDIT_CLUB_INFO
+  EDIT_CLUB_INFO,
 } from "../constants/actionTypes";
 
 export const addClubs = (formData) => async (dispatch) => {
@@ -61,12 +61,10 @@ export const deleteClub = (clubId) => async (dispatch) => {
   }
 };
 
-
 export const editClubInfo = (clubId) => async (dispatch) => {
   try {
     const { data, status } = await api.editClubInfo(clubId);
     dispatch({ type: EDIT_CLUB_INFO, payload: data });
-
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,
@@ -79,17 +77,47 @@ export const editClubInfo = (clubId) => async (dispatch) => {
   }
 };
 
+export const updateClubInfo =
+  (formData, handleCloseEdit) => async (dispatch) => {
+    try {
+      const { data, status } = await api.updateClubInfo(formData);
+      dispatch({
+        type: CLIENT_MSG,
+        message: { info: data.successMessage, status },
+      });
+      dispatch(getClubs());
+      handleCloseEdit();
+    } catch (error) {
+      dispatch({
+        type: CLIENT_MSG,
+        message: {
+          info: error.response.data?.message,
+          status: error.response.status,
+        },
+      });
+      console.log(error);
+    }
+  };
 
-export const updateClubInfo = (formData,handleCloseEdit) => async (dispatch) => {
+export const updateClubPoints = (props) => async (dispatch) => {
   try {
-    const { data, status } = await api.updateClubInfo(formData);
+    let { clubId, month, points, handleCloseDialog } = props;
+    if (!points) {
+      dispatch({
+        type: CLIENT_MSG,
+        message: { info: "Please enter valid points", status: 400 },
+      });
+      handleCloseDialog();
+      return;
+    }
+    points = parseInt(points);
+    const formData = { clubId, month, points };
+    const { data, status } = await api.updateClubPoints(formData);
     dispatch({
       type: CLIENT_MSG,
       message: { info: data.successMessage, status },
     });
-    dispatch(getClubs());
-    handleCloseEdit();
-    
+    handleCloseDialog();
   } catch (error) {
     dispatch({
       type: CLIENT_MSG,
@@ -143,7 +171,7 @@ export const getClubNews = (clubId) => async (dispatch) => {
 
 export const clubAdminReport = (clubId, month) => async (dispatch) => {
   try {
-    const { data,status } = await api.clubAdminReport(clubId, month);
+    const { data, status } = await api.clubAdminReport(clubId, month);
     dispatch({ type: CLUB_ADMIN_REPORT, payload: data });
     dispatch({
       type: CLIENT_MSG,
@@ -164,7 +192,7 @@ export const clubAdminReport = (clubId, month) => async (dispatch) => {
 
 export const AllAdminReport = (month) => async (dispatch) => {
   try {
-    const { data,status } = await api.AllAdminReport(month);
+    const { data, status } = await api.AllAdminReport(month);
     dispatch({ type: ALL_ADMIN_REPORT, payload: data });
     dispatch({
       type: CLIENT_MSG,

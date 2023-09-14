@@ -84,15 +84,16 @@ const rows = [
 ];
 
 function ApproveAdminReport() {
-  const [club, setClub] = React.useState("");
+  const [clubId, setClubId] = React.useState();
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedMonth, setSelectedMonth] = useState(false);
   const [monthIndex, setMonthIndex] = useState();
+  const [selectedClub, setSelectedClub] = useState('');
   const dispatch = useDispatch();
   const allAdminReport = useSelector((state) => state.clubs.allAdminReport);
 
-  const handleClickOpen = (clubId) => {
+  const handleClickOpen = (clubId,clubName) => {
     if (!monthIndex) {
       dispatch({
         type: CLIENT_MSG,
@@ -104,6 +105,8 @@ function ApproveAdminReport() {
       return;
     }
     dispatch(clubAdminReport(clubId, monthIndex));
+    setSelectedClub(clubName);
+    setClubId(clubId);
     setOpen(true);
   };
 
@@ -246,7 +249,7 @@ function ApproveAdminReport() {
                             <StyledTableCell align="center">
                               <IconButton
                                 onClick={() => {
-                                  handleClickOpen(row.clubId);
+                                  handleClickOpen(row.clubId,row.clubName);
                                 }}
                               >
                                 <PreviewIcon />
@@ -330,9 +333,9 @@ function ApproveAdminReport() {
         maxWidth="md"
         fullWidth
       >
-        <DialogTitle>Club Admin Reports</DialogTitle>
+        <DialogTitle>Club Admin Reports of {selectedClub} for {selectedMonth}</DialogTitle>
         <DialogContent>
-          <ClubReports />
+          <ClubReports clubId={clubId} month={monthIndex}/>
         </DialogContent>
         <DialogActions>
           <Button

@@ -84,6 +84,7 @@ export const memberDetails = (id) => API.get(`members/member-details?id=${id}`);
 export const updateMemberInfo = (formData) => API.post("members/update", formData);
 export const editClubInfo = (clubId) => API.get(`clubs/editclubinfo?clubId=${clubId}`);
 export const updateClubInfo = (formData) => API.post("clubs/update", formData);
+export const updateClubPoints = (formData) => API.patch("clubs/updateclubpoints", formData);
 
 
 
