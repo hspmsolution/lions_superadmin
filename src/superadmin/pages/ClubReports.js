@@ -12,9 +12,16 @@ import {
   IconButton,
   Grid,
   TextField,
+  InputLabel,
+  Input,
 } from "@mui/material";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { updateClubPoints } from "../../actions/clubs";
 
 // Table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,9 +44,23 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const ClubReports = () => {
+const ClubReports = (props) => {
   const clubAdminReport = useSelector((state) => state.clubs.clubAdminReport);
- 
+  const dispatch = useDispatch();
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [points,setPoints] = React.useState();
+  
+  const handleChange= (e)=>{
+    e.target.value = e.target.value.replace(/[+-]/g, "");
+    setPoints(e.target.value);
+  }
+  const handleCloseDialog = () =>{
+    setOpenDialog(false);
+  }
+  const handleOpenDialog = () =>{
+    setOpenDialog(true);
+  }
+
   return (
     <>
       {!clubAdminReport.pdfPath && <div>No data found</div>}
@@ -48,7 +69,7 @@ const ClubReports = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Typography variant="h4" sx={{ marginTop: "2rem" }}>
-                 Admin Points {clubAdminReport?.adminstars}
+                Admin Points {clubAdminReport?.adminstars}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -56,15 +77,47 @@ const ClubReports = () => {
                 Total Activity Points {clubAdminReport?.activityStar}
               </Typography>
             </Grid>
+
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                id="amount"
+                name="amount"
+                type="number"
+                value={points}
+                label="Enter Admin Points"
+                variant="outlined"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+
+            </Grid>
+            <Grid item xs={12} md={6}>
+            <Button
+                onClick={() => {
+                  handleOpenDialog()
+                }}
+                autoFocus
+                color="primary"
+                variant="contained"
+                size="large"
+              >
+                Debit Admin Points
+              </Button>
+
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <a
+                href={API_URL + clubAdminReport.pdfPath}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View uploaded Report
+              </a>
+            </Grid>
           </Grid>
 
-          <a
-            href={API_URL + clubAdminReport.pdfPath}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View uploaded Report
-          </a>
           <Grid item xs={12} md={16}>
             <Box sx={{ marginTop: "2rem" }}>
               <TableContainer component={Paper} elevation={11}>
@@ -111,6 +164,39 @@ const ClubReports = () => {
           </Grid>
         </div>
       )}
+
+      {/* Admin points debit confirmation */}
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Debit Admin Points</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to debit Admin Points? This action cannot be reversed.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button
+            onClick={() => {
+              dispatch(updateClubPoints({
+                clubId: props?.clubId,
+                month: props?.month,
+                points: points,
+                handleCloseDialog: handleCloseDialog
+              }));
+            }}
+            autoFocus
+            color="error"
+          >
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
