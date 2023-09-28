@@ -68,7 +68,7 @@ export default function Nav({ openNav, onCloseNav }) {
         <Logo />
       </Box>
 
-    {/*  <Box sx={{ mb: 5, mx: 2.5 }}>
+      {/*  <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
             <Avatar
@@ -134,7 +134,11 @@ export default function Nav({ openNav, onCloseNav }) {
             keepMounted: true,
           }}
           PaperProps={{
-            sx: { width: NAV_WIDTH },
+            sx: {
+              width: NAV_WIDTH,
+              backgroundColor: "#1d3d7c",
+              color: "#b4880b",
+            },
           }}
         >
           {renderContent}
