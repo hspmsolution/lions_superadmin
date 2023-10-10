@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import PropTypes from "prop-types";
+import { forwardRef } from "react";
+import { Link as RouterLink } from "react-router-dom";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, Link } from '@mui/material';
+import { useTheme } from "@mui/material/styles";
+import { Avatar, Box, Link } from "@mui/material";
+import { DOMAIN_URL } from "../../../api";
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +34,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
       sx={{
         width: 40,
         height: 40,
-        display: 'inline-flex',
+        display: "inline-flex",
         ...sx,
       }}
       {...other}
@@ -47,9 +48,9 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   }
 
   return (
-    <Link to="/" component={RouterLink} sx={{ display: 'contents' }}>
+    <a href={DOMAIN_URL} sx={{ display: "contents" }}>
       {logo}
-    </Link>
+    </a>
   );
 });
 

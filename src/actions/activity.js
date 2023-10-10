@@ -7,7 +7,9 @@ import {
   UPCOMING_ACTIVITY,
   ALL_ACTIVITY,
   STATS,
-  DELETE_ACTIVITY_SUCCESS
+  DELETE_ACTIVITY_SUCCESS,
+  DELETE_AWARD_SUCCESS,
+  ALL_AWARDS
 } from "../constants/actionTypes";
 import * as api from "../api";
 import * as xlsx from "xlsx";
@@ -252,3 +254,59 @@ export const downloadReport = (data,month) => async (dispatch) => {
     console.log(error);
   }
 };
+
+
+export const awardReporting = (formData,resetForm,handleLoading) => async (dispatch) => {
+  try {
+    const { data, status } = await api.awardReporting(formData);
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: data.successMessage, status },
+    });
+    resetForm();
+    handleLoading();
+  } catch (error) {
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: error.response.data?.message,
+        status: error.response.status,
+      },
+    });
+    handleLoading();
+    console.log(error);
+  }
+};
+
+export const getAwards = () => async (dispatch) => {
+  try {
+    const { data } = await api.getAwards();
+    dispatch({ type: ALL_AWARDS, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteAward = (id) => async (dispatch) => {
+  try {
+    const { data, status } = await api.deleteAward(id);
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: data.successMessage, status },
+    });
+    dispatch({type:DELETE_AWARD_SUCCESS,payload:id})
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: error.response.data?.message,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+
+
+

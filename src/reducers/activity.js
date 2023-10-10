@@ -7,7 +7,9 @@ import {
   UPCOMING_ACTIVITY,
   ALL_ACTIVITY,
   STATS,
-  DELETE_ACTIVITY_SUCCESS
+  DELETE_ACTIVITY_SUCCESS,
+  ALL_AWARDS,
+  DELETE_AWARD_SUCCESS
 } from "../constants/actionTypes";
 
 const activityReducer = (
@@ -19,6 +21,7 @@ const activityReducer = (
     allActivity:[],
     placeHolder: "",
     stats: [],
+    awards:[],
   },
   action
 ) => {
@@ -49,6 +52,16 @@ const activityReducer = (
         ...state,
         allActivity: state.allActivity.filter(
           (activity) => activity.id !== action.payload
+        ),
+      };
+
+    case ALL_AWARDS:
+      return { ...state, awards: action.payload };
+    case DELETE_AWARD_SUCCESS:
+      return {
+        ...state,
+        awards: state.awards.filter(
+          (award) => award.id !== action.payload
         ),
       };
     default:
