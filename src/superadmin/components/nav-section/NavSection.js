@@ -83,6 +83,11 @@ export default function NavSection({ ...other }) {
           path: "/superadmin/dashboard/international-resource",
           icon: icon("ic_arrow"),
         },
+        {
+          title: "Monthly Award",
+          path: "/superadmin/dashboard/monthly-award",
+          icon: icon("ic_arrow"),
+        },
       ],
     },
 

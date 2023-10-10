@@ -74,6 +74,9 @@ export const selectClub = (region, zone) =>
   API.get(`members/clubs?region=${region}&zone=${zone}`);
 export const checkMemberId = (id) => API.get(`members/validate?id=${id}`);
 export const addMember = (data) => API.post("members/add", data);
+export const awardReporting = (formData) => API.post("members/awards", formData);
+export const getAwards = () => API.get("members/awards");
+export const deleteAward = (id) => API.delete(`members/awards/${id}`);
 export const addDistrictResources = (formData) => API.post("assets/add-district-resources", formData);
 export const getDistrictResources = () => API.get("assets/district-resources");
 export const deleteDistrictResources = (id) => API.delete(`assets/district-resources/${id}`);

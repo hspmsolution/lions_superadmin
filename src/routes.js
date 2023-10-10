@@ -17,6 +17,8 @@ import Contact from "./superadmin/pages/Contact";
 import DistrictResource from "./superadmin/pages/DistrictResource";
 import InternatinalResource from "./superadmin/pages/InternationalResources";
 import ApproveAdminReport from "./superadmin/pages/ApproveAdminReport";
+import MontlyAwards from "./superadmin/pages/MonthlyAwards";
+
 export default function Router() {
   const isAdmin = useSelector((state) => state.auth.admin);
   const role = useSelector((state) => state.auth.role);
@@ -111,6 +113,10 @@ export default function Router() {
                 {
                   path: "international-resource",
                   element: <InternatinalResource />,
+                },
+                {
+                  path: "monthly-award",
+                  element: <MontlyAwards />,
                 },
                 {
                   path: "activityType",
