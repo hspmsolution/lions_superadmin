@@ -6,7 +6,8 @@ import {
   UPDATE_MEMBER_INFO,
   CLIENT_MSG,
   RESET_MEMBER_INFO,
-  MEMBER_INFO
+  MEMBER_INFO,
+  DELETE_MEMBER_SUCCESS
 } from "../constants/actionTypes";
 import * as api from "../api";
 
@@ -130,6 +131,28 @@ export const updateMemberInfo = (formData,handleClose) => async (dispatch) => {
       type:RESET_MEMBER_INFO
     });
     handleClose();
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: CLIENT_MSG,
+      message: {
+        info: error.response.data?.message,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+
+export const deleteMember = (id,handleCloseDel) => async (dispatch) => {
+  try {
+    const { data, status } = await api.deleteMember(id);
+    dispatch({
+      type: CLIENT_MSG,
+      message: { info: data.successMessage, status },
+    });
+    dispatch({type:DELETE_MEMBER_SUCCESS,payload:id})
+    handleCloseDel();
   } catch (error) {
     console.log(error);
     dispatch({
