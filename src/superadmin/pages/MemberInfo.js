@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-import { getMembers, memberDetails, updateMemberInfo } from "../../actions/members";
+import { deleteMember, getMembers, memberDetails, updateMemberInfo } from "../../actions/members";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -194,13 +194,17 @@ export default function MemberInfo() {
 
   // Delete Dialog
   const [openDel, setOpenDel] = React.useState(false);
+  const [id, setId] = React.useState(null);
 
-  const handleClickOpenDel = () => {
+  const handleClickOpenDel = (id) => {
     setOpenDel(true);
+    setId(id);
+
   };
 
   const handleCloseDel = () => {
     setOpenDel(false);
+    setId(null);
   };
 
   return (
@@ -285,7 +289,7 @@ export default function MemberInfo() {
                     </TableCell>
                     <TableCell>
                       <Button
-                        onClick={handleClickOpenDel}
+                        onClick={()=>{handleClickOpenDel(row.id)}}
                         variant="outlined">
                         Delete
                       </Button>
@@ -395,7 +399,7 @@ export default function MemberInfo() {
           <Button onClick={handleCloseDel}>Cancel</Button>
           <Button
             onClick={() => {
-              setOpenDel(false);
+              dispatch(deleteMember(id,handleCloseDel));
             }}
             autoFocus
             color="error">

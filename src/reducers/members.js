@@ -6,6 +6,7 @@ import {
   UPDATE_MEMBER_INFO,
   RESET_MEMBER_INFO,
   MEMBER_INFO,
+  DELETE_MEMBER_SUCCESS
 } from "../constants/actionTypes";
 const memberDetails = {
   clubName: "",
@@ -61,6 +62,14 @@ const membersReducer = (
       return { ...state, selectClub: action.payload };
     case All_MEMBERS:
       return { ...state, memberData: action.payload };
+    
+    case DELETE_MEMBER_SUCCESS:
+      return {
+        ...state,
+        memberData: state.memberData.filter(
+          (member) => member.id !== action.payload
+        ),
+      };
     default:
       return state;
   }

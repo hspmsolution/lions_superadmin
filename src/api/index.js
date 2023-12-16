@@ -77,6 +77,7 @@ export const addMember = (data) => API.post("members/add", data);
 export const awardReporting = (formData) => API.post("members/awards", formData);
 export const getAwards = () => API.get("members/awards");
 export const deleteAward = (id) => API.delete(`members/awards/${id}`);
+export const deleteMember = (id) => API.delete(`members/delete/${id}`);
 export const addDistrictResources = (formData) => API.post("assets/add-district-resources", formData);
 export const getDistrictResources = () => API.get("assets/district-resources");
 export const deleteDistrictResources = (id) => API.delete(`assets/district-resources/${id}`);
